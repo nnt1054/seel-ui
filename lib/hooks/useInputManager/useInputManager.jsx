@@ -8,7 +8,7 @@ import {
 } from '../../utils';
 
 
-export const useKeyPress = (callback) => {
+const useKeyPress = (callback) => {
     const [keyPressed, setKeyPressed] = useState({});
 
     useEffect(() => {
@@ -43,7 +43,7 @@ export const useKeyPress = (callback) => {
 };
 
 
-export const useGamepad = (callback) => {
+const useGamepad = (callback) => {
     const axisButtonMap = {
         [0]: {
             pos: GamepadCodes.LS_RIGHT,
@@ -166,38 +166,33 @@ export const useInputManager = (props) => {
         commands,
         keybinds,
         onBeforeKeyDown,
-        ignoreModifierCommands = [],
     } = props;
 
-    const getKeybind = (event) => {
-        return Object.keys(keybinds).find(command => {
-            const keybind = keybinds[command];
+    const getKeybinds = (event, exactMatch = false) => {
+        return Object.keys(keybinds).filter(name => {
+            const command = commands[name];
+            const keybind = keybinds[name];
             if (!keybind) return;
 
-            const keybindCombination = Number.isInteger(keybind) ? [keybind] : keybind; 
-            if (ignoreModifierCommands.includes(command)) {
-                return compareArrays(keybindCombination, [event.keyCode]);
+            const keybindCombination = Number.isInteger(keybind) ? [keybind] : keybind;
+
+            if (exactMatch) {
+                if (command.ignoreModifiers) {
+                    return compareArrays(keybindCombination, [event.keyCode]);
+                } else {
+                    const keyCombination = getKeyCombination(event);
+                    return compareArrays(keybindCombination, keyCombination);
+                }
             } else {
-                const keyCombination = getKeyCombination(event);
-                return compareArrays(keybindCombination, keyCombination);
+                return keybindCombination.includes(event.keyCode);
             }
-        });
-    }
-
-    const getKeybinds = (event) => {
-        return Object.keys(keybinds).filter(command => {
-            const keybind = keybinds[command];
-            if (!keybind) return;
-
-            const keybindCombination = Number.isInteger(keybind) ? [keybind] : keybind; 
-            return keybindCombination.includes(event.keyCode);
         })
     }
 
     const onKeyDown = (event) => {
-        const name = getKeybind(event);
+        const name = getKeybinds(event, true)[0];
 
-        const stopPropagation = onBeforeKeyDown?.(name, ignoreModifierCommands);
+        const stopPropagation = onBeforeKeyDown?.(name, commands);
         if (stopPropagation) return;
 
         if (!name) return;
@@ -213,49 +208,33 @@ export const useInputManager = (props) => {
         }
     }
 
-    useKeyPress(event => {
-        switch (event.type) {
-          case 'keydown':
-            onKeyDown(event);
-            break;
-
-          case 'keyup':
-            onKeyUp(event);
-            break;
-        }
-    })
-
     const getGamepadKeybind = (event) => {
         return Object.keys(GamepadKeybinds).find(
             command => GamepadKeybinds[command] === event.keyCode
         );
     }
 
-    const onButtonDown = (event) => {
-        const name = getGamepadKeybind(event);
-        if (!name) return;
-
-        const command = commands[name];
-        command?.execute?.();
-    }
-
-    const onButtonUp = (event) => {
-        const name = getGamepadKeybind(event);
-        if (!name) return;
-
-        const command = commands[name];
-        command?.release?.();
-    }
+    useKeyPress(event => {
+        if (event.type == 'keydown') {
+            onKeyDown(event);
+        } else if (event.type == 'keyup') {
+            onKeyUp(event);
+        }
+    })
 
     useGamepad((event) => {
-        switch (event.type) {
-          case 'buttondown':
-            onButtonDown(event);
-            break;
+        const name = getGamepadKeybind(event);
+        if (!name) return;
 
-          case 'buttonup':
-            onButtonUp(event);
-            break;
+        const command = commands[name];
+        if (!command) return;
+
+        if (event.type == 'buttondown') {
+            command.execute?.();
+        } else if (event.type == 'buttonup') {
+            command.release?.();
         }
     })
 }
+
+export default useInputManager;

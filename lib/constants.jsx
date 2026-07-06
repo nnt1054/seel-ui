@@ -290,3 +290,15 @@ export const GamepadLabels = {
     [GamepadCodes.X]: 'X',
     [GamepadCodes.Y]: 'Y',
 }
+
+
+export const DefaultKeybinds = {
+  'confirm': KeyCodes.ENTER,
+  'close': KeyCodes.ESC,
+  'up': KeyCodes.UP,
+  'down': KeyCodes.DOWN,
+  'left': KeyCodes.LEFT,
+  'right': KeyCodes.RIGHT,
+  'cycleR': KeyCodes.TAB,
+  'cycleL': [KeyCodes.SHIFT, KeyCodes.TAB],
+}

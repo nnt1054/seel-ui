@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "type": "module",
   "license": "MIT",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/seel-ui.umd.cjs",
   "module": "./dist/seel-ui.js",
   "exports": {
@@ -34,6 +36,7 @@
     "eslint-plugin-react-refresh": "^0.5.3",
     "eslint-plugin-storybook": "^10.4.6",
     "globals": "^17.7.0",
+    "jsdoc": "^4.0.5",
     "prop-types": "^15.8.1",
     "storybook": "^10.4.6",
     "vite": "^8.1.1"
