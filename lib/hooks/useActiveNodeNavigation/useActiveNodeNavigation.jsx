@@ -1,4 +1,7 @@
-import { useEffect, useState, useRef } from 'react';
+import {
+    useEffect, useState, useRef,
+    useImperativeHandle,
+} from 'react';
 
 
 export const useActiveNodeNavigation = (props) => {
@@ -17,32 +20,17 @@ export const useActiveNodeNavigation = (props) => {
         return listeners;
     }, {})
 
-    const dispatchEvent = (event) => {
-        return () => {
-            const listener = listeners[activeNode]?.current;
-            if (!listener) return;
-            listener.dispatchEvent(new Event(event))
+    useImperativeHandle(ref, () => {
+        const handlers = events.reduce((handlers, name) => {
+            handlers[name] = listeners[activeNode]?.current?.[name]?.();
+            return handlers;
+        }, {})
+
+        return {
+            ...ref.current,
+            handlers,
         }
-    }
-
-    const callbacks = events.reduce((callbacks, event) => {
-        callbacks[event] = dispatchEvent(event);
-        return callbacks;
-    }, {})
-
-    useEffect(() => {
-        const element = ref.current;
-
-        for (const event of events) {
-            element?.addEventListener(event, callbacks[event]);
-        }
-
-        return () => {
-            for (const event of events) {
-                element?.removeEventListener(event, callbacks[event]);
-            }
-        }
-    })
+    }, [activeNode])
 
     return [activeNode, setActiveNode, listeners]
 }

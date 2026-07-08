@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useImperativeHandle } from 'react';
 
 
 export const useActiveIndex = (props) => {
     const {
         ref,
-        initialIndex = -1,
+        initialIndex = 0,
         maxIndex = 0,
         isColumn = false,
         isReverse = false,
@@ -115,21 +115,18 @@ export const useActiveIndex = (props) => {
         setActiveIndex(initialIndex);
     }, [initialIndex])
 
-    useEffect(() => {
-        const element = ref.current;
-        element?.addEventListener('up', up);
-        element?.addEventListener('down', down);
-        element?.addEventListener('left', left);
-        element?.addEventListener('right', right);
-        return () => {
-            element?.removeEventListener('up', up);
-            element?.removeEventListener('down', down);
-            element?.removeEventListener('left', left);
-            element?.removeEventListener('right', right);
-        };
-    });
+    useImperativeHandle(ref, () => {
+        return {
+            ...ref.current,
+            up,
+            down,
+            left,
+            right,
+        }
+    })
 
     return [activeIndex, setActiveIndex];
 }
+
 
 export default useActiveIndex;

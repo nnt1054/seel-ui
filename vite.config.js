@@ -20,4 +20,10 @@ export default defineConfig({
       },
     },
   },
+  resolve: {
+    alias: {
+      '@hooks': '/lib/hooks/.',
+      '@components': '/lib/components/.',
+    },
+  },
 })

@@ -20,7 +20,7 @@ export default {
       ...props,
     });
 
-    const emit = (name) => ref.current?.dispatchEvent(new Event(name));
+    const emit = (name) => ref.current?.[name]?.();
 
     return (
       <div ref={ ref }>

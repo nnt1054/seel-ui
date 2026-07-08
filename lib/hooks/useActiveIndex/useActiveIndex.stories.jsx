@@ -20,10 +20,10 @@ export default {
       ...props,
     });
 
-    const emit = (name) => ref.current?.dispatchEvent(new Event(name));
+    const emit = (name) => ref.current[name]();
 
     return (
-      <div ref={ ref }>
+      <div>
         <span> Active Index: { activeIndex } </span> <br/>
         <button onClick={() => emit('left')}> Left </button>
         <button onClick={() => emit('right')}> Right </button>
@@ -58,7 +58,7 @@ export default {
 
 export const Row = {
   args: {
-    initialIndex: -1,
+    initialIndex: 0,
     maxIndex: 8,
     isColumn: false,
     disableWrap: false,
@@ -67,7 +67,7 @@ export const Row = {
 
 export const Column = {
   args: {
-    initialIndex: -1,
+    initialIndex: 0,
     maxIndex: 8,
     isColumn: true,
     disableWrap: false,

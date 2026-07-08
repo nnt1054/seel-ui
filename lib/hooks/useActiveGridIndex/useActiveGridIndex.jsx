@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useImperativeHandle } from 'react';
 
 
 export const useActiveGridIndex = (props) => {
     const {
         ref,
-        columns = 1,
+        columns: _columns = 1,
         maxIndex = 1,
         adjacentNodes = {},
         setActiveNode = () => {},
@@ -13,7 +13,7 @@ export const useActiveGridIndex = (props) => {
     const [activeIndex, _setActiveIndex] = useState(0);
     const setActiveIndex = (index) => _setActiveIndex(index || 0);
 
-    columns = Math.min(columns, maxIndex);
+    const columns = Math.min(_columns, maxIndex);
     const rows = Math.ceil(maxIndex / columns);
     const gridSize = rows * columns;
 
@@ -69,19 +69,15 @@ export const useActiveGridIndex = (props) => {
         setActiveIndex(Math.min(activeIndex, maxIndex - 1));
     }, [maxIndex])
 
-    useEffect(() => {
-        const element = ref.current;
-        element?.addEventListener('up', up);
-        element?.addEventListener('down', down);
-        element?.addEventListener('left', left);
-        element?.addEventListener('right', right);
-        return () => {
-            element?.removeEventListener('up', up);
-            element?.removeEventListener('down', down);
-            element?.removeEventListener('left', left);
-            element?.removeEventListener('right', right);
-        };
-    });
+    useImperativeHandle(ref, () => {
+        return {
+            ...ref.current,
+            up,
+            down,
+            left,
+            right,
+        }
+    })
 
     return [activeIndex, setActiveIndex];
 }
