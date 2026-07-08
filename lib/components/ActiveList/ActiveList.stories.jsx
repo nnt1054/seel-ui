@@ -1,7 +1,7 @@
 import { useRef, useState, useContext, useEffect } from 'react';
 import { fn } from 'storybook/test';
 
-import { ActiveList } from './ActiveList';
+import { ActiveList, ActiveListItem } from './ActiveList';
 
 
 export default {
@@ -19,7 +19,15 @@ export default {
     const confirm = () => { ref.current.confirm() }
     return (
       <>
-        <ActiveList ref={ ref } />
+        <ActiveList ref={ ref }>
+          {
+            Array(5).fill(0).map((_, i) => {
+              return (
+                <ActiveListItem key={ i } index={ i } />
+              )
+            })
+          }
+        </ActiveList>
         <button onClick={ up }> up </button>
         <button onClick={ down }> down </button>
         <button onClick={ confirm }> confirm </button>
