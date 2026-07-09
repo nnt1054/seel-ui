@@ -6,118 +6,119 @@ import { createStore, useStore } from 'zustand'
 import styled from 'styled-components';
 
 import { useActiveIndex } from '@hooks/useActiveIndex/useActiveIndex';
+import { useActiveNode, useActiveNodeContainer } from '@hooks/utils';
 
-
-const createActiveListStore = (initial) => {
-  return createStore()((set) => ({
-    ...initial,
-    syncActiveIndex: (activeIndex) => set(state => ({ activeIndex })),
-  }))
-}
-
-const getActiveListStoreState = () => {
-    const store = useContext(ActiveListContext);
-    if (!store) throw new Error('Missing ActiveListContext.Provider in the tree')
-    return store.getState();
-}
-
-const useActiveListStore = (selector) => {
-    const store = useContext(ActiveListContext);
-    if (!store) throw new Error('Missing ActiveListContext.Provider in the tree')
-    return useStore(store, selector)
-}
-
-export const ActiveListContext = createContext(null);
 
 export const ActiveList = (props) => {
 	const {
-        ref,
-        maxIndex: _maxIndex,
-        hasFocus = false,
+        ref = useRef(),
         node,
-		adjacentNodes = {},
-        setActiveNode = () => {},
-
+        adjacentNodes = {},
+        maxIndex: _maxIndex,
         children,
 	} = props;
 
-    const maxIndex = Number.isInteger(_maxIndex) ? _maxIndex : children.length;
-    const [activeIndex, setActiveIndex] = useActiveIndex({
+    const maxIndex = Number.isInteger(_maxIndex)
+        ? _maxIndex
+        : children.length;
+
+    const { hasFocus } = useActiveNode({ ref, node });
+
+    const [ActiveNodeProvider, mapRef, store] = useActiveNodeContainer({
+        initial: 0
+    });
+    const {
+        activeNode: activeIndex,
+        setActiveNode: setActiveIndex,
+    } = useStore(store);
+
+    useActiveIndex({
         ref,
+        activeIndex,
+        setActiveIndex,
         maxIndex,
         isColumn: true,
-        setActiveNode,
-        adjacentNodes,
+        disableJump: true,
+
+        // todo: decide on naming; used to change
+        // the active node within the parent container
+        // and not the active child item in the list
+        // setActiveNode,
+        // adjacentNodes,
     });
 
-    const mapRef = useRef({});
-    const confirm = () => {
-        const ref = mapRef.current?.[activeIndex]?.['confirm']?.();
+    const dispatchEvent = (event) => {
+      return () => {
+        const activeRef = mapRef.current.get(activeIndex);
+        activeRef.current?.dispatchEvent(new Event(event))
+      }
     }
+    const left = dispatchEvent('left');
+    const right = dispatchEvent('right');
+    const confirm = dispatchEvent('confirm');
 
-    useImperativeHandle(ref, () => {
-        return {
-            ...ref.current,
-            confirm,
+    useEffect(() => {
+        const element = ref.current;
+        element?.addEventListener('left', left);
+        element?.addEventListener('right', right);        
+        element?.addEventListener('confirm', confirm);
+        return () => {
+            element?.removeEventListener('left', left);
+            element?.removeEventListener('right', right);        
+            element?.removeEventListener('confirm', confirm);
         }
     })
 
-    const [store] = useState(() => createActiveListStore({
-        mapRef,
-        activeIndex,
-        setActiveIndex,
-    }));
-
-    useEffect(() => {
-        const { syncActiveIndex } = store.getState();
-        syncActiveIndex(activeIndex);
-    }, [activeIndex])
-
     return (
-        <ActiveListContext.Provider value={ store }>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <ActiveNodeProvider>
+            <div ref={ ref } style={{ display: 'flex', flexDirection: 'column' }}>
                 { children }
             </div>
-        </ActiveListContext.Provider>
+        </ActiveNodeProvider>
     )
 }
 
 
 export const ActiveListItem = (props) => {
     const {
-        index,
+        ref = useRef(),
+        node,
     } = props;
 
-    const store = useContext(ActiveListContext);
-    const mapRef = useActiveListStore(state => state.mapRef);
-    const hasFocus = useActiveListStore(state => state.activeIndex == index);
+    const { hasFocus, setActiveNode } = useActiveNode({ ref, node });
 
-    const onClick = () => {
-        const { setActiveIndex } = getActiveListStoreState();
-        setActiveIndex(index);
-    }
-
-    const handlers = {
-        confirm: () => { console.log(index) },
-        left: () => { console.log(`left ${ index }`)},
-        right: () => { console.log(`right ${ index }`)},
-    }
-
-    useImperativeHandle(mapRef, () => {
-        return {
-            ...mapRef.current,
-            [index]: handlers,
+    const confirm = () => { console.log(`confirm ${ node }`) };
+    const left =  () => { console.log(`left ${ node }`)};
+    const right = () => { console.log(`right ${ node }`)};
+    useEffect(() => {
+        const element = ref.current;
+        element.addEventListener('left', left);
+        element.addEventListener('right', right);        
+        element.addEventListener('confirm', confirm);
+        return () => {
+            element.removeEventListener('left', left);
+            element.removeEventListener('right', right);        
+            element.removeEventListener('confirm', confirm);
         }
     })
 
+    const onClick = () => {
+        confirm();
+
+        // used to set self as active within parent
+        setActiveNode(node);
+    }
+
     return (
         <div
+            ref={ ref }
             style={{
                 fontWeight: hasFocus ? 'bold' : 'normal',
             }}
             onClick={ onClick }
-        > item { index } </div>
+        > item { node } </div>
     )
 }
+
 
 export default ActiveList;

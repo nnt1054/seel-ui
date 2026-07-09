@@ -4,6 +4,7 @@ import {
 } from 'react';
 
 
+// todo: probably replacing this with stuff from @hooks/utils
 export const useActiveNodeNavigation = (props) => {
     const defaultEvents =  ['up', 'down', 'left', 'right', 'confirm'];
     const {
@@ -20,19 +21,24 @@ export const useActiveNodeNavigation = (props) => {
         return listeners;
     }, {})
 
-    useImperativeHandle(ref, () => {
-        const handlers = events.reduce((handlers, name) => {
-            handlers[name] = listeners[activeNode]?.current?.[name]?.();
-            return handlers;
-        }, {})
+    const callbacks = events.reduce((callbacks, name) => {
+        callbacks[name] = listeners[activeNode]?.current?.[name]?.();
+        return callbacks;
+    }, {})
 
-        return {
-            ...ref.current,
-            handlers,
-        }
-    }, [activeNode])
+    // useActiveNodeCallbacks(ref, callbacks);
 
     return [activeNode, setActiveNode, listeners]
 }
+
+
+// const useActiveNodeCallbacks = (ref, callbacks) => {
+//     useImperativeHandle(ref, () => {
+//         return {
+//             ...ref.current,
+//             ...callbacks,
+//         }
+//     })
+// }
 
 export default useActiveNodeNavigation;

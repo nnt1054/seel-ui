@@ -1,16 +1,17 @@
-import { useEffect, useState, useImperativeHandle } from 'react';
+import { useEffect, useState } from 'react';
 
 
 export const useActiveGridIndex = (props) => {
     const {
         ref,
+        activeIndex,
+        setActiveIndex: _setActiveIndex,
         columns: _columns = 1,
         maxIndex = 1,
         adjacentNodes = {},
         setActiveNode = () => {},
     } = props;
 
-    const [activeIndex, _setActiveIndex] = useState(0);
     const setActiveIndex = (index) => _setActiveIndex(index || 0);
 
     const columns = Math.min(_columns, maxIndex);
@@ -69,17 +70,19 @@ export const useActiveGridIndex = (props) => {
         setActiveIndex(Math.min(activeIndex, maxIndex - 1));
     }, [maxIndex])
 
-    useImperativeHandle(ref, () => {
-        return {
-            ...ref.current,
-            up,
-            down,
-            left,
-            right,
+    useEffect(() => {
+        const element = ref.current;
+        element?.addEventListener('up', up);
+        element?.addEventListener('down', down);
+        element?.addEventListener('left', left);
+        element?.addEventListener('right', right);
+        return () => {
+            element?.removeEventListener('up', up);
+            element?.removeEventListener('down', down);
+            element?.removeEventListener('left', left);
+            element?.removeEventListener('right', right);
         }
     })
-
-    return [activeIndex, setActiveIndex];
 }
 
 export default useActiveGridIndex;

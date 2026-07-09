@@ -1,11 +1,13 @@
-import { useEffect, useState, useImperativeHandle } from 'react';
+import { useEffect } from 'react';
 
 
 export const useActiveIndex = (props) => {
     const {
         ref,
-        initialIndex = 0,
+        activeIndex,
+        setActiveIndex,
         maxIndex = 0,
+        initialIndex = 0,
         isColumn = false,
         isReverse = false,
         disableWrap = false,
@@ -13,8 +15,6 @@ export const useActiveIndex = (props) => {
         adjacentNodes = {},
         setActiveNode = () => {},
     } = props;
-
-    const [activeIndex, setActiveIndex] = useState(initialIndex);
 
     const incrementIndex = (adjacentNode) => {
         if (activeIndex >= (maxIndex - 1) && adjacentNode) {
@@ -115,17 +115,19 @@ export const useActiveIndex = (props) => {
         setActiveIndex(initialIndex);
     }, [initialIndex])
 
-    useImperativeHandle(ref, () => {
-        return {
-            ...ref.current,
-            up,
-            down,
-            left,
-            right,
+    useEffect(() => {
+        const element = ref.current;
+        element?.addEventListener('up', up);
+        element?.addEventListener('down', down);
+        element?.addEventListener('left', left);
+        element?.addEventListener('right', right);
+        return () => {
+            element?.removeEventListener('up', up);
+            element?.removeEventListener('down', down);
+            element?.removeEventListener('left', left);
+            element?.removeEventListener('right', right);
         }
     })
-
-    return [activeIndex, setActiveIndex];
 }
 
 

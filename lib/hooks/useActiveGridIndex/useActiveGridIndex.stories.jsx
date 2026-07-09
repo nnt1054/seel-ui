@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { useActiveGridIndex } from './useActiveGridIndex';
@@ -15,12 +15,15 @@ export default {
     const { columns, maxIndex } = props;
     const rows = Math.ceil(maxIndex / columns);
 
-    const [activeIndex, setActiveIndex] = useActiveGridIndex({
+    const [activeIndex, setActiveIndex] = useState(0);
+    useActiveGridIndex({
       ref,
+      activeIndex,
+      setActiveIndex,
       ...props,
     });
 
-    const emit = (name) => ref.current?.[name]?.();
+    const emit = (name) => ref.current.dispatchEvent(new Event(name));
 
     return (
       <div ref={ ref }>

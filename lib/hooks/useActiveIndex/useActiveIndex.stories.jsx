@@ -1,5 +1,5 @@
 import { fn } from 'storybook/test';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 import { useActiveIndex } from './useActiveIndex';
 
@@ -15,15 +15,18 @@ export default {
   render: (props) => {
     const ref = useRef();
     const { isColumn, maxIndex } = props;
-    const [activeIndex, setActiveIndex] = useActiveIndex({
+    const [activeIndex, setActiveIndex] = useState(0);
+    useActiveIndex({
       ref,
+      activeIndex,
+      setActiveIndex,
       ...props,
     });
 
-    const emit = (name) => ref.current[name]();
+    const emit = (name) => ref.current.dispatchEvent(new Event(name));
 
     return (
-      <div>
+      <div ref={ ref }>
         <span> Active Index: { activeIndex } </span> <br/>
         <button onClick={() => emit('left')}> Left </button>
         <button onClick={() => emit('right')}> Right </button>

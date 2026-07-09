@@ -2,6 +2,7 @@ import { useRef, useState, useContext, useEffect } from 'react';
 import { fn } from 'storybook/test';
 
 import { ActiveList, ActiveListItem } from './ActiveList';
+import { useActiveNodeContainer } from '@hooks/utils';
 
 
 export default {
@@ -13,25 +14,43 @@ export default {
     layout: 'centered',
   },
   render: (props) => {
-    const ref = useRef();
-    const up = () => { ref.current.up() }
-    const down = () => { ref.current.down() }
-    const confirm = () => { ref.current.confirm() }
+
+    const node = 'default';
+    const [ActiveNodeProvider, mapRef, store] = useActiveNodeContainer({
+      initial: node,
+    });
+
+    const dispatchEvent = (event) => {
+      return () => {
+        const activeRef = mapRef.current.get(node);
+        activeRef.current?.dispatchEvent(new Event(event))
+      }
+    }
+    const up = dispatchEvent('up');
+    const down = dispatchEvent('down');
+    const left = dispatchEvent('left');
+    const right = dispatchEvent('right');
+    const confirm = dispatchEvent('confirm');
+
     return (
-      <>
-        <ActiveList ref={ ref }>
+      <ActiveNodeProvider>
+        <ActiveList
+          node={ node }
+        >
           {
             Array(5).fill(0).map((_, i) => {
               return (
-                <ActiveListItem key={ i } index={ i } />
+                <ActiveListItem key={ i } node={ i } />
               )
             })
           }
         </ActiveList>
+        <button onClick={ left }> left </button>
+        <button onClick={ right }> right </button>
         <button onClick={ up }> up </button>
         <button onClick={ down }> down </button>
         <button onClick={ confirm }> confirm </button>
-      </>
+      </ActiveNodeProvider>
     )
   }
 };
