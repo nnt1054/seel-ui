@@ -14,19 +14,13 @@ export default {
     layout: 'centered',
   },
   render: (props) => {
+    const ref = useRef();
 
-    const node = 'default';
-    const [ActiveNodeProvider, useActiveNodeStore] = createActiveNodeContext({
-      initial: node,
-    });
-    const { mapRef } = useActiveNodeStore();
-
-
+    // note: no reason to clean this up atm leave it be
+    // until we decide how we want to render buttons for
+    // storybook very specifically
     const dispatchEvent = (event) => {
-      return () => {
-        const activeRef = mapRef.current.get(node);
-        activeRef.current?.dispatchEvent(new Event(event))
-      }
+      return () => { ref.current?.dispatchEvent(new Event(event)) }
     }
     const up = dispatchEvent('up');
     const down = dispatchEvent('down');
@@ -35,9 +29,9 @@ export default {
     const confirm = dispatchEvent('confirm');
 
     return (
-      <ActiveNodeProvider>
+      <>
         <ActiveList
-          node={ node }
+          ref={ ref }
         >
           {
             Array(5).fill(0).map((_, i) => {
@@ -47,12 +41,14 @@ export default {
             })
           }
         </ActiveList>
+        <button onClick={ focus }> focus </button>
+        <button onClick={ blur }> blur </button>
         <button onClick={ left }> left </button>
         <button onClick={ right }> right </button>
         <button onClick={ up }> up </button>
         <button onClick={ down }> down </button>
         <button onClick={ confirm }> confirm </button>
-      </ActiveNodeProvider>
+      </>
     )
   }
 };

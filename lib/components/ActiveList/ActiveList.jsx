@@ -8,6 +8,8 @@ import styled from 'styled-components';
 import { useActiveIndex } from '@hooks/useActiveIndex/useActiveIndex';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
 import { createActiveNodeContext } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
+import { useDispatchActiveNodeEvent } from '@hooks/useDispatchActiveNodeEvent/useDispatchActiveNodeEvent';
+import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
 
 export const ActiveList = (props) => {
@@ -16,6 +18,7 @@ export const ActiveList = (props) => {
         node,
         adjacentNodes = {},
         maxIndex: _maxIndex,
+        initialIndex = 0,
         children,
 	} = props;
 
@@ -23,11 +26,15 @@ export const ActiveList = (props) => {
         ? _maxIndex
         : children.length;
 
-    const { hasFocus } = useActiveNode({ ref, node });
+    const {
+        hasFocus = false,
+        setActiveNode = () => {},
+    } = useActiveNode({ ref, node });
 
     const [ActiveNodeProvider, useActiveNodeStore] = createActiveNodeContext({
-        initial: 0
+        initial: initialIndex,
     });
+
     const {
         mapRef,
         activeNode: activeIndex,
@@ -39,41 +46,26 @@ export const ActiveList = (props) => {
         activeIndex,
         setActiveIndex,
         maxIndex,
+        initialIndex,
         isColumn: true,
         disableJump: true,
-
-        // todo: decide on naming; used to change
-        // the active node within the parent container
-        // and not the active child item in the list
-        // setActiveNode,
-        // adjacentNodes,
+        setActiveNode,
+        adjacentNodes,
     });
 
-    const dispatchEvent = (event) => {
-      return () => {
-        const activeRef = mapRef.current.get(activeIndex);
-        activeRef.current?.dispatchEvent(new Event(event))
-      }
-    }
-    const left = dispatchEvent('left');
-    const right = dispatchEvent('right');
-    const confirm = dispatchEvent('confirm');
-
-    useEffect(() => {
-        const element = ref.current;
-        element?.addEventListener('left', left);
-        element?.addEventListener('right', right);        
-        element?.addEventListener('confirm', confirm);
-        return () => {
-            element?.removeEventListener('left', left);
-            element?.removeEventListener('right', right);        
-            element?.removeEventListener('confirm', confirm);
-        }
+    useDispatchActiveNodeEvent({
+        ref,
+        mapRef,
+        activeNode: activeIndex,
+        events: ['left', 'right', 'confirm']
     })
 
     return (
         <ActiveNodeProvider>
-            <div ref={ ref } style={{ display: 'flex', flexDirection: 'column' }}>
+            <div ref={ ref } style={{
+                display: 'flex',
+                flexDirection: 'column',
+            }}>
                 { children }
             </div>
         </ActiveNodeProvider>
@@ -89,25 +81,14 @@ export const ActiveListItem = (props) => {
 
     const { hasFocus, setActiveNode } = useActiveNode({ ref, node });
 
-    const confirm = () => { console.log(`confirm ${ node }`) };
-    const left =  () => { console.log(`left ${ node }`)};
-    const right = () => { console.log(`right ${ node }`)};
-    useEffect(() => {
-        const element = ref.current;
-        element.addEventListener('left', left);
-        element.addEventListener('right', right);        
-        element.addEventListener('confirm', confirm);
-        return () => {
-            element.removeEventListener('left', left);
-            element.removeEventListener('right', right);        
-            element.removeEventListener('confirm', confirm);
-        }
+    const callbacks = useEventListeners(ref, {
+        confirm: () => { console.log(`confirm ${ node }`) },
+        left:  () => { console.log(`left ${ node }`)},
+        right: () => { console.log(`right ${ node }`)},
     })
 
     const onClick = () => {
-        confirm();
-
-        // used to set self as active within parent
+        callbacks.confirm();
         setActiveNode(node);
     }
 

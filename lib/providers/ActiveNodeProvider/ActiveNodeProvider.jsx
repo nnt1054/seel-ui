@@ -1,10 +1,16 @@
 import {
-    useState, useRef, createContext,
+    useEffect, useState, useRef,
+    createContext,
 } from 'react';
 import { createStore, useStore } from 'zustand'
 
 
-export const ActiveNodeContext = createContext(null);
+const defaultStore = createStore()((set) => ({
+  mapRef: null,
+  activeNode: null,
+  setActiveNode: () => {},
+}))
+export const ActiveNodeContext = createContext(defaultStore);
 
 
 const createActiveNodeStore = (mapRef, initial) => {
@@ -21,15 +27,18 @@ export const createActiveNodeContext = (props) => {
 		initial,
 	} = props;
 
-    const mapRef = useRef(new Map());
-	const [store] = useState(() => createActiveNodeStore(mapRef, initial));
-    
-    const ActiveNodeProvider = (props) => {
-    	return <ActiveNodeContext.Provider value={ store } { ...props} />
-    }
-    const useActiveNodeStore = () => useStore(store);
+  const mapRef = useRef(new Map());
+  const [store] = useState(
+    () => createActiveNodeStore(mapRef, initial)
+  );
 
-    return [ActiveNodeProvider, useActiveNodeStore];
+  const ActiveNodeProvider = (props) => {
+  	return <ActiveNodeContext.Provider value={ store } { ...props} />
+  }
+
+  const useActiveNodeStore = (selector) => useStore(store, selector);
+
+  return [ActiveNodeProvider, useActiveNodeStore];
 }
 
 
