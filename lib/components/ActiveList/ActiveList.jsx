@@ -12,7 +12,7 @@ import { useDispatchActiveNodeEvent } from '@hooks/useDispatchActiveNodeEvent/us
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
 
-export const ActiveList = (props) => {
+export const ActiveList = memo((props) => {
 	const {
         ref = useRef(),
         node,
@@ -35,6 +35,34 @@ export const ActiveList = (props) => {
         initial: initialIndex,
     });
 
+    return (
+        <ActiveNodeProvider>
+            <BaseActiveList
+                ref={ ref }
+                useActiveNodeStore={ useActiveNodeStore }
+                maxIndex={ maxIndex }
+                initialIndex={ initialIndex }
+                adjacentNodes={ adjacentNodes }
+                setActiveNode={ setActiveNode }
+            >
+                { children }
+            </BaseActiveList>
+        </ActiveNodeProvider>
+    )
+})
+
+const BaseActiveList = (props) => {
+    const {
+        ref,
+        useActiveNodeStore,
+
+        maxIndex,
+        initialIndex,
+
+        adjacentNodes,
+        setActiveNode,
+    } = props;
+
     const {
         mapRef,
         activeNode: activeIndex,
@@ -49,8 +77,8 @@ export const ActiveList = (props) => {
         initialIndex,
         isColumn: true,
         disableJump: true,
-        setActiveNode,
         adjacentNodes,
+        setActiveNode,
     });
 
     useDispatchActiveNodeEvent({
@@ -61,17 +89,11 @@ export const ActiveList = (props) => {
     })
 
     return (
-        <ActiveNodeProvider>
-            <div ref={ ref } style={{
-                display: 'flex',
-                flexDirection: 'column',
-            }}>
-                { children }
-            </div>
-        </ActiveNodeProvider>
+        <div ref={ ref }>
+            { props.children }
+        </div>
     )
 }
-
 
 export const ActiveListItem = memo((props) => {
     const {
