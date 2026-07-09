@@ -9,9 +9,7 @@ export const useActiveNode = ({ ref, node }) => {
     const mapRef = useStore(store, state => state.mapRef);
     const setActiveNode = useStore(store, state => state.setActiveNode);
     const setFocus = useStore(store, state => state.setFocus);
-    const hasFocus = useStore(store, state => {
-        return state.hasFocus && state.activeNode == node
-    });
+    const hasFocus = useStore(store, state => state.activeNode == node);
 
     useEffect(() => {
         const map = mapRef?.current;

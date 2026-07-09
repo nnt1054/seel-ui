@@ -1,6 +1,6 @@
 import {
     useEffect, useState, useContext,
-    useRef, createContext, useImperativeHandle,
+    useRef, useMemo, memo,
 } from 'react';
 import { createStore, useStore } from 'zustand'
 import styled from 'styled-components';
@@ -73,11 +73,13 @@ export const ActiveList = (props) => {
 }
 
 
-export const ActiveListItem = (props) => {
+export const ActiveListItem = memo((props) => {
     const {
         ref = useRef(),
         node,
     } = props;
+
+    console.log(node);
 
     const { hasFocus, setActiveNode } = useActiveNode({ ref, node });
 
@@ -101,7 +103,7 @@ export const ActiveListItem = (props) => {
             onClick={ onClick }
         > item { node } </div>
     )
-}
+})
 
 
 export default ActiveList;

@@ -1,5 +1,5 @@
 import { fn } from 'storybook/test';
-import { useRef, useState } from 'react';
+import { useRef, useState, memo } from 'react';
 
 import { useActiveIndex } from './useActiveIndex';
 
@@ -37,19 +37,8 @@ export default {
           {
             Array(maxIndex).fill(0).map((_, index) => {
               const isActive = index == activeIndex;
-              const styles = {
-                width: '32px',
-                height: '32px',
-                fontWeight: isActive ? 'bold' : 'normal',
-                color: isActive ? 'white' : 'black',
-                background: isActive ? 'red' : 'none',
-                borderRadius: '25px',
-                textAlign: 'center',
-                verticalAlign: 'middle',
-                lineHeight: '32px',
-              }
               return (
-                <span key={ index } style={ styles }> { index } </span>
+                <Item key={ index } isActive={ isActive } index={ index } />
               )
             })
           }
@@ -58,6 +47,23 @@ export default {
     )
   },
 };
+
+const Item = memo((props) => {
+  const { isActive, index } = props;
+  const styles = {
+    width: '32px',
+    height: '32px',
+    fontWeight: isActive ? 'bold' : 'normal',
+    color: isActive ? 'white' : 'black',
+    background: isActive ? 'red' : 'none',
+    borderRadius: '25px',
+    textAlign: 'center',
+    verticalAlign: 'middle',
+    lineHeight: '32px',
+  }
+
+  return <span key={ index } style={ styles }> { index } </span>
+})
 
 export const Row = {
   args: {

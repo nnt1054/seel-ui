@@ -1,6 +1,6 @@
 import {
     useEffect, useState, useRef,
-    createContext,
+    useMemo, memo, createContext
 } from 'react';
 import { createStore, useStore } from 'zustand'
 
@@ -32,9 +32,11 @@ export const createActiveNodeContext = (props) => {
     () => createActiveNodeStore(mapRef, initial)
   );
 
-  const ActiveNodeProvider = (props) => {
-  	return <ActiveNodeContext.Provider value={ store } { ...props} />
-  }
+  const ActiveNodeProvider = useMemo(() => {
+    return (props) => {
+    	return <ActiveNodeContext.Provider value={ store } { ...props} />
+    }
+  })
 
   const useActiveNodeStore = (selector) => useStore(store, selector);
 
