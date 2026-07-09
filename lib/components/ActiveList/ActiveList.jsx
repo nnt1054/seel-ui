@@ -6,7 +6,8 @@ import { createStore, useStore } from 'zustand'
 import styled from 'styled-components';
 
 import { useActiveIndex } from '@hooks/useActiveIndex/useActiveIndex';
-import { useActiveNode, useActiveNodeContainer } from '@hooks/utils';
+import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
+import { createActiveNodeContext } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 
 
 export const ActiveList = (props) => {
@@ -24,13 +25,14 @@ export const ActiveList = (props) => {
 
     const { hasFocus } = useActiveNode({ ref, node });
 
-    const [ActiveNodeProvider, mapRef, store] = useActiveNodeContainer({
+    const [ActiveNodeProvider, useActiveNodeStore] = createActiveNodeContext({
         initial: 0
     });
     const {
+        mapRef,
         activeNode: activeIndex,
         setActiveNode: setActiveIndex,
-    } = useStore(store);
+    } = useActiveNodeStore();
 
     useActiveIndex({
         ref,

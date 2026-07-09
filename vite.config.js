@@ -24,6 +24,7 @@ export default defineConfig({
     alias: {
       '@hooks': '/lib/hooks/.',
       '@components': '/lib/components/.',
+      '@providers': '/lib/providers/.',
     },
   },
 })

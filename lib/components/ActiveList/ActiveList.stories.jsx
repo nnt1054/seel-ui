@@ -2,7 +2,7 @@ import { useRef, useState, useContext, useEffect } from 'react';
 import { fn } from 'storybook/test';
 
 import { ActiveList, ActiveListItem } from './ActiveList';
-import { useActiveNodeContainer } from '@hooks/utils';
+import { createActiveNodeContext } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 
 
 export default {
@@ -16,9 +16,11 @@ export default {
   render: (props) => {
 
     const node = 'default';
-    const [ActiveNodeProvider, mapRef, store] = useActiveNodeContainer({
+    const [ActiveNodeProvider, useActiveNodeStore] = createActiveNodeContext({
       initial: node,
     });
+    const { mapRef } = useActiveNodeStore();
+
 
     const dispatchEvent = (event) => {
       return () => {
