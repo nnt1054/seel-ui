@@ -21,6 +21,13 @@ const createNodeContainerStore = (props) => {
         parent,
         activeNode: initial,
         setActiveNode: (activeNode) => set(state => ({ activeNode })),
+
+        // todo: need external flagging system for this
+        // any top level container will default to true
+        // cant do this via prop so need to expose some
+        // api or event listener
+        hasFocus: true,
+        setHasFocus: (hasFocus) => set(state => ({ hasFocus })),
     }))
 }
 
