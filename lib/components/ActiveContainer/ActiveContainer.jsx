@@ -1,7 +1,12 @@
 import { useRef } from 'react';
 
+import {
+	withActiveNodeContainer,
+	useActiveNodeContainer,
+} from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 
-export const ActiveContainer = (props) => {
+
+export const ActiveContainer = withActiveNodeContainer((props) => {
     const defaultEvents =  ['up', 'down', 'left', 'right', 'confirm'];
 	const {
         ref = useRef(),
@@ -12,42 +17,21 @@ export const ActiveContainer = (props) => {
 	} = props;
 
     const { hasFocus = false } = useActiveNode({ ref, node });
-
-    const [ActiveNodeProvider, useActiveNodeStore] = createActiveNodeContext({
-      initial,
-    });
-    
-    const { mapRef, activeNode } = useActiveNodeStore();
-    const dispatchEvent = (event) => {
-      return () => {
-        const activeRef = mapRef.current.get(activeNode);
-        activeRef.current?.dispatchEvent(new Event(event))
-      }
-    }
-
-    const callbacks = events.reduce((callbacks, event) => {
-        callbacks[event] = dispatchEvent(event);
-        return callbacks;
-    }, {})
-
-    useEffect(() => {
-        const element = ref.current;
-
-        for (const event of events) {
-            element?.addEventListener(event, callbacks[event]);
-        }
-
-        return () => {
-            for (const event of events) {
-                element?.removeEventListener(event, callbacks[event]);
-            }
-        }
+    const { mapRef, activeNode } = useActiveNodeContainer();
+    useDispatchActiveNodeEvent({
+        ref,
+        mapRef,
+        activeNode,
+        events,
     })
 
+    // todo: ???
 	return (
-		<ActiveNodeProvider>
+		<>
 			<div ref={ ref } />
 			{ children }
-		</ActiveNodeProvider>
+		</>
 	)
-}
+})
+
+export default ActiveContainer;
