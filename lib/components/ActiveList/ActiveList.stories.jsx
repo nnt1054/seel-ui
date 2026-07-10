@@ -2,7 +2,6 @@ import { useRef, useState, useContext, useEffect } from 'react';
 import { fn } from 'storybook/test';
 
 import { ActiveList, ActiveListItem } from './ActiveList';
-import { createActiveNodeContext } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 
 
 export default {

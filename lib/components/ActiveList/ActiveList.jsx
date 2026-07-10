@@ -2,6 +2,7 @@ import {
     useEffect, useState, useContext,
     useRef, useMemo, memo,
 } from 'react';
+import { createStore, useStore } from 'zustand'
 import styled from 'styled-components';
 
 import { useActiveIndex } from '@hooks/useActiveIndex/useActiveIndex';
@@ -13,7 +14,7 @@ import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
 export const ActiveList = withActiveNodeContainer((props) => {
 	const {
-        ref = useRef(),
+        ref,
         node,
         adjacentNodes = {},
         maxIndex: _maxIndex,
@@ -26,15 +27,13 @@ export const ActiveList = withActiveNodeContainer((props) => {
         : children.length;
 
     const {
-        hasFocus = false,
-        setActiveNode = () => {},
-    } = useActiveNode({ ref, node });
-
-    const {
-        mapRef,
+        childrenRef,
         activeNode: activeIndex,
         setActiveNode: setActiveIndex,
     } = useActiveNodeContainer();
+
+    const { hasFocus, setActiveNode } = useActiveNode({ ref, node });
+
 
     useActiveIndex({
         ref,
@@ -50,20 +49,21 @@ export const ActiveList = withActiveNodeContainer((props) => {
 
     useDispatchActiveNodeEvent({
         ref,
-        mapRef,
+        childrenRef,
         activeNode: activeIndex,
         events: ['left', 'right', 'confirm']
     })
 
     return (
-        <div ref={ ref }>
+        <div ref={ ref } onClick={() => { setActiveNode(node) }}>
             { props.children }
         </div>
     )
 })
 
 
-export const ActiveListItem = memo((props) => {
+// this is just an example of a list item
+export const ActiveListItem = withActiveNodeContainer((props) => {
     const {
         ref = useRef(),
         node,
@@ -71,10 +71,11 @@ export const ActiveListItem = memo((props) => {
 
     const { hasFocus, setActiveNode } = useActiveNode({ ref, node });
 
+    const [count, setCount] = useState(0);
     const callbacks = useEventListeners(ref, {
         confirm: () => { console.log(`confirm ${ node }`) },
-        left:  () => { console.log(`left ${ node }`)},
-        right: () => { console.log(`right ${ node }`)},
+        left:  () => { setCount(count - 1) },
+        right: () => { setCount(count + 1) },
     })
 
     const onClick = () => {
@@ -87,7 +88,7 @@ export const ActiveListItem = memo((props) => {
             ref={ ref }
             style={{ fontWeight: hasFocus ? 'bold' : 'normal' }}
             onClick={ onClick }
-        > item { node } </div>
+        > item { node } - { count }</div>
     )
 })
 

@@ -4,6 +4,12 @@ import {
 	withActiveNodeContainer,
 	useActiveNodeContainer,
 } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
+import {
+	useActiveNode,
+} from '@hooks/useActiveNode/useActiveNode'
+import {
+	useDispatchActiveNodeEvent
+} from '@hooks/useDispatchActiveNodeEvent/useDispatchActiveNodeEvent';
 
 
 export const ActiveContainer = withActiveNodeContainer((props) => {
@@ -13,19 +19,19 @@ export const ActiveContainer = withActiveNodeContainer((props) => {
 		node,
 		initial,
 		events = defaultEvents,
+		hasFocus,
+		setActiveNode,
 		children,
 	} = props;
 
-    const { hasFocus = false } = useActiveNode({ ref, node });
-    const { mapRef, activeNode } = useActiveNodeContainer();
+    const { childrenRef, activeNode } = useActiveNodeContainer();
     useDispatchActiveNodeEvent({
         ref,
-        mapRef,
+        childrenRef,
         activeNode,
         events,
     })
 
-    // todo: ???
 	return (
 		<>
 			<div ref={ ref } />

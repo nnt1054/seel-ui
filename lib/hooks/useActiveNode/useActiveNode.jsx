@@ -1,31 +1,20 @@
 import { useEffect, useContext } from 'react';
 import { useStore } from 'zustand';
 
-import { ActiveNodeContext } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
+import { ActiveNodeContext, useActiveNodeContainer } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 
 
 export const useActiveNode = ({ ref, node }) => {
     const store = useContext(ActiveNodeContext);
-    const mapRef = useStore(store, state => state.mapRef);
-    const setActiveNode = useStore(store, state => state.setActiveNode);
-    const setFocus = useStore(store, state => state.setFocus);
-    const hasFocus = useStore(store, state => state.activeNode == node);
+    if (!store) return {};
 
-    useEffect(() => {
-        const map = mapRef?.current;
-        map?.set(node, ref);
-        return () => {
-            map?.delete(node)
-        }
-    })
+    const parent = useStore(store, state => state.parent);
+    if (!parent) return {};
 
-    return {
-    	mapRef,
-    	hasFocus,
-        setFocus,
-    	setActiveNode,
-    }
+    const hasFocus = useStore(parent, state => state.activeNode == node);
+    const setActiveNode = useStore(parent, state => state.setActiveNode);
+
+    return { hasFocus, setActiveNode };
 }
-
 
 export default useActiveNode;
