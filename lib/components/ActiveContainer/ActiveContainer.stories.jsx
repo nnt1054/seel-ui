@@ -1,4 +1,4 @@
-import { useRef, useState, useContext, useEffect } from 'react';
+import { useRef, useState, useContext, useEffect, memo } from 'react';
 import { fn } from 'storybook/test';
 
 import { ActiveContainer } from './ActiveContainer';
@@ -27,8 +27,10 @@ export default {
     const left = dispatchEvent('left');
     const right = dispatchEvent('right');
     const confirm = dispatchEvent('confirm');
-
+    const focus = dispatchEvent('focus');
+    const blur = dispatchEvent('blur');
     const initial = 'list1';
+
     return (
       <>
         <ActiveContainer ref={ ref } initial={ initial }>
@@ -68,6 +70,8 @@ export default {
         <button onClick={ up }> up </button>
         <button onClick={ down }> down </button>
         <button onClick={ confirm }> confirm </button>
+        <button onClick={ focus }> focus </button>
+        <button onClick={ blur }> blur </button>
       </>
     )
   }

@@ -34,7 +34,6 @@ export const ActiveList = withActiveNodeContainer((props) => {
 
     const { hasFocus, setActiveNode } = useActiveNode({ ref, node });
 
-
     useActiveIndex({
         ref,
         activeIndex,
@@ -54,8 +53,24 @@ export const ActiveList = withActiveNodeContainer((props) => {
         events: ['left', 'right', 'confirm']
     })
 
+    const [count, setCount] = useState(0);
+
+    const onClick = () => {
+        setActiveNode(node)
+        setCount(count + 1)
+    }
+
     return (
-        <div ref={ ref } onClick={() => { setActiveNode(node) }}>
+        <div
+            ref={ ref }
+            onClick={ onClick }
+            style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: hasFocus ? '12px' : '8px',
+            }}
+        >
+            <span> { count } </span>
             { props.children }
         </div>
     )

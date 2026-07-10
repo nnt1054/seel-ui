@@ -10,6 +10,7 @@ import {
 import {
 	useDispatchActiveNodeEvent
 } from '@hooks/useDispatchActiveNodeEvent/useDispatchActiveNodeEvent';
+import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
 
 export const ActiveContainer = withActiveNodeContainer((props) => {
@@ -19,17 +20,20 @@ export const ActiveContainer = withActiveNodeContainer((props) => {
 		node,
 		initial,
 		events = defaultEvents,
-		hasFocus,
-		setActiveNode,
 		children,
 	} = props;
 
-    const { childrenRef, activeNode } = useActiveNodeContainer();
+    const { childrenRef, activeNode, setHasFocus } = useActiveNodeContainer();
     useDispatchActiveNodeEvent({
         ref,
         childrenRef,
         activeNode,
         events,
+    })
+
+    useEventListeners(ref, {
+    	focus: () => { setHasFocus(true) },
+    	blur: () => { setHasFocus(false) },
     })
 
 	return (
