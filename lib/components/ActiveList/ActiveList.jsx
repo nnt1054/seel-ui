@@ -2,17 +2,16 @@ import {
     useEffect, useState, useContext,
     useRef, useMemo, memo,
 } from 'react';
-import { createStore, useStore } from 'zustand'
 import styled from 'styled-components';
 
 import { useActiveIndex } from '@hooks/useActiveIndex/useActiveIndex';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
-import { createActiveNodeContext } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
+import { withActiveNodeContainer, useActiveNodeContainer } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 import { useDispatchActiveNodeEvent } from '@hooks/useDispatchActiveNodeEvent/useDispatchActiveNodeEvent';
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
 
-export const ActiveList = memo((props) => {
+export const ActiveList = withActiveNodeContainer((props) => {
 	const {
         ref = useRef(),
         node,
@@ -31,43 +30,11 @@ export const ActiveList = memo((props) => {
         setActiveNode = () => {},
     } = useActiveNode({ ref, node });
 
-    const [ActiveNodeProvider, useActiveNodeStore] = createActiveNodeContext({
-        initial: initialIndex,
-    });
-
-    return (
-        <ActiveNodeProvider>
-            <BaseActiveList
-                ref={ ref }
-                useActiveNodeStore={ useActiveNodeStore }
-                maxIndex={ maxIndex }
-                initialIndex={ initialIndex }
-                adjacentNodes={ adjacentNodes }
-                setActiveNode={ setActiveNode }
-            >
-                { children }
-            </BaseActiveList>
-        </ActiveNodeProvider>
-    )
-})
-
-const BaseActiveList = (props) => {
-    const {
-        ref,
-        useActiveNodeStore,
-
-        maxIndex,
-        initialIndex,
-
-        adjacentNodes,
-        setActiveNode,
-    } = props;
-
     const {
         mapRef,
         activeNode: activeIndex,
         setActiveNode: setActiveIndex,
-    } = useActiveNodeStore();
+    } = useActiveNodeContainer();
 
     useActiveIndex({
         ref,
@@ -93,15 +60,14 @@ const BaseActiveList = (props) => {
             { props.children }
         </div>
     )
-}
+})
+
 
 export const ActiveListItem = memo((props) => {
     const {
         ref = useRef(),
         node,
     } = props;
-
-    console.log(node);
 
     const { hasFocus, setActiveNode } = useActiveNode({ ref, node });
 
@@ -119,9 +85,7 @@ export const ActiveListItem = memo((props) => {
     return (
         <div
             ref={ ref }
-            style={{
-                fontWeight: hasFocus ? 'bold' : 'normal',
-            }}
+            style={{ fontWeight: hasFocus ? 'bold' : 'normal' }}
             onClick={ onClick }
         > item { node } </div>
     )

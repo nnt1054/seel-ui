@@ -1,6 +1,7 @@
 import {
     useEffect, useState, useRef,
-    useMemo, memo, createContext
+    useMemo, memo, createContext,
+    useContext,
 } from 'react';
 import { createStore, useStore } from 'zustand'
 
@@ -22,7 +23,7 @@ const createActiveNodeStore = (mapRef, initial) => {
 }
 
 
-export const createActiveNodeContext = (props) => {
+export const createActiveNodeContext = (props = {}) => {
 	const {
 		initial,
 	} = props;
@@ -41,6 +42,29 @@ export const createActiveNodeContext = (props) => {
   const useActiveNodeStore = (selector) => useStore(store, selector);
 
   return [ActiveNodeProvider, useActiveNodeStore];
+}
+
+
+export const useActiveNodeContainer = (selector) => {
+    const store = useContext(ActiveNodeContext);
+    if (!store) throw new Error('Missing ActiveNodeContext.Provider in the tree')
+    return useStore(store, selector)
+}
+
+
+export const withActiveNodeContainer = (WrappedComponent) => {
+    const Component = (props) => {
+        const [ActiveNodeProvider] = createActiveNodeContext();
+        return (
+            <ActiveNodeProvider>
+                <WrappedComponent
+                    {...props}
+                />
+            </ActiveNodeProvider>
+        );
+    };
+
+    return Component;
 }
 
 

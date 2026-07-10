@@ -32,6 +32,7 @@ export default {
       <>
         <ActiveList
           ref={ ref }
+          maxIndex={ 5 }
         >
           {
             Array(5).fill(0).map((_, i) => {
@@ -41,8 +42,6 @@ export default {
             })
           }
         </ActiveList>
-        <button onClick={ focus }> focus </button>
-        <button onClick={ blur }> blur </button>
         <button onClick={ left }> left </button>
         <button onClick={ right }> right </button>
         <button onClick={ up }> up </button>
