@@ -22,9 +22,11 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@hooks': '/lib/hooks/.',
-      '@components': '/lib/components/.',
-      '@providers': '/lib/providers/.',
+      '@hooks': '/lib/hooks',
+      '@components': '/lib/components',
+      '@providers': '/lib/providers',
+      '@constants': '/lib/constants',
+      '@utils': '/lib/utils',
     },
   },
 })

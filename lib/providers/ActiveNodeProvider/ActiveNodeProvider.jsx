@@ -69,7 +69,7 @@ const registerNode = ({ ref, node }) => {
 }
 
 export const withActiveNodeContainer = (WrappedComponent) => {
-    const Component = memo((props) => {
+    const Component = (props) => {
         const {
             ref = useRef(),
             node,
@@ -93,9 +93,9 @@ export const withActiveNodeContainer = (WrappedComponent) => {
                 />
             </ActiveNodeProvider>
         );
-    });
+    };
 
-    return Component;
+    return memo(Component);
 }
 
 

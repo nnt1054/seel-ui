@@ -3,6 +3,7 @@ import { fn } from 'storybook/test';
 
 import { ActiveContainer } from './ActiveContainer';
 import { ActiveList, ActiveListItem } from '@components/ActiveList/ActiveList';
+import { InputProvider } from '@providers/InputProvider/InputProvider';
 
 
 export default {
@@ -32,7 +33,7 @@ export default {
     const initial = 'list1';
 
     return (
-      <>
+      <InputProvider inputRef={ ref }>
         <ActiveContainer ref={ ref } initial={ initial }>
           <div style={{ display: 'flex', flexDirection: 'row', gap: '24px' }}>
             <ActiveList
@@ -72,7 +73,7 @@ export default {
         <button onClick={ confirm }> confirm </button>
         <button onClick={ focus }> focus </button>
         <button onClick={ blur }> blur </button>
-      </>
+      </InputProvider>
     )
   }
 };
