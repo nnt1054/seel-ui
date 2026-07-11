@@ -5,19 +5,20 @@ import {
 import { createStore, useStore } from 'zustand'
 import styled from 'styled-components';
 
-import { Column } from '@components/Column/Column';
-import { useActiveIndex } from '@hooks/useActiveIndex/useActiveIndex';
+import { Grid } from '@components/Grid/Grid';
+import { useActiveGridIndex } from '@hooks/useActiveGridIndex/useActiveGridIndex';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
 import { withActiveNodeContainer, useActiveNodeContainer } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 import { useDispatchActiveNodeEvent } from '@hooks/useDispatchActiveNodeEvent/useDispatchActiveNodeEvent';
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
 
-export const ActiveList = withActiveNodeContainer((props) => {
+export const ActiveGrid = withActiveNodeContainer((props) => {
 	const {
         ref,
         node,
         adjacentNodes = {},
+        columns,
         maxIndex: _maxIndex,
         initialIndex = 0,
         children,
@@ -35,10 +36,11 @@ export const ActiveList = withActiveNodeContainer((props) => {
 
     const { hasFocus, setActiveNode } = useActiveNode({ ref, node });
 
-    useActiveIndex({
+    useActiveGridIndex({
         ref,
         activeIndex,
         setActiveIndex,
+        columns,
         maxIndex,
         initialIndex,
         isColumn: true,
@@ -51,25 +53,21 @@ export const ActiveList = withActiveNodeContainer((props) => {
         ref,
         childrenRef,
         activeNode: activeIndex,
-        events: ['left', 'right', 'confirm']
+        events: ['confirm']
     })
 
     const onClick = () => {
-        setActiveNode(node)
+        setActiveNode?.(node);
     }
 
     return (
-        <Column
+        <Grid
             ref={ ref }
             onClick={ onClick }
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: hasFocus ? '12px' : '8px',
-            }}
+            columns={ columns }
         >
             { props.children }
-        </Column>
+        </Grid>
     )
 })
 
@@ -92,7 +90,7 @@ export const ActiveListItem = withActiveNodeContainer((props) => {
 
     const onClick = () => {
         callbacks.confirm();
-        setActiveNode(node);
+        setActiveNode?.(node);
     }
 
     return (
@@ -105,4 +103,4 @@ export const ActiveListItem = withActiveNodeContainer((props) => {
 })
 
 
-export default ActiveList;
+export default ActiveGrid;

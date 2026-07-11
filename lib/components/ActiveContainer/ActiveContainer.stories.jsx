@@ -3,6 +3,7 @@ import { fn } from 'storybook/test';
 
 import { ActiveContainer } from './ActiveContainer';
 import { ActiveList, ActiveListItem } from '@components/ActiveList/ActiveList';
+import { ActiveGrid } from '@components/ActiveGrid/ActiveGrid';
 import { InputProvider } from '@providers/InputProvider/InputProvider';
 
 
@@ -50,20 +51,21 @@ export default {
                 })
               }
             </ActiveList>
-            <ActiveList
+            <ActiveGrid
               node={ 'list2' }
+              columns={ 5 }
               adjacentNodes={{
                 left: 'list1',
               }}
             >
               {
-                Array(5).fill(0).map((_, i) => {
+                Array(25).fill(0).map((_, i) => {
                   return (
                     <ActiveListItem key={ i } node={ i } />
                   )
                 })
               }
-            </ActiveList>
+            </ActiveGrid>
           </div>
         </ActiveContainer>
         <button onClick={ left }> left </button>
