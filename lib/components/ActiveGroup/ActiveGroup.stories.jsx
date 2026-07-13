@@ -1,13 +1,13 @@
 import { useRef, useState, useContext, useEffect } from 'react';
 import { fn } from 'storybook/test';
 
-import { ActiveGrid } from './ActiveGrid';
+import { ActiveGroup } from './ActiveGroup';
 import { ActiveListItem } from '@components/ActiveList/ActiveList';
 
 
 export default {
-  title: 'Navigation/ActiveGrid',
-  component: ActiveGrid,
+  title: 'Navigation/ActiveGroup',
+  component: ActiveGroup,
   args: {},
   argTypes: {},
   parameters: {
@@ -30,18 +30,18 @@ export default {
 
     return (
       <>
-        <ActiveGrid
+        <ActiveGroup
           ref={ ref }
-          columns={ 5 }
+          maxIndex={ 5 }
         >
           {
-            Array(25).fill(0).map((_, i) => {
+            Array(5).fill(0).map((_, i) => {
               return (
                 <ActiveListItem key={ i } node={ i } />
               )
             })
           }
-        </ActiveGrid>
+        </ActiveGroup>
         <button onClick={ left }> left </button>
         <button onClick={ right }> right </button>
         <button onClick={ up }> up </button>

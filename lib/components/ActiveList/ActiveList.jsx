@@ -20,6 +20,9 @@ export const ActiveList = withActiveNodeContainer((props) => {
         adjacentNodes = {},
         maxIndex: _maxIndex,
         initialIndex = 0,
+        disableWrap = false,
+        disableJump = false,
+
         children,
 	} = props;
 
@@ -42,7 +45,8 @@ export const ActiveList = withActiveNodeContainer((props) => {
         maxIndex,
         initialIndex,
         isColumn: true,
-        disableJump: true,
+        disableWrap,
+        disableJump,
         adjacentNodes,
         setActiveNode,
     });
@@ -79,15 +83,23 @@ export const ActiveListItem = withActiveNodeContainer((props) => {
     const {
         ref = useRef(),
         node,
+
+        label,
+
+        onFocus = () => {},
+        callback = () => {},
+
+        children,
     } = props;
 
     const { hasFocus, setActiveNode } = useActiveNode({ ref, node });
 
     const [count, setCount] = useState(0);
     const callbacks = useEventListeners(ref, {
-        confirm: () => { console.log(`confirm ${ node }`) },
-        left:  () => { setCount(count - 1) },
-        right: () => { setCount(count + 1) },
+        confirm: () => {
+            setCount(count + 1);
+            callback();
+        },
     })
 
     const onClick = () => {
@@ -95,12 +107,21 @@ export const ActiveListItem = withActiveNodeContainer((props) => {
         setActiveNode(node);
     }
 
+    useEffect(() => {
+        if (hasFocus) onFocus();
+    }, [hasFocus])
+
+    const markup = label ? label : `item ${ node } - ${ count }`
+
     return (
         <div
             ref={ ref }
             style={{ fontWeight: hasFocus ? 'bold' : 'normal' }}
             onClick={ onClick }
-        > item { node } - { count }</div>
+        >
+            { markup }
+            { children }
+        </div>
     )
 })
 

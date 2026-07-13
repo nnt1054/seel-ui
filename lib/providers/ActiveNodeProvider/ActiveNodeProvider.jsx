@@ -11,9 +11,9 @@ export const ActiveNodeContext = createContext(null);
 
 const createNodeContainerStore = (props) => {
     const {
-        parent,
         childrenRef,
         initial,
+        parent,
     } = props;
 
     return createStore()((set) => ({
@@ -33,22 +33,16 @@ const createNodeContainerStore = (props) => {
 
 const createNodeContainer = (props = {}) => {
 	const {
-		initial,
+        initial,
         parent,
 	} = props;
 
     const childrenRef = useRef(new Map());
     const [store] = useState(
-        () => createNodeContainerStore({ childrenRef, parent, initial, })
+        () => createNodeContainerStore({ childrenRef, initial, parent, })
     );
 
-    const ActiveNodeProvider = (props) => {
-        return <ActiveNodeContext.Provider value={ store } { ...props} />
-    }
-
-    const useActiveNodeStore = (selector) => useStore(store, selector);
-
-    return [ActiveNodeProvider, useActiveNodeStore];
+    return store;
 }
 
 const registerNode = ({ ref, node }) => {
@@ -76,26 +70,19 @@ export const withActiveNodeContainer = (WrappedComponent) => {
             initial,
         } = props;
 
-        // register self in container
         const parent = registerNode({ ref, node });
-
-        // setup self as a container
-        const [ActiveNodeProvider] = createNodeContainer({
-            initial,
-            parent,
-        });
-
+        const store = createNodeContainer({ initial, parent });
         return (
-            <ActiveNodeProvider>
+            <ActiveNodeContext.Provider value={ store }>
                 <WrappedComponent
                     {...props}
                     ref={ ref }
                 />
-            </ActiveNodeProvider>
+            </ActiveNodeContext.Provider>
         );
     };
 
-    return memo(Component);
+    return Component;
 }
 
 

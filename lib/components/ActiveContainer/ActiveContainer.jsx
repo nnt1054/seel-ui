@@ -14,7 +14,10 @@ import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
 
 export const ActiveContainer = withActiveNodeContainer((props) => {
-    const defaultEvents =  ['up', 'down', 'left', 'right', 'confirm'];
+    const defaultEvents =  [
+    	'up', 'down', 'left', 'right',
+    	'cycleR', 'cycleL', 'confirm',
+    ];
 	const {
         ref = useRef(),
 		node,

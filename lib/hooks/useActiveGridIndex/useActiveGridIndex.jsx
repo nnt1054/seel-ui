@@ -18,6 +18,7 @@ export const useActiveGridIndex = (props) => {
     const rows = Math.ceil(maxIndex / columns);
     const gridSize = rows * columns;
 
+    // todo: "0" should be a valid adjacentNode
     const up = () => {
         if (activeIndex < columns && adjacentNodes.up) {
             setActiveNode(adjacentNodes.up);

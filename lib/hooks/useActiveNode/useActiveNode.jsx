@@ -13,6 +13,9 @@ export const useActiveNode = ({ ref, node }) => {
     if (!parent) return {};
 
     const hasFocus = useStore(parent, state => state.hasFocus && state.activeNode == node);
+
+    // note: used for setting focus on self + moving to adjacent nodes
+    // todo: replace with focus() and update adjacentNodes to function maps
     const setActiveNode = useStore(parent, state => state.setActiveNode);
 
     // setting this for strictly our children items

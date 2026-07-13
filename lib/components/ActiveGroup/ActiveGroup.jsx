@@ -5,21 +5,24 @@ import {
 import { createStore, useStore } from 'zustand'
 import styled from 'styled-components';
 
-import { Grid } from '@components/Grid/Grid';
-import { useActiveGridIndex } from '@hooks/useActiveGridIndex/useActiveGridIndex';
+import { Row } from '@components/Row/Row';
+import { useActiveIndex } from '@hooks/useActiveIndex/useActiveIndex';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
 import { withActiveNodeContainer, useActiveNodeContainer } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 import { useDispatchActiveNodeEvent } from '@hooks/useDispatchActiveNodeEvent/useDispatchActiveNodeEvent';
+import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
 
-export const ActiveGrid = withActiveNodeContainer((props) => {
+export const ActiveGroup = withActiveNodeContainer((props) => {
 	const {
         ref,
         node,
         adjacentNodes = {},
-        columns,
         maxIndex: _maxIndex,
         initialIndex = 0,
+        disableWrap = false,
+        disableJump = false,
+
         children,
 	} = props;
 
@@ -35,13 +38,14 @@ export const ActiveGrid = withActiveNodeContainer((props) => {
 
     const { hasFocus, setActiveNode } = useActiveNode({ ref, node });
 
-    useActiveGridIndex({
+    useActiveIndex({
         ref,
         activeIndex,
         setActiveIndex,
-        columns,
         maxIndex,
         initialIndex,
+        disableWrap,
+        disableJump,
         adjacentNodes,
         setActiveNode,
     });
@@ -50,23 +54,23 @@ export const ActiveGrid = withActiveNodeContainer((props) => {
         ref,
         childrenRef,
         activeNode: activeIndex,
-        events: ['confirm']
+        events: ['up', 'down', 'confirm']
     })
 
     const onClick = () => {
-        setActiveNode?.(node);
+        setActiveNode(node)
     }
 
     return (
-        <Grid
+        <Row
             ref={ ref }
             onClick={ onClick }
-            columns={ columns }
+            style={{ gap: hasFocus ? '12px' : '8px' }}
         >
             { props.children }
-        </Grid>
+        </Row>
     )
 })
 
 
-export default ActiveGrid;
+export default ActiveGroup;
