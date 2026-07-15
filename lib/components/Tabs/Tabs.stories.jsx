@@ -54,12 +54,10 @@ export const Default = {
               <span> hi </span>
             </Tabs.Panel>
             <Tabs.Panel index={ 1 }>
-              <ActiveListItem node={ 2 } label={ 'first' }/>
+              <ActiveListItem label={ 'first' }/>
             </Tabs.Panel>
             <Tabs.Panel index={ 2 }>
-              <ActiveList
-                adjacentNodes={{ up: 1 }}
-              >
+              <ActiveList>
                 {
                   Array(5).fill(0).map((_, i) => {
                     return (
@@ -70,10 +68,7 @@ export const Default = {
               </ActiveList>
             </Tabs.Panel>
             <Tabs.Panel index={ 3 }>
-              <ActiveGrid
-                adjacentNodes={{ up: 1 }}
-                columns={ 5 }
-              >
+              <ActiveGrid columns={ 5 }>
                 {
                   Array(25).fill(0).map((_, i) => {
                     return (
