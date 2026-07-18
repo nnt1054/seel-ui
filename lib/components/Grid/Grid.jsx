@@ -9,8 +9,13 @@ const StyledGrid = styled.div`
 	gap: 8px;
 `
 export const Grid = (props) => {
+	const {
+		columns,
+		...others
+	} = props;
+
     return (
-        <StyledGrid $columns={ props.columns } { ...props } />
+        <StyledGrid $columns={ columns } { ...others } />
     )
 }
 

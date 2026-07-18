@@ -144,6 +144,8 @@ const TabsPanel = (props) => {
 	      {
 			Children.map(children, (child, index) => {
 				if (!isValidElement(child)) return;
+
+				// todo: conditional props based on child
 				return cloneElement(child, {
 					node: 2,
 					adjacentNodes: { up: 1 },

@@ -59,7 +59,7 @@ export const ActiveList = withActiveNodeContainer((props) => {
     })
 
     const onClick = () => {
-        setActiveNode(node)
+        setActiveNode?.(node)
     }
 
     return (

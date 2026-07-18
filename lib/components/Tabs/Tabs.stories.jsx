@@ -51,10 +51,10 @@ export const Default = {
             </Tabs.List>
 
             <Tabs.Panel index={ 0 }>
-              <span> hi </span>
+              <ActiveListItem label={ 'first' }/>
             </Tabs.Panel>
             <Tabs.Panel index={ 1 }>
-              <ActiveListItem label={ 'first' }/>
+              <span> hi </span>
             </Tabs.Panel>
             <Tabs.Panel index={ 2 }>
               <ActiveList>

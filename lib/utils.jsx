@@ -35,6 +35,7 @@ export const getNavigationCommands = (ref) => {
       return () => {
         if (inputInFocus()) {
             const input = document.activeElement;
+            console.log(event);
             if (input) input.dispatchEvent(new Event(event));
         } else {
             const element = ref?.current;
