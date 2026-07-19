@@ -2,10 +2,9 @@ import {
     useEffect, useState, useContext,
     useRef, useMemo, memo,
 } from 'react';
-import { createStore, useStore } from 'zustand'
 import styled from 'styled-components';
+import { createStore, useStore } from 'zustand'
 
-import { Row } from '@components/Row/Row';
 import { useActiveIndex } from '@hooks/useActiveIndex/useActiveIndex';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
 import { withActiveNodeContainer, useActiveNodeContainer } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
@@ -13,6 +12,10 @@ import { useDispatchActiveNodeEvent } from '@hooks/useDispatchActiveNodeEvent/us
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
 
+const StyledActiveGroup = styled.div`
+    display: flex;
+    flex-direction: row;
+`
 export const ActiveGroup = withActiveNodeContainer((props) => {
 	const {
         ref,
@@ -24,6 +27,7 @@ export const ActiveGroup = withActiveNodeContainer((props) => {
         disableJump = false,
 
         children,
+        ...others
 	} = props;
 
     const maxIndex = Number.isInteger(_maxIndex)
@@ -62,13 +66,14 @@ export const ActiveGroup = withActiveNodeContainer((props) => {
     }
 
     return (
-        <Row
+        <StyledActiveGroup
             ref={ ref }
             onClick={ onClick }
             style={{ gap: hasFocus ? '12px' : '8px' }}
+            { ...others }
         >
             { props.children }
-        </Row>
+        </StyledActiveGroup>
     )
 })
 

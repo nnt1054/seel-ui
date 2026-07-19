@@ -3,25 +3,14 @@ import styled from 'styled-components';
 
 
 const StyledDialog = styled.dialog`
-	outline: none;
-	appearance: none;
-	min-width: 256px;
-    border: none;
-    border-radius: 12px;
-    padding: 16px;
-
-	${props => props.$anchored && `
-		position: absolute;
-		position-area: bottom;
-		position-try-fallbacks: bottom, top;
-	    margin: 8px;
-	`}
+	position-area: top;
 `
 export const Dialog = (props) => {
 	const {
 		ref,
 		anchorName,
 		children,
+		...others
 	} = props;
 
 	return (
@@ -29,8 +18,10 @@ export const Dialog = (props) => {
 			tabIndex="0"
 			popover="manual"
 			ref={ ref }
-			style={{  positionAnchor: anchorName }}
-			$anchored={ !!anchorName }
+			style={{
+				positionAnchor: anchorName,
+			}}
+			{ ...others }
 		>
 			{ children }
 		</StyledDialog>

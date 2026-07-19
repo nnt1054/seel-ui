@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-import styled from 'styled-components';
 
 import {
 	withActiveNodeContainer,
@@ -30,12 +29,10 @@ export const NumberInput = withActiveNodeContainer((props) => {
     // events while input has focus
 	const onKeyDown = (event) => {
 		if (event.keyCode == KeyCodes.ESC) {
-			onCancel();
 			ref.current.blur();
 			event.preventDefault();
 			event.stopPropagation();
 		} else if (event.keyCode == KeyCodes.ENTER) {
-			onConfirm();
 			ref.current.blur();
 			event.preventDefault();
 			event.stopPropagation();

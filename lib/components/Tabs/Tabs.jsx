@@ -3,7 +3,8 @@ import {
 	createContext, useContext, memo,
 	cloneElement, Children, isValidElement
 } from 'react';
-import { createStore, useStore } from 'zustand'
+import styled from 'styled-components';
+import { createStore, useStore } from 'zustand';
 
 import {
 	withActiveNodeContainer,
@@ -28,6 +29,14 @@ const createTabsContextStore = ({ maxIndex }) => {
     }))
 }
 
+// todo: we might want an orientation prop
+// so that we can figure out adjacentNodes
+// in relation to each other
+const StyledTabs = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
 export const Tabs = withActiveNodeContainer((props) => {
 	const {
 		ref,
@@ -35,6 +44,7 @@ export const Tabs = withActiveNodeContainer((props) => {
 		adjacentNodes = {},
 		maxIndex = 1,
 		children,
+		...others
 	} = props;
 
     const [store] = useState(() => createTabsContextStore({ maxIndex }));
@@ -84,9 +94,13 @@ export const Tabs = withActiveNodeContainer((props) => {
 		<TabsContext.Provider value={ store }>
 			<button onClick={ callbacks.cycleL }> -1 </button>
 			<button onClick={ callbacks.cycleR }> +1 </button>
-	    	<Column ref={ ref } onClick={() => { setParentActiveNode(node) }}>
+	    	<StyledTabs
+	    		ref={ ref }
+	    		onClick={() => { setParentActiveNode(node) }}
+	    		{ ...others }
+	    	>
 				{ children }
-	    	</Column>
+	    	</StyledTabs>
         </TabsContext.Provider>
     )
 });
@@ -111,6 +125,7 @@ const TabsList = memo((props) => {
 		</ActiveGroup>
 	)
 })
+
 
 const TabsTab = memo((props) => {
 	const {
@@ -138,6 +153,9 @@ const TabsPanel = (props) => {
 	const store = useContext(TabsContext);
 	const isActive = useStore(store, state => state.activeIndex == index);
 
+	// todo: if tabs list is on the left then adjacentNdoes
+	// should be { left: 1 } appropriately
+
 	if (!isActive) return;
 	return (
 		<>
@@ -155,7 +173,6 @@ const TabsPanel = (props) => {
 		</>
 	)
 }
-
 
 Tabs.Panel = TabsPanel;
 Tabs.List = TabsList;

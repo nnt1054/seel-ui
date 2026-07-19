@@ -2,10 +2,9 @@ import {
     useEffect, useState, useContext,
     useRef, useMemo, memo,
 } from 'react';
-import { createStore, useStore } from 'zustand'
 import styled from 'styled-components';
+import { createStore, useStore } from 'zustand'
 
-import { Column } from '@components/Column/Column';
 import { useActiveIndex } from '@hooks/useActiveIndex/useActiveIndex';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
 import { withActiveNodeContainer, useActiveNodeContainer } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
@@ -13,6 +12,10 @@ import { useDispatchActiveNodeEvent } from '@hooks/useDispatchActiveNodeEvent/us
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
 
+const StyledActiveList = styled.div`
+    display: flex;
+    flex-direction: column;
+`
 export const ActiveList = withActiveNodeContainer((props) => {
 	const {
         ref,
@@ -24,6 +27,7 @@ export const ActiveList = withActiveNodeContainer((props) => {
         disableJump = false,
 
         children,
+        ...others
 	} = props;
 
     const maxIndex = Number.isInteger(_maxIndex)
@@ -63,17 +67,13 @@ export const ActiveList = withActiveNodeContainer((props) => {
     }
 
     return (
-        <Column
+        <StyledActiveList
             ref={ ref }
             onClick={ onClick }
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: hasFocus ? '12px' : '8px',
-            }}
+            { ...others }
         >
             { props.children }
-        </Column>
+        </StyledActiveList>
     )
 })
 

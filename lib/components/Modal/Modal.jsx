@@ -1,5 +1,4 @@
 import { useRef, useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { FocusTrap } from 'focus-trap-react';
 
 import {
@@ -21,26 +20,27 @@ export const Modal = withActiveNodeContainer((props) => {
 		childRef,
 		anchorName,
 		isOpen,
+		...others
 	} = props;
 
 	// todo: backdrop that (optionally) closes on click
     
-    useEffect(() => {
-      if (isOpen) {
-      	ref.current.showPopover();
-      	ref.current.focus();
-      } else {
-      	ref.current.hidePopover();
-      }
-    }, [isOpen])
+	useEffect(() => {
+		if (isOpen) {
+			ref.current.showPopover();
+			ref.current.focus();
+		} else {
+			ref.current.hidePopover();
+		}
+	}, [isOpen])
 
-    const { childrenRef, activeNode } = useActiveNodeContainer();
-    useDispatchActiveNodeEvent({
-        ref,
-        childrenRef,
-        activeNode,
-        events: ['up', 'down', 'left', 'right', 'confirm'],
-    });
+	const { childrenRef, activeNode } = useActiveNodeContainer();
+	useDispatchActiveNodeEvent({
+		ref,
+		childrenRef,
+		activeNode,
+		events: ['up', 'down', 'left', 'right', 'confirm'],
+	});
 
 	return (
 		<FocusTrap
@@ -60,6 +60,7 @@ export const Modal = withActiveNodeContainer((props) => {
 			<Dialog
 				ref={ ref }
 				anchorName={ anchorName }
+				{ ...others }
 			>
 				{ children }
 			</Dialog>

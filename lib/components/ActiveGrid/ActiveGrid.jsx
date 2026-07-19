@@ -2,16 +2,19 @@ import {
     useEffect, useState, useContext,
     useRef, useMemo, memo,
 } from 'react';
-import { createStore, useStore } from 'zustand'
 import styled from 'styled-components';
+import { createStore, useStore } from 'zustand';
 
-import { Grid } from '@components/Grid/Grid';
 import { useActiveGridIndex } from '@hooks/useActiveGridIndex/useActiveGridIndex';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
 import { withActiveNodeContainer, useActiveNodeContainer } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 import { useDispatchActiveNodeEvent } from '@hooks/useDispatchActiveNodeEvent/useDispatchActiveNodeEvent';
 
 
+const StyledActiveGrid = styled.div`
+    display: grid;
+    grid-template-columns: ${props => `repeat(${props.$columns}, 1fr)`};
+`
 export const ActiveGrid = withActiveNodeContainer((props) => {
 	const {
         ref,
@@ -21,6 +24,7 @@ export const ActiveGrid = withActiveNodeContainer((props) => {
         maxIndex: _maxIndex,
         initialIndex = 0,
         children,
+        ...others
 	} = props;
 
     const maxIndex = Number.isInteger(_maxIndex)
@@ -58,13 +62,14 @@ export const ActiveGrid = withActiveNodeContainer((props) => {
     }
 
     return (
-        <Grid
+        <StyledActiveGrid
             ref={ ref }
             onClick={ onClick }
-            columns={ columns }
+            $columns={ columns }
+            { ...others }
         >
             { props.children }
-        </Grid>
+        </StyledActiveGrid>
     )
 })
 
