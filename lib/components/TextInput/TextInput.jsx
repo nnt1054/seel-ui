@@ -55,11 +55,7 @@ export const TextInput = withActiveNodeContainer((props) => {
 		<input
 			ref={ ref }
 			onKeyDown={ onKeyDown }
-			style={{
-				border: '4px solid',
-				borderRadius: '8px',
-				borderColor: hasFocus ? 'blue' : 'black',
-			}}
+			data-focused={ hasFocus ? "" : null }
 			{ ...others }
 		/>
 	)
