@@ -21,19 +21,6 @@ export default {
   },
   render: (props) => {
     const ref = useRef();
-
-    // note: no reason to clean this up atm leave it be
-    // until we decide how we want to render buttons for
-    // storybook very specifically
-    const dispatchEvent = (event) => {
-      return () => { ref.current?.dispatchEvent(new Event(event)) }
-    }
-    const up = dispatchEvent('up');
-    const down = dispatchEvent('down');
-    const left = dispatchEvent('left');
-    const right = dispatchEvent('right');
-    const confirm = dispatchEvent('confirm');
-
     return (
       <InputProvider inputRef={ ref }>
         <ActiveList
@@ -58,11 +45,6 @@ export default {
           <RangeInput key={ 8 } node={ 8 } />
           <CheckboxInput key={ 9 } node={ 9 } />
         </ActiveList>
-        <button onClick={ left }> left </button>
-        <button onClick={ right }> right </button>
-        <button onClick={ up }> up </button>
-        <button onClick={ down }> down </button>
-        <button onClick={ confirm }> confirm </button>
       </InputProvider>
     )
   }

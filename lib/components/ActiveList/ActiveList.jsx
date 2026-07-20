@@ -92,6 +92,8 @@ export const ActiveListItem = withActiveNodeContainer((props) => {
         children,
     } = props;
 
+    console.log('rerender');
+
     const { hasFocus, setActiveNode } = useActiveNode({ ref, node });
 
     const [count, setCount] = useState(0);
@@ -116,7 +118,9 @@ export const ActiveListItem = withActiveNodeContainer((props) => {
     return (
         <div
             ref={ ref }
-            style={{ fontWeight: hasFocus ? 'bold' : 'normal' }}
+            style={{
+                fontWeight: hasFocus ? 'bold' : 'normal',
+            }}
             onClick={ onClick }
         >
             { markup }

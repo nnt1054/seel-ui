@@ -3,6 +3,7 @@ import { fn } from 'storybook/test';
 
 import { ActiveGrid } from './ActiveGrid';
 import { ActiveListItem } from '@components/ActiveList/ActiveList';
+import { InputProvider } from '@providers/InputProvider/InputProvider';
 
 
 export default {
@@ -15,24 +16,12 @@ export default {
   },
   render: (props) => {
     const ref = useRef();
-
-    // note: no reason to clean this up atm leave it be
-    // until we decide how we want to render buttons for
-    // storybook very specifically
-    const dispatchEvent = (event) => {
-      return () => { ref.current?.dispatchEvent(new Event(event)) }
-    }
-    const up = dispatchEvent('up');
-    const down = dispatchEvent('down');
-    const left = dispatchEvent('left');
-    const right = dispatchEvent('right');
-    const confirm = dispatchEvent('confirm');
-
     return (
-      <>
+      <InputProvider inputRef={ ref }>
         <ActiveGrid
           ref={ ref }
           columns={ 5 }
+          hasFocus={ true }
         >
           {
             Array(25).fill(0).map((_, i) => {
@@ -42,12 +31,7 @@ export default {
             })
           }
         </ActiveGrid>
-        <button onClick={ left }> left </button>
-        <button onClick={ right }> right </button>
-        <button onClick={ up }> up </button>
-        <button onClick={ down }> down </button>
-        <button onClick={ confirm }> confirm </button>
-      </>
+      </InputProvider>
     )
   }
 };

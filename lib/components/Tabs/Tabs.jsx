@@ -108,11 +108,16 @@ export const Tabs = withActiveNodeContainer((props) => {
 
 const TabsList = memo((props) => {
 	const {
+		position = 'up',
+		orientation = 'horizontal', // or 'vertical'
 		children,
+		...others
 	} = props;
 
 	const store = useContext(TabsContext);
 	const maxIndex = useStore(store, state => state.maxIndex);
+
+	// todo: need to declare its position in the tabs context
 
 	return (
 		<ActiveGroup
@@ -120,6 +125,7 @@ const TabsList = memo((props) => {
 			adjacentNodes={{ down: 2 }}
 			maxIndex={ maxIndex }
 			disableJump={ true }
+			{ ...others }
 		>
 			{ children }
 		</ActiveGroup>

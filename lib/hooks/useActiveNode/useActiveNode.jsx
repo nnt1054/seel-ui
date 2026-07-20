@@ -8,7 +8,9 @@ export const useActiveNode = ({ ref, node }) => {
     const store = useContext(ActiveNodeContext);
     if (!store) return {};
 
-    // top level component has no parent store
+    // note: top level node can have a controlled hasFocus prop
+    // if we need it pull it from `store` but be mindful of
+    // variable names
     const parent = useStore(store, state => state.parent);
     if (!parent) return {};
 

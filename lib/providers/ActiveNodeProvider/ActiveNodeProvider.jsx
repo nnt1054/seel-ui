@@ -8,7 +8,6 @@ import { createStore, useStore } from 'zustand'
 
 export const ActiveNodeContext = createContext(null);
 
-
 const createNodeContainerStore = (props) => {
     const {
         childrenRef,
@@ -63,28 +62,36 @@ const registerNode = ({ ref, node }) => {
 }
 
 export const withActiveNodeContainer = (WrappedComponent) => {
-    const Component = (props) => {
+    const Component = memo((props) => {
         const {
             ref = useRef(),
             node,
             initial,
+            hasFocus = false,
+            ...others
         } = props;
 
         const parent = registerNode({ ref, node });
         const store = createNodeContainer({ initial, parent });
+
+        useEffect(() => {
+            const { setHasFocus } = store.getState();
+            setHasFocus(hasFocus);
+        }, [hasFocus])
+
         return (
             <ActiveNodeContext.Provider value={ store }>
                 <WrappedComponent
-                    {...props}
+                    {...others}
                     ref={ ref }
+                    node={ node }
                 />
             </ActiveNodeContext.Provider>
         );
-    };
+    });
 
     return Component;
 }
-
 
 export const useActiveNodeContainer = (selector) => {
     const store = useContext(ActiveNodeContext);

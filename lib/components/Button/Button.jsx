@@ -2,7 +2,6 @@ import { useRef } from 'react';
 
 import {
 	withActiveNodeContainer,
-	useActiveNodeContainer,
 } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
@@ -26,8 +25,12 @@ export const Button = withActiveNodeContainer((props) => {
     })
 
 	return (
-		<button ref={ ref } onClick={ callbacks.confirm } { ...others }>
-			{ hasFocus ? 'focused ' : 'blurred '}
+		<button
+			ref={ ref }
+			onClick={ callbacks.confirm }
+			data-focused={ hasFocus ? "" : null }
+			{ ...others }
+		>
 			{ children }
 		</button>
 	)

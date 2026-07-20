@@ -34,11 +34,6 @@ export const ActiveContainer = withActiveNodeContainer((props) => {
         events,
     })
 
-    useEventListeners(ref, {
-    	focus: () => { setHasFocus(true) },
-    	blur: () => { setHasFocus(false) },
-    })
-
 	return (
 		<>
 			<div ref={ ref } />

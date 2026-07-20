@@ -10,32 +10,26 @@ import { InputProvider } from '@providers/InputProvider/InputProvider';
 export default {
   title: 'Navigation/ActiveContainer',
   component: ActiveContainer,
-  args: {},
-  argTypes: {},
+  args: {
+    hasFocus: true,
+  },
+  argTypes: {
+    hasFocus: {
+      control: 'boolean'
+    },
+  },
   parameters: {
     layout: 'centered',
   },
   render: (props) => {
-    const ref = useRef();
+    const { hasFocus } = props;
 
-    // note: no reason to clean this up atm leave it be
-    // until we decide how we want to render buttons for
-    // storybook very specifically
-    const dispatchEvent = (event) => {
-      return () => { ref.current?.dispatchEvent(new Event(event)) }
-    }
-    const up = dispatchEvent('up');
-    const down = dispatchEvent('down');
-    const left = dispatchEvent('left');
-    const right = dispatchEvent('right');
-    const confirm = dispatchEvent('confirm');
-    const focus = dispatchEvent('focus');
-    const blur = dispatchEvent('blur');
+    const ref = useRef();
     const initial = 'list1';
 
     return (
       <InputProvider inputRef={ ref }>
-        <ActiveContainer ref={ ref } initial={ initial }>
+        <ActiveContainer ref={ ref } initial={ initial } hasFocus={ hasFocus }>
           <div style={{ display: 'flex', flexDirection: 'row', gap: '24px' }}>
             <ActiveList
               node={ 'list1' }
@@ -68,13 +62,6 @@ export default {
             </ActiveGrid>
           </div>
         </ActiveContainer>
-        <button onClick={ left }> left </button>
-        <button onClick={ right }> right </button>
-        <button onClick={ up }> up </button>
-        <button onClick={ down }> down </button>
-        <button onClick={ confirm }> confirm </button>
-        <button onClick={ focus }> focus </button>
-        <button onClick={ blur }> blur </button>
       </InputProvider>
     )
   }
