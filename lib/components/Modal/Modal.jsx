@@ -5,6 +5,7 @@ import {
 	withActiveNodeContainer,
 	useActiveNodeContainer,
 } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
+import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
 import { Dialog } from '@components/Dialog/Dialog';
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 import {
@@ -16,8 +17,7 @@ import {
 export const Modal = withActiveNodeContainer((props) => {
 	const {
 		ref,
-		children,
-		childRef,
+		node,
 		anchorName,
 		isOpen,
 		...others
@@ -33,8 +33,10 @@ export const Modal = withActiveNodeContainer((props) => {
 			ref.current.hidePopover();
 		}
 	}, [isOpen])
-
+	
+	const { hasFocus } = useActiveNode({ ref, node });
 	const { childrenRef, activeNode } = useActiveNodeContainer();
+
 	useDispatchActiveNodeEvent({
 		ref,
 		childrenRef,
@@ -59,11 +61,10 @@ export const Modal = withActiveNodeContainer((props) => {
 		>
 			<Dialog
 				ref={ ref }
+				data-focused={ hasFocus ? "" : null }
 				anchorName={ anchorName }
 				{ ...others }
-			>
-				{ children }
-			</Dialog>
+			/>
 		</FocusTrap>
 	)
 })

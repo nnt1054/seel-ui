@@ -12,7 +12,7 @@ import {
 } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
 import { Column } from '@components/Column/Column';
-import { ActiveGroup } from '@components/ActiveGroup/ActiveGroup';
+import { ActiveList } from '@components/ActiveList/ActiveList';
 import { ActiveListItem } from '@components/ActiveList/ActiveList';
 import { useDispatchActiveNodeEvent } from '@hooks/useDispatchActiveNodeEvent/useDispatchActiveNodeEvent';
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
@@ -68,7 +68,7 @@ export const Tabs = withActiveNodeContainer((props) => {
         events: ['left', 'right', 'up', 'down', 'confirm'],
     })
 
-    const callbacks = useEventListeners(ref, {
+    useEventListeners(ref, {
     	'cycleR': () => { setActiveIndex((activeIndex + 1) % maxIndex) },
     	'cycleL': () => { setActiveIndex((activeIndex - 1 + maxIndex) % maxIndex) },
     })
@@ -92,8 +92,6 @@ export const Tabs = withActiveNodeContainer((props) => {
 
     return (
 		<TabsContext.Provider value={ store }>
-			<button onClick={ callbacks.cycleL }> -1 </button>
-			<button onClick={ callbacks.cycleR }> +1 </button>
 	    	<StyledTabs
 	    		ref={ ref }
 	    		onClick={() => { setParentActiveNode(node) }}
@@ -120,15 +118,16 @@ const TabsList = memo((props) => {
 	// todo: need to declare its position in the tabs context
 
 	return (
-		<ActiveGroup
+		<ActiveList
 			node={ 1 }
 			adjacentNodes={{ down: 2 }}
 			maxIndex={ maxIndex }
 			disableJump={ true }
+			orientation={ 'horizontal' }
 			{ ...others }
 		>
 			{ children }
-		</ActiveGroup>
+		</ActiveList>
 	)
 })
 
@@ -180,8 +179,30 @@ const TabsPanel = (props) => {
 	)
 }
 
+const TabsCycleButton = (props) => {
+	const {
+		direction = 'left',
+		...others
+	} = props;
+
+	const store = useContext(TabsContext);
+	const { activeIndex, setActiveIndex, maxIndex } = useStore(store);
+
+	const cycleR = () => { setActiveIndex((activeIndex + 1) % maxIndex) };
+	const cycleL = () => { setActiveIndex((activeIndex - 1 + maxIndex) % maxIndex) };
+	const onClick = (direction == 'left') ? cycleL : cycleR;
+
+    return (
+    	<button
+    		onClick={ onClick }
+    		{ ...others }
+    	/>
+    )
+}
+
 Tabs.Panel = TabsPanel;
 Tabs.List = TabsList;
 Tabs.Tab = TabsTab;
+Tabs.CycleButton = TabsCycleButton;
 
 export default Tabs;

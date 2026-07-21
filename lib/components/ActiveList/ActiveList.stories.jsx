@@ -25,6 +25,8 @@ export default {
       <InputProvider inputRef={ ref }>
         <ActiveList
           ref={ ref }
+          orientation={ 'vertical' }
+          hasFocus={ true }
         >
           {
             ...Array(5).fill(0).map((_, i) => {

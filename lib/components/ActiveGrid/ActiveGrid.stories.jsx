@@ -20,8 +20,8 @@ export default {
       <InputProvider inputRef={ ref }>
         <ActiveGrid
           ref={ ref }
-          columns={ 5 }
           hasFocus={ true }
+          columns={ 5 }
         >
           {
             Array(25).fill(0).map((_, i) => {

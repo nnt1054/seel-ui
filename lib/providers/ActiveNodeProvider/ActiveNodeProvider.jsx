@@ -67,7 +67,7 @@ export const withActiveNodeContainer = (WrappedComponent) => {
             ref = useRef(),
             node,
             initial,
-            hasFocus = false,
+            hasFocus,
             ...others
         } = props;
 
@@ -76,7 +76,7 @@ export const withActiveNodeContainer = (WrappedComponent) => {
 
         useEffect(() => {
             const { setHasFocus } = store.getState();
-            setHasFocus(hasFocus);
+            if (typeof hasFocus == 'boolean') setHasFocus(hasFocus);
         }, [hasFocus])
 
         return (

@@ -9,7 +9,7 @@ import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
 
 export default {
-  title: 'Layout/Modal',
+  title: 'Navigation/Modal',
   component: Modal,
   args: {},
   argTypes: {},
@@ -19,7 +19,6 @@ export default {
   render: (props) => {
     const ref = useRef();
     const anchorName = useDashedIdent();
-
     const initial = 'default';
 
     const [isOpen, setIsOpen] = useState(false);
@@ -33,12 +32,13 @@ export default {
         <Modal
           ref={ ref }
           initial={ initial }
+          hasFocus={ true }
           anchorName={ anchorName }
           isOpen={ isOpen }
         >
             <ActiveList node={ initial }>
               {
-                Array(5).fill(0).map((_, i) => {
+                ...Array(5).fill(0).map((_, i) => {
                   return (
                     <ActiveListItem key={ i } node={ i } />
                   )

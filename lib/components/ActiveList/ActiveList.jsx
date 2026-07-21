@@ -14,7 +14,14 @@ import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
 const StyledActiveList = styled.div`
     display: flex;
-    flex-direction: column;
+
+    &[data-orientation='vertical'] {
+        flex-direction: column;
+    }
+
+    &[data-orientation='horizontal'] {
+        flex-direction: row;
+    }
 `
 export const ActiveList = withActiveNodeContainer((props) => {
 	const {
@@ -23,6 +30,7 @@ export const ActiveList = withActiveNodeContainer((props) => {
         adjacentNodes = {},
         maxIndex: _maxIndex,
         initialIndex = 0,
+        orientation = 'vertical', // or 'horizontal'
         disableWrap = false,
         disableJump = false,
 
@@ -33,6 +41,7 @@ export const ActiveList = withActiveNodeContainer((props) => {
     const maxIndex = Number.isInteger(_maxIndex)
         ? _maxIndex
         : children.length;
+    const isColumn = (orientation == 'vertical')
 
     const {
         childrenRef,
@@ -48,7 +57,7 @@ export const ActiveList = withActiveNodeContainer((props) => {
         setActiveIndex,
         maxIndex,
         initialIndex,
-        isColumn: true,
+        isColumn,
         disableWrap,
         disableJump,
         adjacentNodes,
@@ -59,7 +68,9 @@ export const ActiveList = withActiveNodeContainer((props) => {
         ref,
         childrenRef,
         activeNode: activeIndex,
-        events: ['left', 'right', 'confirm']
+        events: isColumn
+            ? ['left', 'right', 'confirm']
+            : ['up', 'down', 'confirm'],
     })
 
     const onClick = () => {
@@ -70,6 +81,8 @@ export const ActiveList = withActiveNodeContainer((props) => {
         <StyledActiveList
             ref={ ref }
             onClick={ onClick }
+            data-focused={ hasFocus ? "" : null }
+            data-orientation={ isColumn ? 'vertical' : 'horizontal' }
             { ...others }
         >
             { props.children }
@@ -91,8 +104,6 @@ export const ActiveListItem = withActiveNodeContainer((props) => {
 
         children,
     } = props;
-
-    console.log('rerender');
 
     const { hasFocus, setActiveNode } = useActiveNode({ ref, node });
 
@@ -118,6 +129,7 @@ export const ActiveListItem = withActiveNodeContainer((props) => {
     return (
         <div
             ref={ ref }
+            data-focused={ hasFocus ? "" : null }
             style={{
                 fontWeight: hasFocus ? 'bold' : 'normal',
             }}
