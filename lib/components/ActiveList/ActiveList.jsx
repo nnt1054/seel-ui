@@ -5,9 +5,10 @@ import {
 import styled from 'styled-components';
 import { createStore, useStore } from 'zustand'
 
-import { useActiveIndex } from '@hooks/useActiveIndex/useActiveIndex';
+import { withActiveNodeContainer } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
+import { useActiveNodeContainer } from '@hooks/useActiveNodeContainer/useActiveNodeContainer';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
-import { withActiveNodeContainer, useActiveNodeContainer } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
+import { useActiveIndex } from '@hooks/useActiveIndex/useActiveIndex';
 import { useDispatchActiveNodeEvent } from '@hooks/useDispatchActiveNodeEvent/useDispatchActiveNodeEvent';
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
@@ -49,7 +50,7 @@ export const ActiveList = withActiveNodeContainer((props) => {
         setActiveNode: setActiveIndex,
     } = useActiveNodeContainer();
 
-    const { hasFocus, setActiveNode } = useActiveNode({ ref, node });
+    const { hasFocus, setActiveNode, setAsActive } = useActiveNode({ ref, node });
 
     useActiveIndex({
         ref,
@@ -74,7 +75,8 @@ export const ActiveList = withActiveNodeContainer((props) => {
     })
 
     const onClick = () => {
-        setActiveNode?.(node)
+        // setActiveNode?.(node)
+        setAsActive();
     }
 
     return (
@@ -105,7 +107,7 @@ export const ActiveListItem = withActiveNodeContainer((props) => {
         children,
     } = props;
 
-    const { hasFocus, setActiveNode } = useActiveNode({ ref, node });
+    const { hasFocus, setActiveNode, setAsActive } = useActiveNode({ ref, node });
 
     const [count, setCount] = useState(0);
     const callbacks = useEventListeners(ref, {
@@ -117,7 +119,7 @@ export const ActiveListItem = withActiveNodeContainer((props) => {
 
     const onClick = () => {
         callbacks.confirm();
-        setActiveNode(node);
+        setAsActive();
     }
 
     useEffect(() => {

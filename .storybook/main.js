@@ -3,9 +3,10 @@
 /** @type { import('@storybook/react-vite').StorybookConfig } */
 const config = {
   "stories": [
+    "../docs/Introduction.mdx",
+    "../docs/**/*.mdx",
     "../lib/**/*.mdx",
     "../lib/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-    "../stories/**/*.stories.@(js|jsx|mjs|ts|tsx|mdx)",
   ],
   "addons": ["@storybook/addon-docs"],
   "framework": "@storybook/react-vite"

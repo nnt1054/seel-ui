@@ -1,47 +1,34 @@
 import {
     useEffect, useState, useRef,
-    useMemo, memo, createContext,
-    useContext,
+    useContext, createContext, memo,
 } from 'react';
-import { createStore, useStore } from 'zustand'
+import { createStore, useStore } from 'zustand';
 
 
 export const ActiveNodeContext = createContext(null);
 
 const createNodeContainerStore = (props) => {
     const {
+        node,
         childrenRef,
         initial,
         parent,
+        setAsActive,
     } = props;
 
     return createStore()((set) => ({
+        node,
         childrenRef,
         parent,
+        setAsActive,
+
+        // children props;
         activeNode: initial,
         setActiveNode: (activeNode) => set(state => ({ activeNode })),
 
-        // todo: need external flagging system for this
-        // any top level container will default to true
-        // cant do this via prop so need to expose some
-        // api or event listener
         hasFocus: true,
         setHasFocus: (hasFocus) => set(state => ({ hasFocus })),
     }))
-}
-
-const createNodeContainer = (props = {}) => {
-	const {
-        initial,
-        parent,
-	} = props;
-
-    const childrenRef = useRef(new Map());
-    const [store] = useState(
-        () => createNodeContainerStore({ childrenRef, initial, parent, })
-    );
-
-    return store;
 }
 
 const registerNode = ({ ref, node }) => {
@@ -61,6 +48,36 @@ const registerNode = ({ ref, node }) => {
     return store;
 }
 
+const createNodeContainer = (props = {}) => {
+	const {
+        node,
+        initial,
+        parent,
+	} = props;
+
+    const setAsActive = () => {
+        if (!parent) return;
+        const {
+            setActiveNode,
+            setAsActive: setParentAsActive,
+        } = parent.getState();
+        setActiveNode(node);
+        setParentAsActive();
+    }
+    const childrenRef = useRef(new Map());
+    const [store] = useState(
+        () => createNodeContainerStore({
+            node,
+            childrenRef,
+            initial,
+            parent,
+            setAsActive,
+        })
+    );
+
+    return store;
+}
+
 export const withActiveNodeContainer = (WrappedComponent) => {
     const Component = memo((props) => {
         const {
@@ -72,8 +89,9 @@ export const withActiveNodeContainer = (WrappedComponent) => {
         } = props;
 
         const parent = registerNode({ ref, node });
-        const store = createNodeContainer({ initial, parent });
+        const store = createNodeContainer({ node, initial, parent });
 
+        // for manually controlled hasFocus
         useEffect(() => {
             const { setHasFocus } = store.getState();
             if (typeof hasFocus == 'boolean') setHasFocus(hasFocus);
@@ -91,10 +109,4 @@ export const withActiveNodeContainer = (WrappedComponent) => {
     });
 
     return Component;
-}
-
-export const useActiveNodeContainer = (selector) => {
-    const store = useContext(ActiveNodeContext);
-    if (!store) throw new Error('Missing ActiveNodeContext.Provider in the tree')
-    return useStore(store, selector)
 }

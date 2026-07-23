@@ -5,9 +5,10 @@ import {
 import styled from 'styled-components';
 import { createStore, useStore } from 'zustand';
 
-import { useActiveGridIndex } from '@hooks/useActiveGridIndex/useActiveGridIndex';
+import { withActiveNodeContainer } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
+import { useActiveNodeContainer } from '@hooks/useActiveNodeContainer/useActiveNodeContainer';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
-import { withActiveNodeContainer, useActiveNodeContainer } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
+import { useActiveGridIndex } from '@hooks/useActiveGridIndex/useActiveGridIndex';
 import { useDispatchActiveNodeEvent } from '@hooks/useDispatchActiveNodeEvent/useDispatchActiveNodeEvent';
 
 
@@ -58,7 +59,7 @@ export const ActiveGrid = withActiveNodeContainer((props) => {
     })
 
     const onClick = () => {
-        setActiveNode?.(node);
+        // setActiveNode?.(node);
     }
 
     return (

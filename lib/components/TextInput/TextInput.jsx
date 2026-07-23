@@ -1,9 +1,7 @@
 import { useRef } from 'react';
 
-import {
-	withActiveNodeContainer,
-	useActiveNodeContainer,
-} from '@providers/ActiveNodeProvider/ActiveNodeProvider';
+import { withActiveNodeContainer } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
+import { useActiveNodeContainer } from '@hooks/useActiveNodeContainer/useActiveNodeContainer';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 import { KeyCodes } from '@constants';

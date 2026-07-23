@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { handleAdjacentNode } from '@utils';
+
 
 export const useActiveGridIndex = (props) => {
     const {
@@ -21,7 +23,7 @@ export const useActiveGridIndex = (props) => {
     // todo: "0" should be a valid adjacentNode
     const up = () => {
         if (activeIndex < columns && adjacentNodes.up) {
-            setActiveNode(adjacentNodes.up);
+            handleAdjacentNode(adjacentNodes.up, setActiveNode);
         } else {
             let newIndex = activeIndex - columns;
             if (newIndex < 0) {
@@ -37,7 +39,7 @@ export const useActiveGridIndex = (props) => {
 
     const down = () => {
         if (activeIndex >= (maxIndex - columns) && adjacentNodes.down) {
-            setActiveNode(adjacentNodes.down);
+            handleAdjacentNode(adjacentNodes.down, setActiveNode);
         } else {
             const newIndex = activeIndex + columns;
             if (newIndex >= maxIndex) {
@@ -50,7 +52,7 @@ export const useActiveGridIndex = (props) => {
 
     const left = () => {
         if ((activeIndex % columns) == 0 && adjacentNodes.left) {
-            setActiveNode(adjacentNodes.left);
+            handleAdjacentNode(adjacentNodes.left, setActiveNode);
         } else {
             const newIndex = (activeIndex - 1 + maxIndex) % maxIndex;
             setActiveIndex(newIndex);
@@ -59,7 +61,7 @@ export const useActiveGridIndex = (props) => {
 
     const right = () => {
         if ((activeIndex % columns) == (columns - 1) && adjacentNodes.right) {
-            setActiveNode(adjacentNodes.right);
+            handleAdjacentNode(adjacentNodes.right, setActiveNode);
         } else {
             const newIndex = (activeIndex + 1) % maxIndex;
             setActiveIndex(newIndex);

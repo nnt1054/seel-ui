@@ -6,10 +6,8 @@ import {
 import styled from 'styled-components';
 import { createStore, useStore } from 'zustand';
 
-import {
-	withActiveNodeContainer,
-	useActiveNodeContainer,
-} from '@providers/ActiveNodeProvider/ActiveNodeProvider';
+import { withActiveNodeContainer } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
+import { useActiveNodeContainer } from '@hooks/useActiveNodeContainer/useActiveNodeContainer';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
 import { Column } from '@components/Column/Column';
 import { ActiveList } from '@components/ActiveList/ActiveList';

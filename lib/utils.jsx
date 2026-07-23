@@ -122,3 +122,11 @@ export const getNavigationCommands = (ref) => {
 
     return commands;
 }
+
+export const handleAdjacentNode = (adjacentNode, callback) => {
+    if (typeof adjacentNode == 'function') {
+        adjacentNode()
+    } else if (typeof adjacentNode == 'string') {
+        callback(adjacentNode);
+    }
+}

@@ -1,10 +1,8 @@
 import { useRef, useEffect, useState } from 'react';
 import { FocusTrap } from 'focus-trap-react';
 
-import {
-	withActiveNodeContainer,
-	useActiveNodeContainer,
-} from '@providers/ActiveNodeProvider/ActiveNodeProvider';
+import { withActiveNodeContainer } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
+import { useActiveNodeContainer } from '@hooks/useActiveNodeContainer/useActiveNodeContainer';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
 import { Dialog } from '@components/Dialog/Dialog';
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';

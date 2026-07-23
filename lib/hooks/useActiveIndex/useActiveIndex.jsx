@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 
+import { handleAdjacentNode } from '@utils';
+
 
 export const useActiveIndex = (props) => {
     const {
@@ -18,7 +20,7 @@ export const useActiveIndex = (props) => {
 
     const incrementIndex = (adjacentNode) => {
         if (activeIndex >= (maxIndex - 1) && adjacentNode) {
-            setActiveNode(adjacentNode);
+            handleAdjacentNode(adjacentNode, setActiveNode);
         } else {
             const newIndex = disableWrap
                 ? Math.min(activeIndex + 1, maxIndex - 1)
@@ -29,7 +31,7 @@ export const useActiveIndex = (props) => {
 
     const decrementIndex = (adjacentNode) => {
         if (activeIndex <= 0 && adjacentNode) {
-            setActiveNode(adjacentNode);
+            handleAdjacentNode(adjacentNode, setActiveNode);
         } else {
             const newIndex = disableWrap
                 ? Math.max(activeIndex - 1, 0)
@@ -47,7 +49,7 @@ export const useActiveIndex = (props) => {
             }
         } else {
             if (adjacentNodes.up) {
-                setActiveNode(adjacentNodes.up);
+                handleAdjacentNode(adjacentNode, setActiveNode);
             } else if (!disableJump) {
                 const jumpIndex = isReverse ? maxIndex - 1 : 0;
                 setActiveIndex(jumpIndex);
@@ -64,7 +66,7 @@ export const useActiveIndex = (props) => {
             }
         } else {
             if (adjacentNodes.down) {
-                setActiveNode(adjacentNodes.down);
+                handleAdjacentNode(adjacentNode, setActiveNode);
             } else if (!disableJump) {
                 const jumpIndex = isReverse ? 0 : maxIndex - 1;
                 setActiveIndex(jumpIndex);
@@ -75,7 +77,7 @@ export const useActiveIndex = (props) => {
     const left = () => {
         if (isColumn) {
             if (adjacentNodes.left) {
-                setActiveNode(adjacentNodes.left);
+                handleAdjacentNode(adjacentNodes.left, setActiveNode);
             } else if (!disableJump) {
                 const jumpIndex = isReverse ? maxIndex - 1 : 0;
                 setActiveIndex(jumpIndex);
@@ -92,7 +94,7 @@ export const useActiveIndex = (props) => {
     const right = () => {
         if (isColumn) {
             if (adjacentNodes.right) {
-                setActiveNode(adjacentNodes.right);
+                handleAdjacentNode(adjacentNodes.right, setActiveNode);
             } else if (!disableJump) {
                 const jumpIndex = isReverse ? 0 : maxIndex - 1;
                 setActiveIndex(jumpIndex);
