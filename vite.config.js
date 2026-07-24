@@ -1,10 +1,14 @@
-import { resolve } from 'node:path'
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { resolve } from 'node:path';
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    tailwindcss(),
+  ],
   build: {
     lib: {
       entry: resolve(import.meta.dirname, 'lib/main.js'),
@@ -27,6 +31,7 @@ export default defineConfig({
       '@providers': '/lib/providers',
       '@constants': '/lib/constants',
       '@utils': '/lib/utils',
+      '@docs': '/docs',
     },
   },
 })

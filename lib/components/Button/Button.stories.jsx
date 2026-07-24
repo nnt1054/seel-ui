@@ -7,6 +7,9 @@ import { ActiveContainer } from '@components/ActiveContainer/ActiveContainer';
 import { Button } from '@components/Button/Button';
 import styles from './Button.module.css';
 
+import { includeTailwind } from '@docs/decorators';
+import { TailwindButton } from './examples/tailwind';
+
 
 export default {
   title: 'Inputs/Button',
@@ -86,6 +89,26 @@ export const CssModule = {
             node={ node }
             { ...others }
           >Button</CssButton>
+        </ActiveContainer>
+      </InputProvider>
+    )
+  },
+}
+
+
+export const Tailwind = {
+  decorators: [includeTailwind],
+  render: (props) => {
+    const { hasFocus, ...others } = props;
+    const ref = useRef();
+    const node = 'button';
+    return (
+      <InputProvider inputRef={ ref }>
+        <ActiveContainer ref={ ref } initial={ node } hasFocus={ hasFocus }>
+          <TailwindButton
+            node={ node }
+            { ...others }
+          >Button</TailwindButton>
         </ActiveContainer>
       </InputProvider>
     )
