@@ -1,14 +1,13 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { fn } from 'storybook/test';
-import styled from 'styled-components';
 
+import { includeTailwind } from '@docs/decorators';
 import { InputProvider } from '@providers/InputProvider/InputProvider';
 import { ActiveContainer } from '@components/ActiveContainer/ActiveContainer';
 import { Button } from '@components/Button/Button';
-import styles from './Button.module.css';
-
-import { includeTailwind } from '@docs/decorators';
 import { TailwindButton } from './examples/tailwind';
+import { CssButton } from './examples/css-modules';
+import { StyledButton } from './examples/styled';
 
 
 export default {
@@ -45,12 +44,6 @@ export const Default = {
   },
 };
 
-
-const StyledButton = styled(Button)`
-  &[data-focused] {
-    background-color: yellow;
-  }
-`
 export const Styled = {
   render: (props) => {
     const { hasFocus, ...others } = props;
@@ -69,14 +62,6 @@ export const Styled = {
   },
 }
 
-const CssButton = (props) => {
-  return (
-    <Button
-      className={styles.Button}
-      {...props}
-    >Button</Button>
-  )
-}
 export const CssModule = {
   render: (props) => {
     const { hasFocus, ...others } = props;
@@ -94,7 +79,6 @@ export const CssModule = {
     )
   },
 }
-
 
 export const Tailwind = {
   decorators: [includeTailwind],
