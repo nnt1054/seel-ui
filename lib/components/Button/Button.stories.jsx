@@ -10,16 +10,35 @@ import { CssButton } from './examples/css-modules';
 import { StyledButton } from './examples/styled';
 
 
+const includeInputProvider = (Story, context) => {
+  const { node, hasFocus } = context.args;
+  const ref = useRef();
+  return (
+    <InputProvider inputRef={ ref }>
+      <ActiveContainer ref={ ref } initial={ node } hasFocus={ hasFocus }>
+        <Story />
+      </ActiveContainer>
+    </InputProvider>
+  )
+}
+
 export default {
   title: 'Inputs/Button',
   component: Button,
   args: {
     onClick: fn(),
+    hasFocus: false,
+    node: 'button',
   },
   argTypes: {
     hasFocus: {
       control: 'boolean'
     },
+    node: {
+      table: {
+        disable: true,
+      },
+    }
   },
   parameters: {
     layout: 'centered',
@@ -27,74 +46,29 @@ export default {
 };
 
 export const Default = {
+  decorators: [includeInputProvider],
   render: (props) => {
-    const { hasFocus, ...others } = props;
-    const ref = useRef();
-    const node = 'button';
-    return (
-      <InputProvider inputRef={ ref }>
-        <ActiveContainer ref={ ref } initial={ node } hasFocus={ hasFocus }>
-          <Button
-            node={ node }
-            { ...others }
-          > Button </Button>
-        </ActiveContainer>
-      </InputProvider>
-    )
+    return <Button { ...props }> Button </Button>
   },
 };
 
 export const Styled = {
+  decorators: [includeInputProvider],
   render: (props) => {
-    const { hasFocus, ...others } = props;
-    const ref = useRef();
-    const node = 'button';
-    return (
-      <InputProvider inputRef={ ref }>
-        <ActiveContainer ref={ ref } initial={ node } hasFocus={ hasFocus }>
-          <StyledButton
-            node={ node }
-            { ...others }
-          >Button</StyledButton>
-        </ActiveContainer>
-      </InputProvider>
-    )
+    return <StyledButton { ...props }> Button </StyledButton>
   },
 }
 
 export const CssModule = {
+  decorators: [includeInputProvider],
   render: (props) => {
-    const { hasFocus, ...others } = props;
-    const ref = useRef();
-    const node = 'button';
-    return (
-      <InputProvider inputRef={ ref }>
-        <ActiveContainer ref={ ref } initial={ node } hasFocus={ hasFocus }>
-          <CssButton
-            node={ node }
-            { ...others }
-          >Button</CssButton>
-        </ActiveContainer>
-      </InputProvider>
-    )
+    return <CssButton { ...props }> Button </CssButton>
   },
 }
 
 export const Tailwind = {
-  decorators: [includeTailwind],
+  decorators: [includeTailwind, includeInputProvider],
   render: (props) => {
-    const { hasFocus, ...others } = props;
-    const ref = useRef();
-    const node = 'button';
-    return (
-      <InputProvider inputRef={ ref }>
-        <ActiveContainer ref={ ref } initial={ node } hasFocus={ hasFocus }>
-          <TailwindButton
-            node={ node }
-            { ...others }
-          >Button</TailwindButton>
-        </ActiveContainer>
-      </InputProvider>
-    )
+    return <TailwindButton { ...props }> Button </TailwindButton>
   },
 }

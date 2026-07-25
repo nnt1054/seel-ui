@@ -6,10 +6,12 @@ const preview = {
        color: /(background|color)$/i,
        date: /Date$/i,
       },
+      disableSaveFromUI: true,
     },
     docs: {
       toc: true,
-    }
+      codePanel: true,
+    },
   },
 };
 
