@@ -4,18 +4,40 @@ import { Button } from '@components/Button/Button';
 
 
 export const StyledButton = styled(Button)`
-  color: #BF4F74;
-  font-size: 1em;
-  margin: 1em;
-  padding: 0.25em 1em;
-  border: 2px solid #BF4F74;
-  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 128px;
+  min-height: 36px;
+  padding: 8px;
+
+  color: white;
+  font-size: 12pt;
+  font-weight: bold;
+
+  border: 4px solid;
+  border-color: transparent;
+  border-radius: 32px;
+  background-color: #4E97FF;
+
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+
+  transition:
+    background-color 0.2s,
+    transform 0.2s,
+    border 0.2s;
+
+  &:hover {
+    background-color: oklch(from #4E97FF calc(l * 0.75) c h);
+    transform: scale(1.04);
+  }
 
   &[data-focused] {
-    outline: 2px solid oklch(14.5% 0 0deg);
-    outline-offset: -1px;
-    background-color: yellow;
-
+    border-color: #FFC067;
   }
 `
 
