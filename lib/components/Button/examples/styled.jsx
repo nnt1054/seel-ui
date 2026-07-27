@@ -18,7 +18,7 @@ export const StyledButton = styled(Button)`
 
   border: 4px solid;
   border-color: transparent;
-  border-radius: 32px;
+  border-radius: 12px;
   background-color: #4E97FF;
 
   cursor: pointer;
