@@ -33,6 +33,7 @@ export const CheckboxInput = withActiveNodeContainer((props) => {
 		<input
 			type="checkbox"
 			ref={ ref }
+			data-focused={ hasFocus ? "" : null }
 			{ ...others }
 		/>
 	)

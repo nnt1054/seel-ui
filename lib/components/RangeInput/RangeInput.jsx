@@ -43,6 +43,7 @@ export const RangeInput = withActiveNodeContainer((props) => {
 		<input
 			type="range"
 			ref={ ref }
+			data-focused={ hasFocus ? "" : null }
 			{ ...others }
 		/>
 	)
