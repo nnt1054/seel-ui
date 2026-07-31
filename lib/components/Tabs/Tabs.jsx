@@ -190,8 +190,11 @@ const TabsCycleButton = (props) => {
 	const cycleL = () => { setActiveIndex((activeIndex - 1 + maxIndex) % maxIndex) };
 	const onClick = (direction == 'left') ? cycleL : cycleR;
 
+	// todo: add keybind label getter
+
     return (
     	<button
+    		data-direction={ direction }
     		onClick={ onClick }
     		{ ...others }
     	/>
