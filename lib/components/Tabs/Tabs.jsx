@@ -18,12 +18,17 @@ import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
 export const TabsContext = createContext(null);
 
-const createTabsContextStore = ({ maxIndex }) => {
+const createTabsContextStore = ({ maxIndex, adjacentNodes }) => {
     return createStore()((set) => ({
         activeIndex: 0,
         setActiveIndex: (activeIndex) => set(state => ({ activeIndex })),
         maxIndex,
         setMaxIndex: (maxIndex) => set(state => ({ maxIndex })),
+        listPositions: {},
+        setListPosition: (node, position) => set(state => {
+        	return { listPositions: { ...state.listPositions, [position]: node } };
+       	}),
+        adjacentNodes,
     }))
 }
 
@@ -45,7 +50,7 @@ export const Tabs = withActiveNodeContainer((props) => {
 		...others
 	} = props;
 
-    const [store] = useState(() => createTabsContextStore({ maxIndex }));
+    const [store] = useState(() => createTabsContextStore({ maxIndex, adjacentNodes }));
 	const { activeIndex, setActiveIndex, setMaxIndex } = useStore(store);
 
     const {
@@ -104,6 +109,7 @@ export const Tabs = withActiveNodeContainer((props) => {
 
 const TabsList = memo((props) => {
 	const {
+		node = 'list',
 		position = 'up',
 		orientation = 'horizontal', // or 'vertical'
 		children,
@@ -112,13 +118,25 @@ const TabsList = memo((props) => {
 
 	const store = useContext(TabsContext);
 	const maxIndex = useStore(store, state => state.maxIndex);
+	const adjacentNodes = useStore(store, state => state.adjacentNodes);
+	const contentPositions = {
+		up: 'down',
+		down: 'up',
+		left: 'right',
+		right: 'left',
+	}
+	const contentPosition = contentPositions[position];
 
 	// todo: need to declare its position in the tabs context
+	useEffect(() => {
+		const { setListPosition } = store.getState();
+		setListPosition(node, position);
+	}, [position]);
 
 	return (
 		<ActiveList
 			node={ 1 }
-			adjacentNodes={{ down: 2 }}
+			adjacentNodes={{ ...adjacentNodes, [contentPosition]: 'content' }}
 			maxIndex={ maxIndex }
 			disableJump={ true }
 			orientation={ 'horizontal' }
@@ -146,6 +164,7 @@ const TabsTab = memo((props) => {
 			node={ node }
 			label={" "}
 			callback={() => { setActiveIndex(node) }}
+            data-active-tab={ isActive ? "" : null }
 		> { children } { isActive ? 'active' : 'not active' }</ActiveListItem>
 	)
 })
@@ -155,6 +174,8 @@ const TabsPanel = (props) => {
 	const { index, children } = props;
 	const store = useContext(TabsContext);
 	const isActive = useStore(store, state => state.activeIndex == index);
+	const adjacentNodes = useStore(store, state => state.adjacentNodes);
+	const listPositions = useStore(store, state => state.listPositions);
 
 	// todo: if tabs list is on the left then adjacentNdoes
 	// should be { left: 1 } appropriately
@@ -168,8 +189,8 @@ const TabsPanel = (props) => {
 
 				// todo: conditional props based on child
 				return cloneElement(child, {
-					node: 2,
-					adjacentNodes: { up: 1 },
+					node: 'content',
+					adjacentNodes: { ...adjacentNodes, ...listPositions },
 				});
 			})
 	      }

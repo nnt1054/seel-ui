@@ -49,7 +49,7 @@ export const useActiveIndex = (props) => {
             }
         } else {
             if (adjacentNodes.up) {
-                handleAdjacentNode(adjacentNode, setActiveNode);
+                handleAdjacentNode(adjacentNodes.up, setActiveNode);
             } else if (!disableJump) {
                 const jumpIndex = isReverse ? maxIndex - 1 : 0;
                 setActiveIndex(jumpIndex);
@@ -66,7 +66,7 @@ export const useActiveIndex = (props) => {
             }
         } else {
             if (adjacentNodes.down) {
-                handleAdjacentNode(adjacentNode, setActiveNode);
+                handleAdjacentNode(adjacentNodes.down, setActiveNode);
             } else if (!disableJump) {
                 const jumpIndex = isReverse ? 0 : maxIndex - 1;
                 setActiveIndex(jumpIndex);

@@ -105,6 +105,7 @@ export const ActiveListItem = withActiveNodeContainer((props) => {
         callback = () => {},
 
         children,
+        ...others
     } = props;
 
     const { hasFocus, setActiveNode, setAsActive } = useActiveNode({ ref, node });
@@ -136,6 +137,7 @@ export const ActiveListItem = withActiveNodeContainer((props) => {
                 fontWeight: hasFocus ? 'bold' : 'normal',
             }}
             onClick={ onClick }
+            { ...others }
         >
             { markup }
             { children }
