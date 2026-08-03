@@ -16,12 +16,15 @@ export const Button = withActiveNodeContainer((props) => {
 		...others
 	} = props;
 
-    const { hasFocus, setActiveNode } = useActiveNode({ ref, node });
+    const { hasFocus, setAsActive } = useActiveNode({ ref, node });
 	const callbacks = useEventListeners(ref, {
         confirm: () => {
-			if (node) setActiveNode?.(node);
+        	setAsActive()
 			onClick()
         },
+
+		// prevent focus on click
+        mousedown: (event) => { event.preventDefault() },
     })
 
 	return (

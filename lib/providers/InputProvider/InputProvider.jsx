@@ -1,7 +1,10 @@
+import { createContext } from 'react';
+
 import { useInputManager } from '@hooks/useInputManager/useInputManager';
 import { KeyCodes } from '@constants';
 import { getNavigationCommands } from '@utils';
 
+export const KeybindsContext = createContext({});
 
 const defaultKeybinds = {
   'confirm': KeyCodes.ENTER,
@@ -33,9 +36,9 @@ export const InputProvider = (props) => {
     })
 
     return (
-        <>
+        <KeybindsContext.Provider value={ keybinds }>
             { children }
-        </>
+        </KeybindsContext.Provider>
     )
 }
 

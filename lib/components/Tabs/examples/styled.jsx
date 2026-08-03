@@ -4,21 +4,11 @@ import { Tabs } from '@components/Tabs/Tabs';
 
 
 export const StyledTabs = styled(Tabs)`
-	width: 64px;
-	padding: 8px;
+	gap: 8px;
 
 	color: black;
+	font-family: sans-serif;
 	font-size: 12pt;
-
-	border: 4px solid;
-	border-color: black;
-	border-radius: 12px;
-	background-color: oklch(from white calc(l * 0.98) c h);
-
-	outline: none;
-	user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
 
 	transition:
 		background-color 0.2s,
@@ -42,7 +32,7 @@ export const StyledCycleButtons = styled(Tabs.CycleButton)`
 	padding: 8px;
 	background-color: black;
 
-	font-family: Comfortaa;
+	font-family: sans-serif;
 	font-size: 8pt;
 	font-weight: bold;
 	color: white;
@@ -65,4 +55,46 @@ export const StyledList = styled(Tabs.List)`
 	justify-content: space-between;
 	align-items: center;
 	gap: 12px;
+`
+
+export const StyledTab = styled(Tabs.Tab)`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	width: 128px;
+	padding: 8px;
+
+	color: black;
+	font-family: sans-serif;
+	font-size: 12pt;
+	font-weight: bold;
+
+	border: 4px solid;
+	border-color: transparent;
+	border-radius: 12px;
+	background-color: #F2F0EF;
+
+	cursor: pointer;
+	user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+
+	transition:
+		background-color 0.2s,
+		transform 0.2s,
+		border 0.2s;
+
+	&:hover {
+		background-color: oklch(from #F2F0EF calc(l * 0.75) c h);
+		transform: scale(1.04);
+	}
+
+	&[data-focused] {
+		border-color: #FFC067;
+	}
+
+	&[data-active-tab] {
+		background-color: #82DFA1;
+	}
 `

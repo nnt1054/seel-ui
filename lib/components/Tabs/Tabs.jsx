@@ -11,7 +11,7 @@ import { useActiveNodeContainer } from '@hooks/useActiveNodeContainer/useActiveN
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
 import { Column } from '@components/Column/Column';
 import { ActiveList } from '@components/ActiveList/ActiveList';
-import { ActiveListItem } from '@components/ActiveList/ActiveList';
+import { Button } from '@components/Button/Button';
 import { useDispatchActiveNodeEvent } from '@hooks/useDispatchActiveNodeEvent/useDispatchActiveNodeEvent';
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
@@ -32,9 +32,6 @@ const createTabsContextStore = ({ maxIndex, adjacentNodes }) => {
     }))
 }
 
-// todo: we might want an orientation prop
-// so that we can figure out adjacentNodes
-// in relation to each other
 const StyledTabs = styled.div`
     display: flex;
     flex-direction: column;
@@ -76,17 +73,15 @@ export const Tabs = withActiveNodeContainer((props) => {
     	'cycleL': () => { setActiveIndex((activeIndex - 1 + maxIndex) % maxIndex) },
     })
 
-    // failsafe when swapping panels while focused on another
-	useEffect(() => {
-		const activeRef = childrenRef.current.get(2);
-		if (!activeRef?.current) setActiveNode(1)
-	}, [activeIndex])
-
-	// failsafe when directionally moving to non-node tabs panel
+	// failsafe when moving to non-node tabs panel
 	useEffect(() => {
 		const activeRef = childrenRef.current.get(activeNode);
-		if (!activeRef?.current) setActiveNode(1)
-	}, [activeNode])
+		if (!activeRef?.current) {
+			const { listPositions } = store.getState();
+			const listNode = Object.values(listPositions)?.[0] || 'list';
+			setActiveNode(listNode);
+		}
+	}, [activeNode, activeIndex])
 
 	// respond to dynamic tab count
 	useEffect(() => {
@@ -105,7 +100,6 @@ export const Tabs = withActiveNodeContainer((props) => {
         </TabsContext.Provider>
     )
 });
-
 
 const TabsList = memo((props) => {
 	const {
@@ -127,7 +121,6 @@ const TabsList = memo((props) => {
 	}
 	const contentPosition = contentPositions[position];
 
-	// todo: need to declare its position in the tabs context
 	useEffect(() => {
 		const { setListPosition } = store.getState();
 		setListPosition(node, position);
@@ -135,7 +128,7 @@ const TabsList = memo((props) => {
 
 	return (
 		<ActiveList
-			node={ 1 }
+			node={ node }
 			adjacentNodes={{ ...adjacentNodes, [contentPosition]: 'content' }}
 			maxIndex={ maxIndex }
 			disableJump={ true }
@@ -147,12 +140,11 @@ const TabsList = memo((props) => {
 	)
 })
 
-
 const TabsTab = memo((props) => {
 	const {
+		ref,
 		node,
-		label,
-		children,
+		...others
 	} = props;
 
 	const store = useContext(TabsContext);
@@ -160,15 +152,17 @@ const TabsTab = memo((props) => {
 	const isActive = useStore(store, state => state.activeIndex == node);
 
 	return (
-		<ActiveListItem
+		<Button
 			node={ node }
 			label={" "}
-			callback={() => { setActiveIndex(node) }}
+			onClick={() => {
+				setActiveIndex(node)
+			}}
             data-active-tab={ isActive ? "" : null }
-		> { children } { isActive ? 'active' : 'not active' }</ActiveListItem>
+            { ...others }
+		/>
 	)
 })
-
 
 const TabsPanel = (props) => {
 	const { index, children } = props;
@@ -177,17 +171,12 @@ const TabsPanel = (props) => {
 	const adjacentNodes = useStore(store, state => state.adjacentNodes);
 	const listPositions = useStore(store, state => state.listPositions);
 
-	// todo: if tabs list is on the left then adjacentNdoes
-	// should be { left: 1 } appropriately
-
 	if (!isActive) return;
 	return (
 		<>
 	      {
 			Children.map(children, (child, index) => {
 				if (!isValidElement(child)) return;
-
-				// todo: conditional props based on child
 				return cloneElement(child, {
 					node: 'content',
 					adjacentNodes: { ...adjacentNodes, ...listPositions },
@@ -211,12 +200,11 @@ const TabsCycleButton = (props) => {
 	const cycleL = () => { setActiveIndex((activeIndex - 1 + maxIndex) % maxIndex) };
 	const onClick = (direction == 'left') ? cycleL : cycleR;
 
-	// todo: add keybind label getter
-
     return (
     	<button
     		data-direction={ direction }
     		onClick={ onClick }
+	        onMouseDown={ event => event.preventDefault() }
     		{ ...others }
     	/>
     )

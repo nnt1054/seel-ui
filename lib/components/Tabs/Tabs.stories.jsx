@@ -4,7 +4,8 @@ import { includeInputProvider } from '@docs/decorators';
 import { Tabs } from './Tabs';
 import { ActiveList, ActiveListItem } from '@components/ActiveList/ActiveList';
 import { ActiveGrid } from '@components/ActiveGrid/ActiveGrid';
-import { StyledList, StyledCycleButtons } from './examples/styled';
+import { StyledTabs, StyledList, StyledCycleButtons, StyledTab } from './examples/styled';
+import { KeybindsContext } from '@providers/InputProvider/InputProvider';
 
 
 export default {
@@ -84,17 +85,16 @@ export const Default = {
 export const Styled = {
   render: (props) => {
     return (
-        <Tabs initial={ 1 } maxIndex={ 4 } { ...props }>
-
+        <StyledTabs initial={ 1 } maxIndex={ 4 } { ...props }>
           <StyledList>
-            <StyledCycleButtons direction={ 'left' }> LB </StyledCycleButtons>
+            <StyledCycleButtons direction={ 'left' }> ⇧Tab </StyledCycleButtons>
             <div style={{ display: 'flex', flexDirection: 'row', gap: '8px', }}>
-              <Tabs.Tab node={ 0 }> Tab 1 </Tabs.Tab>
-              <Tabs.Tab node={ 1 }> Tab 2 </Tabs.Tab>
-              <Tabs.Tab node={ 2 }> Tab 3 </Tabs.Tab>
-              <Tabs.Tab node={ 3 }> Tab 4 </Tabs.Tab>
+              <StyledTab node={ 0 }> Tab 1 </StyledTab>
+              <StyledTab node={ 1 }> Tab 2 </StyledTab>
+              <StyledTab node={ 2 }> Tab 3 </StyledTab>
+              <StyledTab node={ 3 }> Tab 4 </StyledTab>
             </div>
-            <StyledCycleButtons direction={ 'right' }> RB </StyledCycleButtons>
+            <StyledCycleButtons direction={ 'right' }> Tab </StyledCycleButtons>
           </StyledList>
 
           <Tabs.Panel index={ 0 }>
@@ -128,8 +128,7 @@ export const Styled = {
               }
             </ActiveGrid>
           </Tabs.Panel>
-
-        </Tabs>
+        </StyledTabs>
     )
   },
 };
