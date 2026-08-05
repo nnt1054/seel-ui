@@ -93,57 +93,34 @@ export const ActiveList = withActiveNodeContainer((props) => {
 })
 
 
-// this is just an example of a list item
 export const ActiveListItem = withActiveNodeContainer((props) => {
     const {
         ref = useRef(),
         node,
-
-        label,
-
-        onFocus = () => {},
         callback = () => {},
-
-        children,
         ...others
     } = props;
 
     const { hasFocus, setActiveNode, setAsActive } = useActiveNode({ ref, node });
-
-    const [count, setCount] = useState(0);
     const callbacks = useEventListeners(ref, {
-        confirm: () => {
-            setCount(count + 1);
-            callback();
-        },
+        confirm: () => { callback(); },
     })
 
     const onClick = () => {
-        callbacks.confirm();
         setAsActive();
+        callbacks.confirm();
     }
-
-    useEffect(() => {
-        if (hasFocus) onFocus();
-    }, [hasFocus])
-
-    const markup = label ? label : `item ${ node } - ${ count }`
 
     return (
         <div
             ref={ ref }
-            data-focused={ hasFocus ? "" : null }
-            style={{
-                fontWeight: hasFocus ? 'bold' : 'normal',
-            }}
             onClick={ onClick }
+            data-focused={ hasFocus ? "" : null }
             { ...others }
-        >
-            { markup }
-            { children }
-        </div>
+        />
     )
 })
 
+ActiveList.Item = ActiveListItem;
 
 export default ActiveList;

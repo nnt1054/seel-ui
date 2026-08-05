@@ -1,40 +1,70 @@
 import { useRef, useState, useContext, useEffect } from 'react';
 import { fn } from 'storybook/test';
 
+import { includeInputProvider } from '@docs/decorators';
 import { ActiveGrid } from './ActiveGrid';
-import { ActiveListItem } from '@components/ActiveList/ActiveList';
+import { ActiveList } from '@components/ActiveList/ActiveList';
 import { InputProvider } from '@providers/InputProvider/InputProvider';
+import { StyledActiveGrid, StyledActiveGridItem } from './examples/styled';
 
 
 export default {
   title: 'Navigation/ActiveGrid',
   component: ActiveGrid,
-  args: {},
-  argTypes: {},
+  decorators: [includeInputProvider],
+  args: {
+    hasFocus: true,
+    node: 'button',
+    columns: 5,
+  },
+  argTypes: {
+    hasFocus: {
+      control: 'boolean'
+    },
+    node: {
+      table: {
+        disable: true,
+      },
+    },
+  },
   parameters: {
     layout: 'centered',
   },
+};
+
+export const Default = {
   render: (props) => {
-    const ref = useRef();
     return (
-      <InputProvider inputRef={ ref }>
         <ActiveGrid
-          ref={ ref }
-          hasFocus={ true }
           columns={ 5 }
+          { ...props }
         >
           {
             Array(25).fill(0).map((_, i) => {
               return (
-                <ActiveListItem key={ i } node={ i } />
+                <ActiveList.Item key={ i } node={ i }> { i } </ActiveList.Item>
               )
             })
           }
         </ActiveGrid>
-      </InputProvider>
     )
   }
 };
 
-
-export const Default = {};
+export const Styled = {
+  render: (props) => {
+    return (
+        <StyledActiveGrid
+          { ...props }
+        >
+          {
+            Array(25).fill(0).map((_, i) => {
+              return (
+                <StyledActiveGridItem key={ i } node={ i }> { i } </StyledActiveGridItem>
+              )
+            })
+          }
+        </StyledActiveGrid>
+    )
+  }
+};

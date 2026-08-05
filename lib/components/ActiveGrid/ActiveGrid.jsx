@@ -10,7 +10,7 @@ import { useActiveNodeContainer } from '@hooks/useActiveNodeContainer/useActiveN
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
 import { useActiveGridIndex } from '@hooks/useActiveGridIndex/useActiveGridIndex';
 import { useDispatchActiveNodeEvent } from '@hooks/useDispatchActiveNodeEvent/useDispatchActiveNodeEvent';
-
+import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
 const StyledActiveGrid = styled.div`
     display: grid;
@@ -38,7 +38,7 @@ export const ActiveGrid = withActiveNodeContainer((props) => {
         setActiveNode: setActiveIndex,
     } = useActiveNodeContainer();
 
-    const { hasFocus, setActiveNode } = useActiveNode({ ref, node });
+    const { hasFocus, setActiveNode, setAsActive } = useActiveNode({ ref, node });
 
     useActiveGridIndex({
         ref,
@@ -55,11 +55,11 @@ export const ActiveGrid = withActiveNodeContainer((props) => {
         ref,
         childrenRef,
         activeNode: activeIndex,
-        events: ['confirm']
+        events: ['confirm'],
     })
 
     const onClick = () => {
-        // setActiveNode?.(node);
+        setAsActive();
     }
 
     return (
@@ -74,5 +74,35 @@ export const ActiveGrid = withActiveNodeContainer((props) => {
     )
 })
 
+
+export const ActiveGridItem = withActiveNodeContainer((props) => {
+    const {
+        ref = useRef(),
+        node,
+        callback = () => {},
+        ...others
+    } = props;
+
+    const { hasFocus, setActiveNode, setAsActive } = useActiveNode({ ref, node });
+    const callbacks = useEventListeners(ref, {
+        confirm: () => { callback(); },
+    })
+
+    const onClick = () => {
+        setAsActive();
+        callbacks.confirm();
+    }
+
+    return (
+        <div
+            ref={ ref }
+            onClick={ onClick }
+            data-focused={ hasFocus ? "" : null }
+            { ...others }
+        />
+    )
+})
+
+ActiveGrid.Item = ActiveGridItem;
 
 export default ActiveGrid;

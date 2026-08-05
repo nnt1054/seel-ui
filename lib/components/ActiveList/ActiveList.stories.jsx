@@ -1,7 +1,11 @@
 import { useRef, useState, useContext, useEffect } from 'react';
 import { fn } from 'storybook/test';
 
+import { includeInputProvider } from '@docs/decorators';
+
 import { ActiveList, ActiveListItem } from './ActiveList';
+import { StyledActiveList, StyledActiveListItem } from './examples/styled';
+
 import { Button } from '@components/Button/Button';
 import { InputProvider } from '@providers/InputProvider/InputProvider';
 
@@ -14,43 +18,56 @@ import { CheckboxInput } from '@components/CheckboxInput/CheckboxInput';
 export default {
   title: 'Navigation/ActiveList',
   component: ActiveList,
-  args: {},
-  argTypes: {},
+  decorators: [includeInputProvider],
+  args: {
+    hasFocus: true,
+    node: 'button',
+  },
+  argTypes: {
+    hasFocus: {
+      control: 'boolean'
+    },
+    node: {
+      table: {
+        disable: true,
+      },
+    },
+  },
   parameters: {
     layout: 'centered',
   },
+};
+
+
+export const Default = {
   render: (props) => {
-    const ref = useRef();
     return (
-      <InputProvider inputRef={ ref }>
-        <ActiveList
-          ref={ ref }
-          orientation={ 'vertical' }
-          hasFocus={ true }
-        >
-          {
-            ...Array(5).fill(0).map((_, i) => {
-              return (
-                <ActiveListItem key={ i } node={ i } />
-              )
-            })
-          }
-          <Button
-            key={ 5 }
-            node={ 5 }
-            onClick={() => { console.log('hello worled') }}
-          >
-            hello
-          </Button>
-          <TextInput key={ 6 } node={ 6 } />
-          <NumberInput key={ 7 } node={ 7 } />
-          <RangeInput key={ 8 } node={ 8 } />
-          <CheckboxInput key={ 9 } node={ 9 } />
-        </ActiveList>
-      </InputProvider>
+      <ActiveList { ...props }>
+        {
+          ...Array(5).fill(0).map((_, i) => {
+            return (
+              <ActiveListItem key={ i } node={ i }> Item { i } </ActiveListItem>
+            )
+          })
+        }
+      </ActiveList>
     )
   }
 };
 
 
-export const Default = {};
+export const Styled = {
+  render: (props) => {
+    return (
+      <StyledActiveList { ...props }>
+        {
+          ...Array(5).fill(0).map((_, i) => {
+            return (
+              <StyledActiveListItem key={ i } node={ i }> Item { i } </StyledActiveListItem>
+            )
+          })
+        }
+      </StyledActiveList>
+    )
+  }
+};
