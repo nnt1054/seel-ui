@@ -2,14 +2,12 @@ import { useRef, useEffect, useState } from 'react';
 import { FocusTrap } from 'focus-trap-react';
 
 import { withActiveNodeContainer } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
-import { useActiveNodeContainer } from '@hooks/useActiveNodeContainer/useActiveNodeContainer';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
-import { Dialog } from '@components/Dialog/Dialog';
+import { useActiveNodeContainer } from '@hooks/useActiveNodeContainer/useActiveNodeContainer';
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 import {
   useDispatchActiveNodeEvent
 } from '@hooks/useDispatchActiveNodeEvent/useDispatchActiveNodeEvent';
-// import { Backdrop } from '@components/Backdrop/Backdrop';
 
 
 export const Modal = withActiveNodeContainer((props) => {
@@ -18,11 +16,11 @@ export const Modal = withActiveNodeContainer((props) => {
 		node,
 		anchorName,
 		isOpen,
+		setIsOpen,
+		style = {},
 		...others
 	} = props;
 
-	// todo: backdrop that (optionally) closes on click
-    
 	useEffect(() => {
 		if (isOpen) {
 			ref.current.showPopover();
@@ -31,9 +29,13 @@ export const Modal = withActiveNodeContainer((props) => {
 			ref.current.hidePopover();
 		}
 	}, [isOpen])
-	
+
 	const { hasFocus } = useActiveNode({ ref, node });
 	const { childrenRef, activeNode } = useActiveNodeContainer();
+
+	useEventListeners(ref, {
+		close: () => { setIsOpen(false) },
+	})
 
 	useDispatchActiveNodeEvent({
 		ref,
@@ -42,28 +44,31 @@ export const Modal = withActiveNodeContainer((props) => {
 		events: ['up', 'down', 'left', 'right', 'confirm'],
 	});
 
+	useEffect(() => {
+		if (!isOpen) return;
+		const interval = setInterval(() => {
+			const activeElement = document.activeElement;
+			if (!ref.current.contains(activeElement)) {
+				ref.current.focus();
+			}
+		}, 100)
+		return () => {
+			clearInterval(interval);
+		}
+	}, [isOpen])
+
 	return (
-		<FocusTrap
-			active={ isOpen }
-			focusTrapOptions={{
-				fallbackFocus: () => { return ref.current },
-				allowOutsideClick: () => {
-					ref.current.focus()
-					return false
-				},
-				escapeDeactivates: false,
-				tabbableOptions: {
-					includeContainer: true,
-				}
+		<dialog
+			tabIndex="0"
+			popover="manual"
+			ref={ ref }
+			data-focused={ hasFocus ? "" : null }
+			style={{
+				positionAnchor: anchorName,
+				...style,
 			}}
-		>
-			<Dialog
-				ref={ ref }
-				data-focused={ hasFocus ? "" : null }
-				anchorName={ anchorName }
-				{ ...others }
-			/>
-		</FocusTrap>
+			{ ...others }
+		/>
 	)
 })
 

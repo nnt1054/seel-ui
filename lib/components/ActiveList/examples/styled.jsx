@@ -4,15 +4,39 @@ import { ActiveList } from '@components/ActiveList/ActiveList';
 
 
 export const StyledActiveList = styled(ActiveList)`
+	padding: 8px;
 	gap: 8px;
+	align-items: center;
+	justify-content: center;
 `
 
 export const StyledActiveListItem = styled(ActiveList.Item)`
+    width: 256px;
+    padding: 8px;
+    border-radius: 12px;
+    user-select: none;
+    font-family: sans-serif;
+    font-size: 12pt;
+    text-align: center;
+    cursor: pointer;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, .1);
+    	transition: background-color 0.1s;
+    }
+
+	&[data-focused] {
+        font-weight: bold;
+    	background-color: rgba(0, 0, 0, .3);
+    	transition: background-color 0.1s;
+	}
+`
+
+export const StyledActiveListButton = styled(ActiveList.Item)`
 	display: flex;
 	justify-content: center;
 	align-items: center;
 
-	width: 128px;
 	padding: 8px;
 
 	color: white;

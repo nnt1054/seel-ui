@@ -1,16 +1,21 @@
-# React + Vite
+# Seel UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Seel UI is an unstyled UI component library/system for building out user interfaces with (hopefully) more intuitive navigation using directional inputs from both a keyboard or gamepad.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Documentation
 
-## React Compiler
+To get started, check out the [Base UI documentation](https://base-ui.com/react/overview/quick-start).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Contributing
 
-## Expanding the ESLint configuration
+Read our [contributing guide](/CONTRIBUTING.md) to learn about our development process, how to propose bug fixes and improvements, and how to build and test your changes.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Releases
+
+To see the latest updates, check out the [releases](https://base-ui.com/react/overview/releases).
+
+## License
+
+This project is licensed under the terms of the [MIT license](/LICENSE).

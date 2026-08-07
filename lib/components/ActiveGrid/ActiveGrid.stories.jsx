@@ -32,25 +32,6 @@ export default {
   },
 };
 
-export const Default = {
-  render: (props) => {
-    return (
-        <ActiveGrid
-          columns={ 5 }
-          { ...props }
-        >
-          {
-            Array(25).fill(0).map((_, i) => {
-              return (
-                <ActiveList.Item key={ i } node={ i }> { i } </ActiveList.Item>
-              )
-            })
-          }
-        </ActiveGrid>
-    )
-  }
-};
-
 export const Styled = {
   render: (props) => {
     return (

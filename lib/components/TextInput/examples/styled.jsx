@@ -4,7 +4,7 @@ import { TextInput } from '@components/TextInput/TextInput';
 
 
 export const StyledTextInput = styled(TextInput)`
-	width: 258px;
+	width: 256px;
 	padding: 8px;
 
 	color: black;

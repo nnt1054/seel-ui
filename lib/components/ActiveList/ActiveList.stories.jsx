@@ -4,7 +4,7 @@ import { fn } from 'storybook/test';
 import { includeInputProvider } from '@docs/decorators';
 
 import { ActiveList, ActiveListItem } from './ActiveList';
-import { StyledActiveList, StyledActiveListItem } from './examples/styled';
+import { StyledActiveList, StyledActiveListItem, StyledActiveListButton } from './examples/styled';
 
 import { Button } from '@components/Button/Button';
 import { InputProvider } from '@providers/InputProvider/InputProvider';
@@ -38,24 +38,6 @@ export default {
   },
 };
 
-
-export const Default = {
-  render: (props) => {
-    return (
-      <ActiveList { ...props }>
-        {
-          ...Array(5).fill(0).map((_, i) => {
-            return (
-              <ActiveListItem key={ i } node={ i }> Item { i } </ActiveListItem>
-            )
-          })
-        }
-      </ActiveList>
-    )
-  }
-};
-
-
 export const Styled = {
   render: (props) => {
     return (
@@ -67,6 +49,8 @@ export const Styled = {
             )
           })
         }
+        <StyledActiveListButton key={ 5 } node={ 5 }> Confirm </StyledActiveListButton>
+        <StyledActiveListButton key={ 6 } node={ 6 }> Cancel </StyledActiveListButton>
       </StyledActiveList>
     )
   }
