@@ -1,5 +1,5 @@
-import { useRef, useEffect, useState } from 'react';
-import { FocusTrap } from 'focus-trap-react';
+import { useRef, useEffect, useState, createContext } from 'react';
+import { createStore, useStore } from 'zustand';
 
 import { withActiveNodeContainer } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
@@ -9,6 +9,14 @@ import {
   useDispatchActiveNodeEvent
 } from '@hooks/useDispatchActiveNodeEvent/useDispatchActiveNodeEvent';
 
+
+export const ModalContext = createContext(null);
+
+const createModalContextStore = ({ closeModal }) => {
+    return createStore()((set) => ({
+        closeModal,
+    }))
+}
 
 export const Modal = withActiveNodeContainer((props) => {
 	const {
@@ -20,6 +28,9 @@ export const Modal = withActiveNodeContainer((props) => {
 		style = {},
 		...others
 	} = props;
+
+	const closeModal = () => { setIsOpen(false) };
+	const [store] = useState(() => createModalContextStore({ closeModal, }));
 
 	useEffect(() => {
 		if (isOpen) {
@@ -33,8 +44,10 @@ export const Modal = withActiveNodeContainer((props) => {
 	const { hasFocus } = useActiveNode({ ref, node });
 	const { childrenRef, activeNode } = useActiveNodeContainer();
 
+	// todo: keep this in or handle externally?
+	// will probably end up context dependent
 	useEventListeners(ref, {
-		close: () => { setIsOpen(false) },
+		close: closeModal,
 	})
 
 	useDispatchActiveNodeEvent({
@@ -44,6 +57,8 @@ export const Modal = withActiveNodeContainer((props) => {
 		events: ['up', 'down', 'left', 'right', 'confirm'],
 	});
 
+	// todo: turn into utility hook
+	// useFocusTrap
 	useEffect(() => {
 		if (!isOpen) return;
 		const interval = setInterval(() => {
@@ -58,17 +73,19 @@ export const Modal = withActiveNodeContainer((props) => {
 	}, [isOpen])
 
 	return (
-		<dialog
-			tabIndex="0"
-			popover="manual"
-			ref={ ref }
-			data-focused={ hasFocus ? "" : null }
-			style={{
-				positionAnchor: anchorName,
-				...style,
-			}}
-			{ ...others }
-		/>
+		<ModalContext.Provider value={ store }>
+			<dialog
+				tabIndex="0"
+				popover="manual"
+				ref={ ref }
+				data-focused={ hasFocus ? "" : null }
+				style={{
+					positionAnchor: anchorName,
+					...style,
+				}}
+				{ ...others }
+			/>
+		</ModalContext.Provider>
 	)
 })
 

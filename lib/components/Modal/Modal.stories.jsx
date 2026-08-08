@@ -7,7 +7,7 @@ import { InputProvider } from '@providers/InputProvider/InputProvider';
 import { useDashedIdent } from '@hooks/useDashedIdent/useDashedIdent';
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 import { Button } from '@components/Button/Button';
-import { StyledModal } from './examples/styled';
+import { StyledModal, StyledModalListItem } from './examples/styled';
 import { StyledActiveList, StyledActiveListItem } from '@components/ActiveList/examples/styled';
 import { StyledTextInput } from '@components/TextInput/examples/styled';
 
@@ -45,7 +45,7 @@ export default {
               {
                 ...Array(5).fill(0).map((_, i) => {
                   return (
-                    <StyledActiveListItem key={ i } node={ i }> Item { i } </StyledActiveListItem>
+                    <StyledModalListItem key={ i } node={ i }> Item { i } </StyledModalListItem>
                   )
                 })
               }

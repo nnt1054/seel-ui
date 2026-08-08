@@ -1,6 +1,9 @@
+import { useContext } from 'react';
 import styled from 'styled-components';
 
-import Modal from '@components/Modal/Modal';
+import { Modal, ModalContext } from '@components/Modal/Modal';
+import { StyledActiveListItem } from '@components/ActiveList/examples/styled';
+
 
 export const StyledModal = styled(Modal)`
 	position-area: bottom;
@@ -24,3 +27,18 @@ export const StyledModal = styled(Modal)`
 	    border-color: #FFC067;
     }
 `
+
+export const StyledModalListItem = (props) => {
+    const store = useContext(ModalContext);
+    const callback = () => {
+        const { closeModal } = store.getState();
+        closeModal();
+    }
+
+    return (
+        <StyledActiveListItem
+            { ...props }
+            callback={ callback }
+        />
+    )
+}
