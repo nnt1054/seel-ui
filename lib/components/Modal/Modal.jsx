@@ -41,24 +41,6 @@ export const Modal = withActiveNodeContainer((props) => {
 		}
 	}, [isOpen])
 
-	const { hasFocus } = useActiveNode({ ref, node });
-	const { childrenRef, activeNode } = useActiveNodeContainer();
-
-	// todo: keep this in or handle externally?
-	// will probably end up context dependent
-	useEventListeners(ref, {
-		close: closeModal,
-	})
-
-	useDispatchActiveNodeEvent({
-		ref,
-		childrenRef,
-		activeNode,
-		events: ['up', 'down', 'left', 'right', 'confirm'],
-	});
-
-	// todo: turn into utility hook
-	// useFocusTrap
 	useEffect(() => {
 		if (!isOpen) return;
 		const interval = setInterval(() => {
@@ -71,6 +53,16 @@ export const Modal = withActiveNodeContainer((props) => {
 			clearInterval(interval);
 		}
 	}, [isOpen])
+
+	const { hasFocus } = useActiveNode({ ref, node });
+	const { childrenRef, activeNode } = useActiveNodeContainer();
+
+	useDispatchActiveNodeEvent({
+		ref,
+		childrenRef,
+		activeNode,
+		events: ['up', 'down', 'left', 'right', 'confirm'],
+	});
 
 	return (
 		<ModalContext.Provider value={ store }>
