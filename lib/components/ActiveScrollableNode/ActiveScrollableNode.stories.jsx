@@ -1,8 +1,8 @@
 import { useRef, useState, useContext, useEffect, memo } from 'react';
-import { fn } from 'storybook/test';
 
 import { ActiveScrollableNode } from './ActiveScrollableNode';
 import { ActiveContainer } from '@components/ActiveContainer/ActiveContainer';
+import { StyledActiveScrollableNode } from './examples/styled';
 import { StyledActiveList, StyledActiveListItem } from '@components/ActiveList/examples/styled';
 import { StyledActiveGrid, StyledActiveGridItem } from '@components/ActiveGrid/examples/styled';
 import { InputProvider } from '@providers/InputProvider/InputProvider';
@@ -46,8 +46,7 @@ export default {
                 })
               }
             </StyledActiveList>
-            <ActiveScrollableNode
-              style={{ width: '512px', height: '128px', overflow: 'scroll' }}
+            <StyledActiveScrollableNode
               node={ 'scrollable' }
               adjacentNodes={{
                 up: 'list1',
@@ -55,17 +54,17 @@ export default {
               }}
             >
               Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-
+              <br/>
               Lorem Ipsum has been the industry's standard dummy text ever since 1966,
               when designers at Letraset and James Mosley,
               the librarian at St Bride Printing Library in London,
               took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets.
               It has survived not only many decades, but also the leap into electronic typesetting,
               remaining essentially unchanged.
-
+              <br/>
               It was popularised thanks to these sheets and more recently with desktop publishing software
               like Aldus PageMaker and Microsoft Word including versions of Lorem Ipsum.
-            </ActiveScrollableNode>
+            </StyledActiveScrollableNode>
             <StyledActiveGrid
               node={ 'list2' }
               columns={ 5 }
