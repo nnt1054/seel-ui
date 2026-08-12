@@ -9,7 +9,9 @@ const preview = {
       disableSaveFromUI: true,
     },
     docs: {
-      toc: true,
+      toc: {
+        headingSelector: 'h2, h3',
+      },
       codePanel: true,
     },
   },
