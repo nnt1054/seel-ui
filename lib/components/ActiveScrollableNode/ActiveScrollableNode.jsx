@@ -9,16 +9,11 @@ import { useActiveScrollableNode } from '@hooks/useActiveScrollableNode/useActiv
 
 
 export const ActiveScrollableNode = withActiveNodeContainer((props) => {
-    const defaultEvents =  [
-    	'up', 'down', 'left', 'right',
-    	'cycleR', 'cycleL', 'confirm',
-    ];
 	const {
         ref = useRef(),
 		node,
 		adjacentNodes,
 		initial,
-		events = defaultEvents,
 		...others
 	} = props;
 
