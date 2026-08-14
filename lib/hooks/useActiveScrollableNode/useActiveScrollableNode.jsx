@@ -7,7 +7,7 @@ export const useActiveScrollableNode = (props) => {
     const {
         ref,
         adjacentNodes = {},
-        setActiveNode = () => {},
+        moveFocus = () => {},
     } = props;
 
     const up = () => {
@@ -17,7 +17,7 @@ export const useActiveScrollableNode = (props) => {
         const scrollBy = element.clientHeight / 2;
         const atTop = element.scrollTop == 0;
         if (atTop && adjacentNodes.up) {
-            handleAdjacentNode(adjacentNodes.up, setActiveNode);
+            handleAdjacentNode(adjacentNodes.up, moveFocus);
         } else {
             element.scrollBy({
                 top: -scrollBy,
@@ -34,7 +34,7 @@ export const useActiveScrollableNode = (props) => {
         const scrollBottom = Math.abs(element.scrollHeight - element.clientHeight - element.scrollTop);
         const atBottom = scrollBottom <= 1;
         if (atBottom && adjacentNodes.down) {
-            handleAdjacentNode(adjacentNodes.down, setActiveNode);
+            handleAdjacentNode(adjacentNodes.down, moveFocus);
         } else {
             element.scrollBy({
                 top: scrollBy,
@@ -50,7 +50,7 @@ export const useActiveScrollableNode = (props) => {
         const scrollBy = element.clientWidth / 2;
         const atLeft = element.scrollLeft == 0;
         if (atLeft && adjacentNodes.left) {
-            handleAdjacentNode(adjacentNodes.left, setActiveNode);
+            handleAdjacentNode(adjacentNodes.left, moveFocus);
         } else {
             element.scrollBy({
                 left: -scrollBy,
@@ -67,7 +67,7 @@ export const useActiveScrollableNode = (props) => {
         const scrollRight = Math.abs(element.scrollWidth - element.clientWidth - element.scrollLeft);
         const atRight = scrollRight <= 1;
         if (atRight && adjacentNodes.right) {
-            handleAdjacentNode(adjacentNodes.right, setActiveNode);
+            handleAdjacentNode(adjacentNodes.right, moveFocus);
         } else {
             element.scrollBy({
                 left: scrollBy,

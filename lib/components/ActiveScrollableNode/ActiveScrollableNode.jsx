@@ -1,14 +1,13 @@
 import { useRef } from 'react';
 
-import { withActiveNodeContainer } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
-import { useActiveNodeContainer } from '@hooks/useActiveNodeContainer/useActiveNodeContainer';
+import { withActiveNode } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode'
 import { useDispatchActiveNodeEvent } from '@hooks/useDispatchActiveNodeEvent/useDispatchActiveNodeEvent';
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 import { useActiveScrollableNode } from '@hooks/useActiveScrollableNode/useActiveScrollableNode';
 
 
-export const ActiveScrollableNode = withActiveNodeContainer((props) => {
+export const ActiveScrollableNode = withActiveNode((props) => {
 	const {
         ref = useRef(),
 		node,
@@ -17,11 +16,11 @@ export const ActiveScrollableNode = withActiveNodeContainer((props) => {
 		...others
 	} = props;
 
-    const { hasFocus, setActiveNode } = useActiveNode({ ref, node });
+    const { hasFocus, moveFocus } = useActiveNode();
 	useActiveScrollableNode({
 		ref,
 		adjacentNodes,
-		setActiveNode,
+		moveFocus,
 	})
 
 	return (

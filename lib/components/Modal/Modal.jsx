@@ -1,9 +1,8 @@
 import { useRef, useEffect, useState, createContext } from 'react';
 import { createStore, useStore } from 'zustand';
 
-import { withActiveNodeContainer } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
+import { withActiveNode } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
-import { useActiveNodeContainer } from '@hooks/useActiveNodeContainer/useActiveNodeContainer';
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 import {
   useDispatchActiveNodeEvent
@@ -18,7 +17,7 @@ const createModalContextStore = ({ closeModal }) => {
     }))
 }
 
-export const Modal = withActiveNodeContainer((props) => {
+export const Modal = withActiveNode((props) => {
 	const {
 		ref,
 		node,
@@ -54,8 +53,7 @@ export const Modal = withActiveNodeContainer((props) => {
 		}
 	}, [isOpen])
 
-	const { hasFocus } = useActiveNode({ ref, node });
-	const { childrenRef, activeNode } = useActiveNodeContainer();
+	const { hasFocus, childrenRef, activeNode } = useActiveNode();
 
 	useDispatchActiveNodeEvent({
 		ref,

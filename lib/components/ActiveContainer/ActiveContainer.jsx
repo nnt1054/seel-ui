@@ -1,13 +1,12 @@
 import { useRef } from 'react';
 
-import { withActiveNodeContainer } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
-import { useActiveNodeContainer } from '@hooks/useActiveNodeContainer/useActiveNodeContainer';
+import { withActiveNode } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode'
 import { useDispatchActiveNodeEvent } from '@hooks/useDispatchActiveNodeEvent/useDispatchActiveNodeEvent';
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
 
-export const ActiveContainer = withActiveNodeContainer((props) => {
+export const ActiveContainer = withActiveNode((props) => {
     const defaultEvents =  [
     	'up', 'down', 'left', 'right',
     	'cycleR', 'cycleL', 'confirm',
@@ -20,7 +19,7 @@ export const ActiveContainer = withActiveNodeContainer((props) => {
 		...others
 	} = props;
 
-    const { childrenRef, activeNode, setHasFocus } = useActiveNodeContainer();
+    const { childrenRef, activeNode } = useActiveNode();
     useDispatchActiveNodeEvent({
         ref,
         childrenRef,

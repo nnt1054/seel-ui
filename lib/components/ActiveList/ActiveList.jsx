@@ -5,8 +5,7 @@ import {
 import styled from 'styled-components';
 import { createStore, useStore } from 'zustand'
 
-import { withActiveNodeContainer } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
-import { useActiveNodeContainer } from '@hooks/useActiveNodeContainer/useActiveNodeContainer';
+import { withActiveNode } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
 import { useActiveIndex } from '@hooks/useActiveIndex/useActiveIndex';
 import { useDispatchActiveNodeEvent } from '@hooks/useDispatchActiveNodeEvent/useDispatchActiveNodeEvent';
@@ -24,7 +23,7 @@ const StyledActiveList = styled.div`
         flex-direction: row;
     }
 `
-export const ActiveList = withActiveNodeContainer((props) => {
+export const ActiveList = withActiveNode((props) => {
 	const {
         ref,
         node,
@@ -45,12 +44,13 @@ export const ActiveList = withActiveNodeContainer((props) => {
     const isColumn = (orientation == 'vertical')
 
     const {
+        hasFocus,
+        moveFocus,
+        grabFocus,
         childrenRef,
         activeNode: activeIndex,
         setActiveNode: setActiveIndex,
-    } = useActiveNodeContainer();
-
-    const { hasFocus, setActiveNode, setAsActive } = useActiveNode({ ref, node });
+    } = useActiveNode();
 
     useActiveIndex({
         ref,
@@ -62,7 +62,7 @@ export const ActiveList = withActiveNodeContainer((props) => {
         disableWrap,
         disableJump,
         adjacentNodes,
-        setActiveNode,
+        moveFocus,
     });
 
     useDispatchActiveNodeEvent({
@@ -76,7 +76,7 @@ export const ActiveList = withActiveNodeContainer((props) => {
 
     const onClick = () => {
         // setActiveNode?.(node)
-        setAsActive();
+        grabFocus();
     }
 
     return (
@@ -93,7 +93,7 @@ export const ActiveList = withActiveNodeContainer((props) => {
 })
 
 
-export const ActiveListItem = withActiveNodeContainer((props) => {
+export const ActiveListItem = withActiveNode((props) => {
     const {
         ref = useRef(),
         node,
@@ -101,13 +101,13 @@ export const ActiveListItem = withActiveNodeContainer((props) => {
         ...others
     } = props;
 
-    const { hasFocus, setActiveNode, setAsActive } = useActiveNode({ ref, node });
+    const { hasFocus, grabFocus } = useActiveNode();
     const callbacks = useEventListeners(ref, {
         confirm: () => { callback(); },
     })
 
     const onClick = () => {
-        setAsActive();
+        grabFocus();
         callbacks.confirm();
     }
 

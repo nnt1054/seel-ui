@@ -1,13 +1,13 @@
 import { useRef } from 'react';
 
 import {
-	withActiveNodeContainer,
+	withActiveNode,
 } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
 
-export const Button = withActiveNodeContainer((props) => {
+export const Button = withActiveNode((props) => {
 	const {
 		ref = useRef(),
 		node,
@@ -16,10 +16,10 @@ export const Button = withActiveNodeContainer((props) => {
 		...others
 	} = props;
 
-    const { hasFocus, setAsActive } = useActiveNode({ ref, node });
+    const { hasFocus, grabFocus } = useActiveNode();
 	const callbacks = useEventListeners(ref, {
         confirm: () => {
-        	setAsActive()
+        	grabFocus()
 			onClick()
         },
 

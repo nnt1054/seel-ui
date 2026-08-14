@@ -1,20 +1,19 @@
 import { useRef } from 'react';
 
-import { withActiveNodeContainer } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
-import { useActiveNodeContainer } from '@hooks/useActiveNodeContainer/useActiveNodeContainer';
+import { withActiveNode } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 import { KeyCodes } from '@constants';
 
 
-export const NumberInput = withActiveNodeContainer((props) => {
+export const NumberInput = withActiveNode((props) => {
 	const {
 		ref = useRef(),
 		node,
 		...others
 	} = props;
 
-    const { hasFocus, setActiveNode } = useActiveNode({ ref, node });
+    const { hasFocus } = useActiveNode();
 
     // events while node has focus
     useEventListeners(ref, {

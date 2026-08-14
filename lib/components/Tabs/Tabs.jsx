@@ -6,8 +6,7 @@ import {
 import styled from 'styled-components';
 import { createStore, useStore } from 'zustand';
 
-import { withActiveNodeContainer } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
-import { useActiveNodeContainer } from '@hooks/useActiveNodeContainer/useActiveNodeContainer';
+import { withActiveNode } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
 import { Column } from '@components/Column/Column';
 import { ActiveList } from '@components/ActiveList/ActiveList';
@@ -37,7 +36,7 @@ const StyledTabs = styled.div`
     flex-direction: column;
     align-items: center;
 `
-export const Tabs = withActiveNodeContainer((props) => {
+export const Tabs = withActiveNode((props) => {
 	const {
 		ref,
 		node,
@@ -51,15 +50,12 @@ export const Tabs = withActiveNodeContainer((props) => {
 	const { activeIndex, setActiveIndex, setMaxIndex } = useStore(store);
 
     const {
+    	hasFocus,
+    	grabFocus,
         childrenRef,
         activeNode,
         setActiveNode,
-    } = useActiveNodeContainer();
-
-    const {
-    	hasFocus,
-    	setActiveNode: setParentActiveNode,
-    } = useActiveNode({ ref, node });
+    } = useActiveNode();
 
     useDispatchActiveNodeEvent({
         ref,
@@ -92,7 +88,7 @@ export const Tabs = withActiveNodeContainer((props) => {
 		<TabsContext.Provider value={ store }>
 	    	<StyledTabs
 	    		ref={ ref }
-	    		onClick={() => { setParentActiveNode(node) }}
+	    		onClick={ grabFocus }
 	    		{ ...others }
 	    	>
 				{ children }

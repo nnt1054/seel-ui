@@ -10,19 +10,18 @@ export const ActiveNodeContext = createContext(null);
 const createNodeContainerStore = (props) => {
     const {
         node,
-        childrenRef,
         initial,
         parent,
-        setAsActive,
+        childrenRef,
+        grabFocus,
     } = props;
 
     return createStore()((set) => ({
         node,
-        childrenRef,
         parent,
-        setAsActive,
+        childrenRef,
+        grabFocus,
 
-        // children props;
         activeNode: initial,
         setActiveNode: (activeNode) => set(state => ({ activeNode })),
 
@@ -55,30 +54,32 @@ const createNodeContainer = (props = {}) => {
         parent,
 	} = props;
 
-    const setAsActive = () => {
+    const childrenRef = useRef(new Map());
+
+    const grabFocus = () => {
         if (!parent) return;
+
         const {
             setActiveNode,
-            setAsActive: setParentAsActive,
+            grabFocus,
         } = parent.getState();
+
         setActiveNode(node);
-        setParentAsActive();
+        grabFocus();
     }
-    const childrenRef = useRef(new Map());
-    const [store] = useState(
-        () => createNodeContainerStore({
-            node,
-            childrenRef,
-            initial,
-            parent,
-            setAsActive,
-        })
-    );
+
+    const [store] = useState(() => createNodeContainerStore({
+        node,
+        initial,
+        parent,
+        childrenRef,
+        grabFocus,
+    }));
 
     return store;
 }
 
-export const withActiveNodeContainer = (WrappedComponent) => {
+export const withActiveNode = (WrappedComponent) => {
     const Component = memo((props) => {
         const {
             ref = useRef(),
