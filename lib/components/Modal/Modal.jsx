@@ -4,9 +4,7 @@ import { createStore, useStore } from 'zustand';
 import { withActiveNode } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
-import {
-  useDispatchActiveNodeEvent
-} from '@hooks/useDispatchActiveNodeEvent/useDispatchActiveNodeEvent';
+import { usePropagateEvents } from '@hooks/usePropagateEvents/usePropagateEvents';
 
 
 export const ModalContext = createContext(null);
@@ -55,7 +53,7 @@ export const Modal = withActiveNode((props) => {
 
 	const { hasFocus, childrenRef, activeNode } = useActiveNode();
 
-	useDispatchActiveNodeEvent({
+	usePropagateEvents({
 		ref,
 		childrenRef,
 		activeNode,

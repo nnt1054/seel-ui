@@ -8,7 +8,7 @@ import { createStore, useStore } from 'zustand';
 import { withActiveNode } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
 import { useActiveGridIndex } from '@hooks/useActiveGridIndex/useActiveGridIndex';
-import { useDispatchActiveNodeEvent } from '@hooks/useDispatchActiveNodeEvent/useDispatchActiveNodeEvent';
+import { usePropagateEvents } from '@hooks/usePropagateEvents/usePropagateEvents';
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
 const StyledActiveGrid = styled.div`
@@ -51,7 +51,7 @@ export const ActiveGrid = withActiveNode((props) => {
         moveFocus,
     });
 
-    useDispatchActiveNodeEvent({
+    usePropagateEvents({
         ref,
         childrenRef,
         activeNode: activeIndex,

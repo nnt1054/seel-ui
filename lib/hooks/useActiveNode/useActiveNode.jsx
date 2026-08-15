@@ -22,7 +22,6 @@ export const useActiveNode = () => {
     const parent = useStore(store, state => state.parent);
     const setHasFocus = useStore(store, state => state.setHasFocus);
     const grabFocus = useStore(store, state => state.grabFocus);
-
     const childrenRef = useStore(store, state => state.childrenRef);
     const activeNode = useStore(store, state => state.activeNode);
     const setActiveNode = useStore(store, state => state.setActiveNode);

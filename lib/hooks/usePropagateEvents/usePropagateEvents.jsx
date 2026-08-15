@@ -3,16 +3,18 @@ import { useEffect } from 'react';
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
 
-export const useDispatchActiveNodeEvent = (props) => {
+export const usePropagateEvents = (props) => {
 	const {
 		ref,
 		childrenRef,
 		activeNode,
 		events = [],
+		isActive = true,
 	} = props;
 
     const callbacks = events.reduce((callbacks, event) => {
         callbacks[event] = () => {
+        	if (!isActive) return;
 	        const activeRef = childrenRef.current.get(activeNode);
 	        activeRef?.current?.dispatchEvent(new Event(event))
         }
@@ -22,4 +24,4 @@ export const useDispatchActiveNodeEvent = (props) => {
     return useEventListeners(ref, callbacks);
 }
 
-export default useDispatchActiveNodeEvent;
+export default usePropagateEvents;

@@ -16,6 +16,7 @@ export const useActiveIndex = (props) => {
         disableJump = false,
         adjacentNodes = {},
         moveFocus = () => {},
+        isActive = true,
     } = props;
 
     const incrementIndex = (adjacentNode) => {
@@ -118,6 +119,8 @@ export const useActiveIndex = (props) => {
     }, [initialIndex])
 
     useEffect(() => {
+        if (!isActive) return;
+
         const element = ref.current;
         element?.addEventListener('up', up);
         element?.addEventListener('down', down);

@@ -8,7 +8,7 @@ import { createStore, useStore } from 'zustand'
 import { withActiveNode } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
 import { useActiveIndex } from '@hooks/useActiveIndex/useActiveIndex';
-import { useDispatchActiveNodeEvent } from '@hooks/useDispatchActiveNodeEvent/useDispatchActiveNodeEvent';
+import { usePropagateEvents } from '@hooks/usePropagateEvents/usePropagateEvents';
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
 
@@ -33,7 +33,6 @@ export const ActiveList = withActiveNode((props) => {
         orientation = 'vertical', // or 'horizontal'
         disableWrap = false,
         disableJump = false,
-
         children,
         ...others
 	} = props;
@@ -52,6 +51,19 @@ export const ActiveList = withActiveNode((props) => {
         setActiveNode: setActiveIndex,
     } = useActiveNode();
 
+    // todo: propagation controller
+    // issue to note: cancel should come from the child node provided via context
+    // why?  in the case of nested containers the top level node will receive
+    // the cancel event before the child nodes its intended for
+    // useEventListeners(ref, {
+    //     confirm: () => {
+    //         // propagate the confirm event or turn on propagation
+    //     },
+    //     cancel: () => {
+    //         // stop propagation
+    //     },
+    // })
+
     useActiveIndex({
         ref,
         activeIndex,
@@ -65,7 +77,7 @@ export const ActiveList = withActiveNode((props) => {
         moveFocus,
     });
 
-    useDispatchActiveNodeEvent({
+    usePropagateEvents({
         ref,
         childrenRef,
         activeNode: activeIndex,

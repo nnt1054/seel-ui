@@ -11,7 +11,7 @@ import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
 import { Column } from '@components/Column/Column';
 import { ActiveList } from '@components/ActiveList/ActiveList';
 import { Button } from '@components/Button/Button';
-import { useDispatchActiveNodeEvent } from '@hooks/useDispatchActiveNodeEvent/useDispatchActiveNodeEvent';
+import { usePropagateEvents } from '@hooks/usePropagateEvents/usePropagateEvents';
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
 
@@ -42,7 +42,6 @@ export const Tabs = withActiveNode((props) => {
 		node,
 		adjacentNodes = {},
 		maxIndex = 1,
-		children,
 		...others
 	} = props;
 
@@ -57,7 +56,7 @@ export const Tabs = withActiveNode((props) => {
         setActiveNode,
     } = useActiveNode();
 
-    useDispatchActiveNodeEvent({
+    usePropagateEvents({
         ref,
         childrenRef,
         activeNode,
@@ -90,9 +89,7 @@ export const Tabs = withActiveNode((props) => {
 	    		ref={ ref }
 	    		onClick={ grabFocus }
 	    		{ ...others }
-	    	>
-				{ children }
-	    	</StyledTabs>
+	    	/>
         </TabsContext.Provider>
     )
 });

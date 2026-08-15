@@ -2,7 +2,6 @@ import { useRef } from 'react';
 
 import { withActiveNode } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode'
-import { useDispatchActiveNodeEvent } from '@hooks/useDispatchActiveNodeEvent/useDispatchActiveNodeEvent';
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 import { useActiveScrollableNode } from '@hooks/useActiveScrollableNode/useActiveScrollableNode';
 
