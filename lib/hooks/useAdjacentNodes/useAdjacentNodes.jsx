@@ -8,6 +8,7 @@ export const useAdjacentNode = (props) => {
         ref,
         adjacentNodes = {},
         setActiveNode = () => {},
+        isActive = true,
     } = props;
 
     const up = () => {
@@ -35,6 +36,8 @@ export const useAdjacentNode = (props) => {
     }
 
     useEffect(() => {
+        if (!isActive) return;
+
         const element = ref.current;
         element?.addEventListener('up', up);
         element?.addEventListener('down', down);

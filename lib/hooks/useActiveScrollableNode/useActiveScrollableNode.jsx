@@ -8,6 +8,7 @@ export const useActiveScrollableNode = (props) => {
         ref,
         adjacentNodes = {},
         moveFocus = () => {},
+        isActive = true,
     } = props;
 
     const up = () => {
@@ -77,6 +78,8 @@ export const useActiveScrollableNode = (props) => {
     }
 
     useEffect(() => {
+        if (!isActive) return;
+
         const element = ref.current;
         element?.addEventListener('up', up);
         element?.addEventListener('down', down);

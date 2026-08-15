@@ -14,14 +14,13 @@ export const usePropagateEvents = (props) => {
 
     const callbacks = events.reduce((callbacks, event) => {
         callbacks[event] = () => {
-        	if (!isActive) return;
 	        const activeRef = childrenRef.current.get(activeNode);
 	        activeRef?.current?.dispatchEvent(new Event(event))
         }
         return callbacks;
     }, {})
 
-    return useEventListeners(ref, callbacks);
+    return useEventListeners(ref, callbacks, isActive);
 }
 
 export default usePropagateEvents;

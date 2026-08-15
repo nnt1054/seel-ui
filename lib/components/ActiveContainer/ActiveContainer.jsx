@@ -3,7 +3,6 @@ import { useRef } from 'react';
 import { withActiveNode } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode'
 import { usePropagateEvents } from '@hooks/usePropagateEvents/usePropagateEvents';
-import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
 
 export const ActiveContainer = withActiveNode((props) => {

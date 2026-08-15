@@ -12,6 +12,7 @@ export const useActiveGridIndex = (props) => {
         maxIndex = 1,
         adjacentNodes = {},
         moveFocus = () => {},
+        isActive = true,
     } = props;
 
     const setActiveIndex = (index) => _setActiveIndex(index || 0);
@@ -74,6 +75,8 @@ export const useActiveGridIndex = (props) => {
     }, [maxIndex])
 
     useEffect(() => {
+        if (!isActive) return;
+
         const element = ref.current;
         element?.addEventListener('up', up);
         element?.addEventListener('down', down);

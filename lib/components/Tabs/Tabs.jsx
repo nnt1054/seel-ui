@@ -133,7 +133,7 @@ const TabsList = memo((props) => {
 	)
 })
 
-const TabsTab = memo((props) => {
+const TabsTab = withActiveNode((props) => {
 	const {
 		ref,
 		node,
@@ -143,15 +143,23 @@ const TabsTab = memo((props) => {
 	const store = useContext(TabsContext);
 	const setActiveIndex = useStore(store, state => state.setActiveIndex);
 	const isActive = useStore(store, state => state.activeIndex == node);
+	const { hasFocus, grabFocus } = useActiveNode();
+
+	const callbacks = useEventListeners(ref, {
+        confirm: () => {
+        	grabFocus();
+			setActiveIndex(node);
+        },
+        mousedown: (event) => { event.preventDefault() },
+    })
 
 	return (
-		<Button
+		<button
+			ref={ ref }
 			node={ node }
-			label={" "}
-			onClick={() => {
-				setActiveIndex(node)
-			}}
+			onClick={ callbacks.confirm }
             data-active-tab={ isActive ? "" : null }
+			data-focused={ hasFocus ? "" : null }
             { ...others }
 		/>
 	)
