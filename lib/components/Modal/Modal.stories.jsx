@@ -28,7 +28,7 @@ export default {
     const [isOpen, setIsOpen] = useState(false);
     const toggle = () => setIsOpen(!isOpen);
     useEventListeners(ref, {
-      close: () => { setIsOpen(false) },
+      cancel: () => { setIsOpen(false) },
     });
 
     return (

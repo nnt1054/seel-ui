@@ -294,7 +294,7 @@ export const GamepadLabels = {
 
 export const DefaultKeybinds = {
   'confirm': KeyCodes.ENTER,
-  'close': KeyCodes.ESC,
+  'cancel': KeyCodes.ESC,
   'up': KeyCodes.UP,
   'down': KeyCodes.DOWN,
   'left': KeyCodes.LEFT,

@@ -8,7 +8,7 @@ export const KeybindsContext = createContext({});
 
 const defaultKeybinds = {
   'confirm': KeyCodes.ENTER,
-  'close': KeyCodes.ESC,
+  'cancel': KeyCodes.ESC,
   'up': KeyCodes.I,
   'down': KeyCodes.K,
   'left': KeyCodes.J,

@@ -18,7 +18,7 @@ export const NumberInput = withActiveNode((props) => {
     // events while node has focus
     useEventListeners(ref, {
     	confirm: () => { ref.current.focus(); },
-    	close: () => { ref.current.blur(); },
+    	cancel: () => { ref.current.blur(); },
     	cycleR: () => { console.log('cycleR') },
     	cycleL: () => { console.log('cycleL') },
     })

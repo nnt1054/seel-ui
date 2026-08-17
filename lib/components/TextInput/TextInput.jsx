@@ -22,7 +22,7 @@ export const TextInput = withActiveNode((props) => {
     // events while node has focus
     useEventListeners(ref, {
     	confirm: () => { ref.current.focus(); },
-    	close: () => { onCancel() },
+    	cancel: () => { onCancel() },
     	cycleR: () => { onCycleR() },
     	cycleL: () => { onCycleL() },
     })

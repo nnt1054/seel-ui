@@ -76,8 +76,8 @@ export const getNavigationCommands = (ref) => {
             execute: handleEvent('confirm'),
             ignoreModifiers: true,
         },
-        'close': {
-            execute: handleEvent('close'),
+        'cancel': {
+            execute: handleEvent('cancel'),
             ignoreModifiers: true,
         },
         'cycleR': {
@@ -92,13 +92,13 @@ export const getNavigationCommands = (ref) => {
         },
         'select': {
             // todo: ponder on the implications of this
-            execute: handleEvent('close')
+            execute: handleEvent('cancel')
         },
         'gamepadA': {
             execute: handleEvent('confirm')
         },
         'gamepadB': {
-            execute: handleEvent('close')
+            execute: handleEvent('cancel')
         },
         'dpadUp': {
             execute: handleEvent('up')
