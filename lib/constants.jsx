@@ -119,8 +119,7 @@ export const GamepadCodes = {
     RIGHT: 15,
     HOME: 16,
 
-    // the rest of these are like
-    // axis mappings
+    // the rest of these are like pseudo buttons
     LS_UP: 100,
     LS_DOWN: 101,
     LS_LEFT: 102,
@@ -149,31 +148,32 @@ export const GamepadCodes = {
     // RIGHT: -1,
 }
 
-export const GamepadAxisCodes = {
+export const GamepadAxis = {
     LSX: 0,
     LSY: 1,
     RSX: 2,
     RSY: 3,
 }
 
-export const DefaultGamepadAxisMapping = {
-    [GamepadAxis.LSX]: {
-        pos: GamepadCodes.LS_RIGHT,
-        neg: GamepadCodes.LS_LEFT,
-    },
-    [GamepadAxis.LSY]: {
-        pos: GamepadCodes.LS_DOWN,
-        neg: GamepadCodes.LS_UP,
-    },
-    [GamepadAxis.RSX]: {
-        pos: GamepadCodes.RS_RIGHT,
-        neg: GamepadCodes.RS_LEFT,
-    },
-    [GamepadAxis.RSY]: {
-        pos: GamepadCodes.RS_DOWN,
-        neg: GamepadCodes.RS_UP,
-    }, 
-}
+// todo: remove
+// export const DefaultGamepadAxisMapping = {
+//     [GamepadAxis.LSX]: {
+//         pos: GamepadCodes.LS_RIGHT,
+//         neg: GamepadCodes.LS_LEFT,
+//     },
+//     [GamepadAxis.LSY]: {
+//         pos: GamepadCodes.LS_DOWN,
+//         neg: GamepadCodes.LS_UP,
+//     },
+//     [GamepadAxis.RSX]: {
+//         pos: GamepadCodes.RS_RIGHT,
+//         neg: GamepadCodes.RS_LEFT,
+//     },
+//     [GamepadAxis.RSY]: {
+//         pos: GamepadCodes.RS_DOWN,
+//         neg: GamepadCodes.RS_UP,
+//     }, 
+// }
 
 // todo: rename these to default
 export const GamepadKeybinds = {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { GamepadListener } from 'gamepad.js';
 
 import { GamepadCodes, GamepadKeybinds } from '../../constants';
@@ -43,24 +43,24 @@ const useKeyPress = (callback) => {
 };
 
 
-const useGamepad = (callback) => {
-    // todo: how do we uhh fix this mapping
-    const axisButtonMap = {
-        [0]: {
-            pos: GamepadCodes.LS_RIGHT,
-            neg: GamepadCodes.LS_LEFT,
+const useGamepad = (mapping, callback) => {
+    const { buttons, axis } = mapping;
+    const axisButtonMapping = {
+        [axis.LSX]: {
+            pos: buttons.LS_RIGHT,
+            neg: buttons.LS_LEFT,
         },
-        [1]: {
-            pos: GamepadCodes.LS_DOWN,
-            neg: GamepadCodes.LS_UP,
+        [axis.LSY]: {
+            pos: buttons.LS_DOWN,
+            neg: buttons.LS_UP,
         },
-        [2]: {
-            pos: GamepadCodes.RS_RIGHT,
-            neg: GamepadCodes.RS_LEFT,
+        [axis.RSX]: {
+            pos: buttons.RS_RIGHT,
+            neg: buttons.RS_LEFT,
         },
-        [3]: {
-            pos: GamepadCodes.RS_DOWN,
-            neg: GamepadCodes.RS_UP,
+        [axis.RSY]: {
+            pos: buttons.RS_DOWN,
+            neg: buttons.RS_UP,
         }, 
     }
 
@@ -79,33 +79,34 @@ const useGamepad = (callback) => {
         // todo: doesn't necessarily need to be hardcoded;
         //      can go off keys of GamepadCodes (turned into prop)
         const gamepadState = {
-            [GamepadCodes.A]: false,
-            [GamepadCodes.B]: false,
-            [GamepadCodes.X]: false,
-            [GamepadCodes.Y]: false,
-            [GamepadCodes.LB]: false,
-            [GamepadCodes.RB]: false,
-            [GamepadCodes.LT]: false,
-            [GamepadCodes.RT]: false,
-            [GamepadCodes.SELECT]: false,
-            [GamepadCodes.START]: false,
-            [GamepadCodes.LS]: false,
-            [GamepadCodes.RS]: false,
-            [GamepadCodes.UP]: false,
-            [GamepadCodes.DOWN]: false,
-            [GamepadCodes.LEFT]: false,
-            [GamepadCodes.RIGHT]: false,
-            [GamepadCodes.LS_UP]: false,
-            [GamepadCodes.LS_DOWN]: false,
-            [GamepadCodes.LS_LEFT]: false,
-            [GamepadCodes.LS_RIGHT]: false,
-            [GamepadCodes.RS_UP]: false,
-            [GamepadCodes.RS_DOWN]: false,
-            [GamepadCodes.RS_LEFT]: false,
-            [GamepadCodes.RS_RIGHT]: false,
+            [buttons.A]: false,
+            [buttons.B]: false,
+            [buttons.X]: false,
+            [buttons.Y]: false,
+            [buttons.LB]: false,
+            [buttons.RB]: false,
+            [buttons.LT]: false,
+            [buttons.RT]: false,
+            [buttons.SELECT]: false,
+            [buttons.START]: false,
+            [buttons.LS]: false,
+            [buttons.RS]: false,
+            [buttons.UP]: false,
+            [buttons.DOWN]: false,
+            [buttons.LEFT]: false,
+            [buttons.RIGHT]: false,
+            [buttons.LS_UP]: false,
+            [buttons.LS_DOWN]: false,
+            [buttons.LS_LEFT]: false,
+            [buttons.LS_RIGHT]: false,
+            [buttons.RS_UP]: false,
+            [buttons.RS_DOWN]: false,
+            [buttons.RS_LEFT]: false,
+            [buttons.RS_RIGHT]: false,
         }
 
         const listener = new GamepadListener({ deadZone: 0.3 });
+        
         listener.on('gamepad:button', event => {
             const { button, pressed, value } = event.detail;
             const isDown = (pressed && value > 0.5);
@@ -126,7 +127,7 @@ const useGamepad = (callback) => {
 
         listener.on('gamepad:axis', event => {
             const { axis, value } = event.detail;
-            const { pos, neg } = axisButtonMap[axis];
+            const { pos, neg } = axisButtonMapping[axis];
 
             const state = {}
             if (value > 0.5) {
@@ -169,6 +170,7 @@ export const useInputManager = (props) => {
         commands,
         keybinds,
         onBeforeKeyDown,
+        gamepadMapping,
     } = props;
 
     const getKeybinds = (event, exactMatch = false) => {
@@ -211,9 +213,33 @@ export const useInputManager = (props) => {
         }
     }
 
+    const { buttons } = gamepadMapping;
+    const gamepadKeybinds = useMemo(() => {
+        return {
+            'gamepadA': buttons.A,
+            'gamepadB': buttons.B,
+            'gamepadX': buttons.X,
+            'gamepadY': buttons.Y,
+            'leftBumper': buttons.LB,
+            'rightBumper': buttons.RB,
+            'leftTrigger': buttons.LT,
+            'rightTrigger': buttons.RT,
+            'select': buttons.SELECT,
+            'start': buttons.START,
+            'dpadUp': buttons.UP,
+            'dpadDown': buttons.DOWN,
+            'dpadLeft': buttons.LEFT,
+            'dpadRight': buttons.RIGHT,
+            'up': buttons.LS_UP,
+            'down': buttons.LS_DOWN,
+            'left': buttons.LS_LEFT,
+            'right': buttons.LS_RIGHT,
+        }
+    }, [buttons]);
+
     const getGamepadKeybind = (event) => {
-        return Object.keys(GamepadKeybinds).find(
-            command => GamepadKeybinds[command] === event.keyCode
+        return Object.keys(gamepadKeybinds).find(
+            command => gamepadKeybinds[command] === event.keyCode
         );
     }
 
@@ -225,7 +251,7 @@ export const useInputManager = (props) => {
         }
     })
 
-    useGamepad((event) => {
+    useGamepad(gamepadMapping, (event) => {
         const name = getGamepadKeybind(event);
         if (!name) return;
 
