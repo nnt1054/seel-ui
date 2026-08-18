@@ -99,107 +99,7 @@ export const KeyCodes = {
     BRACKET_LEFT_FIREFOX: 175
 };
 
-export const KeyCodeLabels = {
-    [KeyCodes.BACKSPACE]: "Bksp",
-    [KeyCodes.TAB]: "Tab",
-    [KeyCodes.ENTER]: "Enter",
-    [KeyCodes.SHIFT]: "⇧", // Shift
-    [KeyCodes.CTRL]: "^", // Ctrl
-    [KeyCodes.ALT]: "⎇", // Alt
-    [KeyCodes.PAUSE]: "Pause",
-    [KeyCodes.CAPS_LOCK]: "CpsLk",
-    [KeyCodes.ESC]: "Esc",
-    [KeyCodes.SPACE]: "Space",
-    [KeyCodes.PAGE_UP]: "PgUp",
-    [KeyCodes.PAGE_DOWN]: "PgDown",
-    [KeyCodes.END]: "End",
-    [KeyCodes.HOME]: "Home",
-    [KeyCodes.LEFT]: "Left",
-    [KeyCodes.UP]: "Up",
-    [KeyCodes.RIGHT]: "Right",
-    [KeyCodes.DOWN]: "Down",
-    [KeyCodes.PRINT_SCREEN]: "PrtScn",
-    [KeyCodes.INSERT]: "Ins",
-    [KeyCodes.DELETE]: "Del",
-    [KeyCodes.ZERO]: "0",
-    [KeyCodes.ONE]: "1",
-    [KeyCodes.TWO]: "2",
-    [KeyCodes.THREE]: "3",
-    [KeyCodes.FOUR]: "4",
-    [KeyCodes.FIVE]: "5",
-    [KeyCodes.SIX]: "6",
-    [KeyCodes.SEVEN]: "7",
-    [KeyCodes.EIGHT]: "8",
-    [KeyCodes.NINE]: "9",
-    [KeyCodes.NUMPAD_ZERO]: "Num0",
-    [KeyCodes.NUMPAD_ONE]: "Num1",
-    [KeyCodes.NUMPAD_TWO]: "Num2",
-    [KeyCodes.NUMPAD_THREE]: "Num3",
-    [KeyCodes.NUMPAD_FOUR]: "Num4",
-    [KeyCodes.NUMPAD_FIVE]: "Num5",
-    [KeyCodes.NUMPAD_SIX]: "Num6",
-    [KeyCodes.NUMPAD_SEVEN]: "Num7",
-    [KeyCodes.NUMPAD_EIGHT]: "Num8",
-    [KeyCodes.NUMPAD_NINE]: "Num9",
-    [KeyCodes.NUMPAD_ADD]: "Num+",
-    [KeyCodes.NUMPAD_SUBTRACT]: "Num-",
-    [KeyCodes.A]: "A",
-    [KeyCodes.B]: "B",
-    [KeyCodes.C]: "C",
-    [KeyCodes.D]: "D",
-    [KeyCodes.E]: "E",
-    [KeyCodes.F]: "F",
-    [KeyCodes.G]: "G",
-    [KeyCodes.H]: "H",
-    [KeyCodes.I]: "I",
-    [KeyCodes.J]: "J",
-    [KeyCodes.K]: "K",
-    [KeyCodes.L]: "L",
-    [KeyCodes.M]: "M",
-    [KeyCodes.N]: "N",
-    [KeyCodes.O]: "O",
-    [KeyCodes.P]: "P",
-    [KeyCodes.Q]: "Q",
-    [KeyCodes.R]: "R",
-    [KeyCodes.S]: "S",
-    [KeyCodes.T]: "T",
-    [KeyCodes.U]: "U",
-    [KeyCodes.V]: "V",
-    [KeyCodes.W]: "W",
-    [KeyCodes.X]: "X",
-    [KeyCodes.Y]: "Y",
-    [KeyCodes.Z]: "Z",
-    [KeyCodes.F1]: "F1",
-    [KeyCodes.F2]: "F2",
-    [KeyCodes.F3]: "F3",
-    [KeyCodes.F4]: "F4",
-    [KeyCodes.F5]: "F5",
-    [KeyCodes.F6]: "F6",
-    [KeyCodes.F7]: "F7",
-    [KeyCodes.F8]: "F8",
-    [KeyCodes.F9]: "F9",
-    [KeyCodes.F10]: "F10",
-    [KeyCodes.F11]: "F11",
-    [KeyCodes.F12]: "F12",
-    [KeyCodes.SEMICOLON]: ";",
-    [KeyCodes.PLUS]: "+",
-    [KeyCodes.COMMA]: ",",
-    [KeyCodes.MINUS]: "-",
-    [KeyCodes.PERIOD]: ".",
-    [KeyCodes.FORWARD_SLASH]: "/",
-    [KeyCodes.BACK_SLASH]: "\\",
-    [KeyCodes.QUOTES]: "'",
-    [KeyCodes.BACKTICK]: "`",
-    [KeyCodes.OPEN_BRACKET]: "[",
-    [KeyCodes.CLOSED_BRACKET]: "]",
-    [KeyCodes.SEMICOLON_FIREFOX]: ";",
-    [KeyCodes.COLON]: ":",
-    [KeyCodes.COMMA_FIREFOX_WINDOWS]: ",",
-    [KeyCodes.COMMA_FIREFOX]: ",",
-    [KeyCodes.BRACKET_RIGHT_FIREFOX]: "]",
-    [KeyCodes.BRACKET_LEFT_FIREFOX]: "["
-}
-
+// todo: these will be configurable
 export const GamepadCodes = {
     A: 0,
     B: 1,
@@ -217,6 +117,10 @@ export const GamepadCodes = {
     DOWN: 13,
     LEFT: 14,
     RIGHT: 15,
+    HOME: 16,
+
+    // the rest of these are like
+    // axis mappings
     LS_UP: 100,
     LS_DOWN: 101,
     LS_LEFT: 102,
@@ -245,7 +149,33 @@ export const GamepadCodes = {
     // RIGHT: -1,
 }
 
+export const GamepadAxisCodes = {
+    LSX: 0,
+    LSY: 1,
+    RSX: 2,
+    RSY: 3,
+}
 
+export const DefaultGamepadAxisMapping = {
+    [GamepadAxis.LSX]: {
+        pos: GamepadCodes.LS_RIGHT,
+        neg: GamepadCodes.LS_LEFT,
+    },
+    [GamepadAxis.LSY]: {
+        pos: GamepadCodes.LS_DOWN,
+        neg: GamepadCodes.LS_UP,
+    },
+    [GamepadAxis.RSX]: {
+        pos: GamepadCodes.RS_RIGHT,
+        neg: GamepadCodes.RS_LEFT,
+    },
+    [GamepadAxis.RSY]: {
+        pos: GamepadCodes.RS_DOWN,
+        neg: GamepadCodes.RS_UP,
+    }, 
+}
+
+// todo: rename these to default
 export const GamepadKeybinds = {
     'up': GamepadCodes.LS_UP,
     'down': GamepadCodes.LS_DOWN,
@@ -265,30 +195,6 @@ export const GamepadKeybinds = {
     'gamepadB': GamepadCodes.B,
     'gamepadX': GamepadCodes.X,
     'gamepadY': GamepadCodes.Y,
-}
-
-// todo: eventually we want multiple schemas of this
-// todo: also we're gonna replace these with <KeybindLabel>
-// components and render based on name from prop
-export const GamepadLabels = {
-    [GamepadCodes.LS_UP]: 'LS_UP',
-    [GamepadCodes.LS_DOWN]: 'LS_DOWN',
-    [GamepadCodes.LS_LEFT]: 'LS_LEFT',
-    [GamepadCodes.LS_RIGHT]: 'LS_RIGHT',
-    [GamepadCodes.LT]: 'LT',
-    [GamepadCodes.RT]: 'RT',
-    [GamepadCodes.LB]: 'LB',
-    [GamepadCodes.RB]: 'RB',
-    [GamepadCodes.START]: 'Start',
-    [GamepadCodes.SELECT]: 'Select',
-    [GamepadCodes.UP]: 'Up',
-    [GamepadCodes.DOWN]: 'Down',
-    [GamepadCodes.LEFT]: 'Left',
-    [GamepadCodes.RIGHT]: 'Right',
-    [GamepadCodes.A]: 'A',
-    [GamepadCodes.B]: 'B',
-    [GamepadCodes.X]: 'X',
-    [GamepadCodes.Y]: 'Y',
 }
 
 

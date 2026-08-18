@@ -44,6 +44,7 @@ const useKeyPress = (callback) => {
 
 
 const useGamepad = (callback) => {
+    // todo: how do we uhh fix this mapping
     const axisButtonMap = {
         [0]: {
             pos: GamepadCodes.LS_RIGHT,
@@ -75,6 +76,8 @@ const useGamepad = (callback) => {
     })
 
     useEffect(() => {
+        // todo: doesn't necessarily need to be hardcoded;
+        //      can go off keys of GamepadCodes (turned into prop)
         const gamepadState = {
             [GamepadCodes.A]: false,
             [GamepadCodes.B]: false,
