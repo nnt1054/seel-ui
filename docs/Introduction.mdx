@@ -4,36 +4,39 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Introduction to Seel UI
 
-With `MDX` we can include a story for `Checkbox` right in the middle of our
-markdown documentation.
+### What is Seel UI?
 
-## Checkbox 2
+Seel UI is an unstyled UI component library/system for building out user interfaces with (hopefully) more intuitive navigation using directional input events from both a keyboard or gamepad.
 
-With `MDX` we can include a story for `Checkbox` right in the middle of our
-markdown documentation.
+### How does it work?
 
+There are two main parts for making the system work; the Input Manager and the Active Node System. The Input Manager is in charge of listening to keyboard and Gamepad API events and execute actions based on a user provided keybind to command function mapping.  From there, the default commands will dispatch a set of events to the Active Node System through the DOM Events API.
 
-### Checkbox 3
+#### Input Manager
+...
 
-With `MDX` we can include a story for `Checkbox` right in the middle of our
-markdown documentation.
+#### Active Node System
+The active node system provides a pattern for creating and designating dom elements and components as navigable or interactable elements within the user interface.  Through the Active Node API you're able to define adjacency between nodes for moving a virtual cursor/shifting focus based on directional input events; as well as establishing a node hierarchy for propogating input events down to any active child nodes.
 
-#### Checkbox 4
+the default set of hooks are used for composing active node behaviors (see the uhh composing nodes section)
 
-With `MDX` we can include a story for `Checkbox` right in the middle of our
-markdown documentation.
+all nodes can be nested inside a parent node and have a set of active nodes as children; among their child nodes at most one node will be designated as having "focus" or being "active" within their parent node and the node the bottom of the hierarchy is where the "virtual cursor" is considered to be.
 
-### Checkbox 3
+#### Focus and Event Propagation 
+...
 
-With `MDX` we can include a story for `Checkbox` right in the middle of our
-markdown documentation.
+### How to use it?
 
-#### Checkbox 4
+#### Registering a Node
 
-With `MDX` we can include a story for `Checkbox` right in the middle of our
-markdown documentation.
+#### Hooks
 
-#### Checkbox 4
+#### Styling Components
 
-With `MDX` we can include a story for `Checkbox` right in the middle of our
-markdown documentation.
+### Recipes and Examples
+
+#### Using the Provided Components
+these are the components that already exist in the library
+
+#### Composing Custom Components
+here is where we can just make our own components using hooks and available context data
