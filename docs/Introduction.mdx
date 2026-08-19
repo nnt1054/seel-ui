@@ -16,14 +16,12 @@ There are two main parts for making the system work; the Input Manager and the A
 ...
 
 #### Active Node System
-The active node system provides a pattern for creating and designating dom elements and components as navigable or interactable elements within the user interface.  Through the Active Node API you're able to define adjacency between nodes for moving a virtual cursor/shifting focus based on directional input events; as well as establishing a node hierarchy for propogating input events down to any active child nodes.
+The active node system provides a pattern for creating and designating dom elements and components as navigable or interactable elements within the user interface.  The system works by defining adjacency between nodes for moving a virtual cursor/shifting focus based on directional input events; as well as establishing a node hierarchy for propogating input events down to any active child nodes.
 
-the default set of hooks are used for composing active node behaviors (see the uhh composing nodes section)
-
-all nodes can be nested inside a parent node and have a set of active nodes as children; among their child nodes at most one node will be designated as having "focus" or being "active" within their parent node and the node the bottom of the hierarchy is where the "virtual cursor" is considered to be.
+All nodes can be nested inside a parent node and have a set of active nodes as children; among their child nodes at most one node will be designated as having "focus" or being the "active node" within their parent node and the node the bottom of the hierarchy is where the "virtual cursor" is considered to be.
 
 #### Focus and Event Propagation 
-...
+Events are handled in "Capturing Phase" style only where events are propagated recursively from parent to child until it reaches the lowest child/target node or any node decides to capture and not propagate the event.
 
 ### How to use it?
 
