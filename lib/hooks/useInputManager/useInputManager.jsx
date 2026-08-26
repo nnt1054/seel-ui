@@ -1,7 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
 import { GamepadListener } from 'gamepad.js';
 
-import { GamepadCodes, GamepadKeybinds } from '../../constants';
+import {
+    GamepadCodes,
+    GamepadKeybinds,
+    DefaultGamepadMapping,
+    DefaultKeybinds,
+} from '../../constants';
 import {
     compareArrays,
     getKeyCombination,
@@ -167,10 +172,10 @@ const useGamepad = (mapping, callback) => {
 
 export const useInputManager = (props) => {
     const {
-        commands,
-        keybinds,
-        onBeforeKeyDown,
-        gamepadMapping,
+        commands = {},
+        keybinds = DefaultKeybinds,
+        gamepadMapping = DefaultGamepadMapping,
+        onBeforeKeyDown = () => {},
     } = props;
 
     const getKeybinds = (event, exactMatch = false) => {
@@ -197,7 +202,7 @@ export const useInputManager = (props) => {
     const onKeyDown = (event) => {
         const name = getKeybinds(event, true)[0];
 
-        const stopPropagation = onBeforeKeyDown?.(name, commands);
+        const stopPropagation = onBeforeKeyDown(name, commands);
         if (stopPropagation) return;
 
         if (!name) return;

@@ -12,7 +12,7 @@ Seel UI is an unstyled UI component library/system for building out user interfa
 
 There are two main parts for making the system work; the Input Manager and the Active Node System. The Input Manager is in charge of listening to keyboard and Gamepad API events and execute actions based on a user provided keybind to command function mapping.  From there, the default commands will dispatch a set of events to the Active Node System through the DOM Events API.
 
-#### Input Manager
+#### Input Provider
 ...
 
 #### Active Node System
@@ -21,20 +21,133 @@ The active node system provides a pattern for creating and designating dom eleme
 All nodes can be nested inside a parent node and have a set of active nodes as children; among their child nodes at most one node will be designated as having "focus" or being the "active node" within their parent node and the node the bottom of the hierarchy is where the "virtual cursor" is considered to be.
 
 #### Focus and Event Propagation 
-Events are handled in "Capturing Phase" style only where events are propagated recursively from parent to child until it reaches the lowest child/target node or any node decides to capture and not propagate the event.
+* Events are handled in "Capturing Phase" style only where events are propagated recursively from parent to child until it reaches the lowest child/target node or any node decides to capture and not propagate the event.
+* [include diagram of events passing through] 
+* event propagation enters through the top most node and gets passed down through to the end child in a capture phase style flow
+* nodes where events would propogate through are considered to have focus and the end lowest node in the hierarchy is considered to be the target node
+* base components with focus will automatically have `data-focused` attribute added
+* focus is attributed by being the designated "active node" within a parent or can be manually controlled via the `hasFocus` prop on any node
 
-### How to use it?
+### Using the Base Components
+(so for this section its going to quickly be about how to use the premade components and then segueing into how to style them before going on to the custom components stuff)
 
-#### Registering a Node
+#### Setting up the Input Provider
+* here we're setting up a very barebones input provider
+* the gist is that we have a `commands` object that maps named command names to a command config object/function to execute
+	* go here (insert link) for more information on commands and command properties
+* then we define a `keybinds` object which maps those same command names to an event keyCode
+* passing both into the `useInputManager` hook sets up the required event listeners and fires the corresponding commands upon detecting the appropriate keyboard event.
+* for more cool party tricks see here (insert another link here)
+	* tricks includes gamepad mappings, modal support and rebindable keybinds
+```
+const BasicInputProvider = (props) => {
+    const {
+        inputRef,
+        children,
+    } = props;
 
-#### Hooks
+    const commands = {
+        'confirm': {
+            execute: () => inputRef.current?.dispatchEvent(new Event('confirm'));
+        },
+        'cancel': {
+            execute: () => inputRef.current?.dispatchEvent(new Event('cancel'));
+        },
+        'left': {
+            execute: () => inputRef.current?.dispatchEvent(new Event('left'));
+        },
+        'right': {
+            execute: () => inputRef.current?.dispatchEvent(new Event('right'));
+        },
+        'up': {
+            execute: () => inputRef.current?.dispatchEvent(new Event('up'));
+        },
+        'down': {
+            execute: () => inputRef.current?.dispatchEvent(new Event('down'));
+        },
+    }
+
+    const keybinds = {
+	  'confirm': KeyCodes.ENTER,
+	  'cancel': KeyCodes.ESC,
+	  'up': KeyCodes.UP,
+	  'down': KeyCodes.DOWN,
+	  'left': KeyCodes.LEFT,
+	  'right': KeyCodes.RIGHT,
+	}
+
+    useInputManager({
+        commands,
+        keybinds,
+    })
+
+    return {
+    	{ children }
+    }
+}
+```
+
+#### Adding a Button
+````
+const App = () => {
+	const ref = useRef();
+	const onClick = () => { console.log('hello world') };
+
+	return {
+		<InputProvider inputRef={ ref }>
+			<Button ref={ ref } onClick={ onClick }> Hello World </Button>
+		</InputProvider>
+	}
+}
+````
+
+* since we passed the button's ref as the inputRef to the InputProvider, we've designated the button as the top level active node and events will be dispatched directly to the button active node
+* when the input provider receives a keyboard event for the ENTER key, it'll execute the `confirm` command which dispatches the a `confirm` event directly to the button component
+* on receiving the `confirm` event, the button component will by default manually call its onClick function
+
+#### Adding Adjacent Nodes
+````
+const App = () => {
+	const ref = useRef();
+	const onClick = () => { console.log('hello world') };
+
+	return {
+		<InputProvider inputRef={ ref }>
+			<ActiveContainer
+				ref={ ref }
+				node={ 'container' }
+				initial={ 'button 1' }
+			>
+				<Button
+					node={ 'button 1' }
+					adjacentNode={{ 'down': 'button 2' }}
+				> Hello </Button>
+				<Button
+					node={ 'button 2' }
+					adjacentNode={{ 'up': 'button 1' }}
+				> Hello </Button>
+			</ActiveContainer>
+		</InputProvider>
+	}
+}
+````
+* from here we add a second button and wrap them in an active container node
+* the active container will now receive events directly from the input provider instead and will then propagate events to whichever of the buttons is the active child or has focus;  `button 1` having focus first as specified by the `initial` prop
+* since we've defined adjacent nodes, when `button 1` receives a `down` event propagated from the container; we pass focus to the specified `button 2` node and vice versa
+* side note: for lists and grids of nodes, it is advised to use the ActiveList and ActiveGrid components which handles the naming and adjacency maps for each child node
+
+#### Assembling a Base Component
 
 #### Styling Components
 
-### Recipes and Examples
-
-#### Using the Provided Components
-these are the components that already exist in the library
-
-#### Composing Custom Components
+### Composing Custom Components
 here is where we can just make our own components using hooks and available context data
+
+* active nodes are created using the `withActiveNode` hoc wrapper
+* custom components must support a `ref` and `node` prop; and the `ref` prop must be attached to an html element
+* recommended to include `data-focused` attribute for consistency
+* `useActiveNode` provides all the relevant information regarding the node
+	* child properties: hasFocus, moveFocus, grabFocus
+	* parent properties: childrenRef, activeNode, setActiveNode
+
+#### Hooks

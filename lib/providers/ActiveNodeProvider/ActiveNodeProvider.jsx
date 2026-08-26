@@ -79,7 +79,7 @@ const createNodeContainer = (props = {}) => {
     return store;
 }
 
-export const withActiveNode = (WrappedComponent) => {
+export const withActiveNode = (WrappedComponent, ignoreParent) => {
     const Component = memo((props) => {
         const {
             ref = useRef(),
@@ -89,7 +89,7 @@ export const withActiveNode = (WrappedComponent) => {
             ...others
         } = props;
 
-        const parent = registerNode({ ref, node });
+        const parent = ignoreParent ? null : registerNode({ ref, node });
         const store = createNodeContainer({ node, initial, parent });
 
         // for manually controlled hasFocus

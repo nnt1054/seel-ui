@@ -3,35 +3,35 @@ import { useEffect } from 'react';
 import { handleAdjacentNode } from '@utils';
 
 
-export const useAdjacentNode = (props) => {
+export const useAdjacentNodes = (props) => {
     const {
         ref,
         adjacentNodes = {},
-        setActiveNode = () => {},
+        moveFocus = () => {},
         isActive = true,
     } = props;
 
     const up = () => {
         if (adjacentNodes.up) {
-            handleAdjacentNode(adjacentNodes.up, setActiveNode);
+            handleAdjacentNode(adjacentNodes.up, moveFocus);
         }
     }
 
     const down = () => {
-        if (atBottom && adjacentNodes.down) {
-            handleAdjacentNode(adjacentNodes.down, setActiveNode);
+        if (adjacentNodes.down) {
+            handleAdjacentNode(adjacentNodes.down, moveFocus);
         }
     }
 
     const left = () => {
         if (adjacentNodes.left) {
-            handleAdjacentNode(adjacentNodes.left, setActiveNode);
+            handleAdjacentNode(adjacentNodes.left, moveFocus);
         }
     }
 
     const right = () => {
         if (adjacentNodes.right) {
-            handleAdjacentNode(adjacentNodes.right, setActiveNode);
+            handleAdjacentNode(adjacentNodes.right, moveFocus);
         }
     }
 
@@ -53,4 +53,4 @@ export const useAdjacentNode = (props) => {
 }
 
 
-export default useAdjacentNode;
+export default useAdjacentNodes;

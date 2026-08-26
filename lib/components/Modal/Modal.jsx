@@ -51,7 +51,9 @@ export const Modal = withActiveNode((props) => {
 		}
 	}, [isOpen])
 
-	const { hasFocus, childrenRef, activeNode } = useActiveNode();
+	// todo: should always be true if open
+	const hasFocus = true;
+	const { childrenRef, activeNode } = useActiveNode();
 
 	usePropagateEvents({
 		ref,
@@ -75,6 +77,6 @@ export const Modal = withActiveNode((props) => {
 			/>
 		</ModalContext.Provider>
 	)
-})
+}, true)
 
 export default Modal;

@@ -4,19 +4,20 @@ import {
 	withActiveNode,
 } from '@providers/ActiveNodeProvider/ActiveNodeProvider';
 import { useActiveNode } from '@hooks/useActiveNode/useActiveNode';
+import { useAdjacentNodes } from '@hooks/useAdjacentNodes/useAdjacentNodes';
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
-
 
 export const Button = withActiveNode((props) => {
 	const {
 		ref = useRef(),
 		node,
+		adjacentNodes = {},
 		onClick = () => {},
 		children,
 		...others
 	} = props;
 
-    const { hasFocus, grabFocus } = useActiveNode();
+    const { hasFocus, grabFocus, moveFocus } = useActiveNode();
 	const callbacks = useEventListeners(ref, {
         confirm: () => {
         	grabFocus()
@@ -26,6 +27,13 @@ export const Button = withActiveNode((props) => {
 		// prevent focus on click
         mousedown: (event) => { event.preventDefault() },
     })
+
+	useAdjacentNodes({
+		ref,
+		adjacentNodes,
+		moveFocus,
+	})
+
 
 	return (
 		<button
