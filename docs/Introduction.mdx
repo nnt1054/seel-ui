@@ -137,6 +137,54 @@ const App = () => {
 * side note: for lists and grids of nodes, it is advised to use the ActiveList and ActiveGrid components which handles the naming and adjacency maps for each child node
 
 #### Assembling a Base Component
+* so some base components will follow a compound components pattern and will require some assembly
+* the anatomy of base components will be outlined in their documentation page
+* many compound components do support being swapped with any Active Node component and will be specified as such
+* each component of the compound component can be styled individually (see styling section)
+
+```
+const ExampleList = () => {
+	return (
+		<ActiveList node={ 'list' } maxIndex={ 4 }>
+			<ActiveList.Item node={ 0 }> 0 </ActiveList.Item>
+			<ActiveList.Item node={ 1 }> 1 </ActiveList.Item>
+			<ActiveList.Item node={ 2 }> 2 </ActiveList.Item>
+			<Button node={ 3 }> 3 </Button>
+		</ActiveList>
+	)
+}
+```
+```
+const ExampleTabs = (props) => {
+	return (
+		<Tabs initial={ 1 } maxIndex={ 3 }>
+			<Tabs.List orientation={ 'horizontal' }>
+				<Tabs.CycleButton direction={ 'left' }> -1 </Tabs.CycleButton>
+				<Tabs.Tab node={ 0 }> Tab 1 </Tabs.Tab>
+				<Tabs.Tab node={ 1 }> Tab 2 </Tabs.Tab>
+				<Tabs.Tab node={ 2 }> Tab 3 </Tabs.Tab>
+				<Tabs.CycleButton direction={ 'right' }> +1 </Tabs.CycleButton>
+			</Tabs.List>
+
+			<Tabs.Panel index={ 0 }>
+				<span> Tab Content 1 </span>
+			</Tabs.Panel>
+
+			<Tabs.Panel index={ 1 }>
+				<Button> Tab Content 2 </Button>
+			</Tabs.Panel>
+
+			<Tabs.Panel index={ 2 }>
+				<ActiveList>
+					{Array(5).fill(0).map((_, i) => {
+						return <ActiveList.Item key={ i } node={ i } />
+					})}
+				</ActiveList>
+			</Tabs.Panel>
+        </Tabs>
+}
+```
+
 
 #### Styling Components
 

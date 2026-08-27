@@ -125,7 +125,7 @@ const TabsList = memo((props) => {
 			adjacentNodes={{ ...adjacentNodes, [contentPosition]: 'content' }}
 			maxIndex={ maxIndex }
 			disableJump={ true }
-			orientation={ 'horizontal' }
+			orientation={ orientation }
 			{ ...others }
 		>
 			{ children }
