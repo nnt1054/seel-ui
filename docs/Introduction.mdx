@@ -12,8 +12,11 @@ Seel UI is an unstyled UI component library/system for building out user interfa
 
 There are two main parts for making the system work; the Input Manager and the Active Node System. The Input Manager is in charge of listening to keyboard and Gamepad API events and execute actions based on a user provided keybind to command function mapping.  From there, the default commands will dispatch a set of events to the Active Node System through the DOM Events API.
 
-#### Input Provider
-...
+#### Input System
+* the `useInputManager` takes in a set of commands and keybinds and sets up event listeners such that corresponding keyboard and gamepad events will invoke their corresponding commands
+* commands and keybinds are passed in as props such as to support multiple sets of commands and rebindable keybinds based on context
+* it is recommended to make your own and multiple InputProvider components wrappers for different contexts (i.e. one more title screen and menus, another for in gameplay scenes, etc.)
+* see input provider section for more examples and fun party tricks
 
 #### Active Node System
 The active node system provides a pattern for creating and designating dom elements and components as navigable or interactable elements within the user interface.  The system works by defining adjacency between nodes for moving a virtual cursor/shifting focus based on directional input events; as well as establishing a node hierarchy for propogating input events down to any active child nodes.
@@ -187,15 +190,66 @@ const ExampleTabs = (props) => {
 
 
 #### Styling Components
+* the base components are compatible with most styling solutions such as tailwind, css modules and css-in-js libraries such as `styled-components`
+* this is mostly enabled by basically passing all the props through to the actual dom element
+* some data attributes will be provided and set by the component to style on such as `data-focused` and `data-active-tab` and `data-orientation`.  components will specify their available attributes in their individual documentation pages.
 
 ### Composing Custom Components
-here is where we can just make our own components using hooks and available context data
+in addition to the base components, `seel-ui` is designed and highly recommends you compose your own custom components using the available hooks and context data.  ideally this enables you to create your own custom navigation behaviors on top of having more freedom to style and design the visual design of your nodes
 
+for the basic rules:
 * active nodes are created using the `withActiveNode` hoc wrapper
+	* note: when using this the node becomes a child of the nearest possible parent it's nested in so plan accordingly (for modals and popups; we're trying to add a `detached` prop)
 * custom components must support a `ref` and `node` prop; and the `ref` prop must be attached to an html element
 * recommended to include `data-focused` attribute for consistency
 * `useActiveNode` provides all the relevant information regarding the node
 	* child properties: hasFocus, moveFocus, grabFocus
 	* parent properties: childrenRef, activeNode, setActiveNode
+	* go to the `useActiveNode` page to see more
+* most behaviors are defined via hooks which for the most part define sets of callbacks and handlers for the standard set of navigation events
+
+```
+export const ExampleNode = withActiveNode(() => {
+	const {
+		ref,
+		node,
+		...others
+	} = props;
+
+	const { hasFocus } = useActiveNode();
+
+	...
+
+	return (
+		<div
+			ref={ ref }
+			data-focused={ hasFocus ? true : "" }
+			...others
+		/>
+	)
+})
+```
 
 #### Hooks
+
+##### useActiveNode
+* provides all relevant information/context for the active node
+	* node as child properties: hasFocus, moveFocus, grabFocus
+	* node as parent properties: childrenRef, activeNode, setActiveNode
+
+##### useEventListeners
+* helper utility hook that sets up callbacks for a given a set of events
+* callbacks can be dynamically toggled via the `isActive` prop
+
+##### usePropagateEvents
+* upon receeiving an event (from a specified list of events), dispatches the same event down to the active child node within the current container if any
+
+##### useAdjacentNodes
+* adds callbacks to moveFocus to specified neighbors upon receiving a directional event; aka receiving an `up` event will move focus to the adjacent node in the `up` direction and so on and so forth
+
+##### useActiveIndex / useActiveGridIndex
+* used for active lists and active grid indexes
+* assumes all nodes within the container have an ordered integer node name
+
+##### useActiveScrollableNode
+* very similar to `useAdjacentNodes` but directional/navigation events will scroll the current node in the given direction and then will only moveFocus if the node is at its max/min scroll position
