@@ -1,0 +1,45 @@
+import {
+	Meta,
+	Controls,
+	ArgTypes,
+	Source,
+	TableOfContents,
+	Title,
+	Subtitle,
+	Description,
+	Markdown,
+} from '@storybook/addon-docs/blocks';
+import { Table } from '@docs/blocks/Table';
+
+import * as ActiveContainerStories from './ActiveContainer.stories';
+
+<Meta of={ ActiveContainerStories } />
+
+<Title />
+
+<Subtitle>This is the subtitle</Subtitle>
+
+here we can write our little vague description and stuff
+insert screenshot here if possible
+
+### Usage Guidelines
+
+### Event Listeners
+
+### Anatomy
+
+source doesnt have to be here, should just be a text blob
+
+<Source />
+
+### API Reference
+
+<ArgTypes />
+
+<Table
+  headers={['Header 1', 'Header 2', 'Header 3']}
+  rows={[
+    ['Cell 1', 'Cell 2', 'foo'],
+    ['Cell 3', 'Cell 4', 'bar'],
+  ]}
+/>

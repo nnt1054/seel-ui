@@ -10,7 +10,7 @@ const preview = {
     },
     docs: {
       toc: {
-        headingSelector: 'h2, h3',
+        headingSelector: 'h3, h4',
       },
       codePanel: true,
     },
