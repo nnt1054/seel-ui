@@ -73,23 +73,67 @@ const TitleScreen = () => {
 	)
 }
 
+// props:
+
+// node props:
+// ref
+// node
+// hasFocus
+// initial
+
+// component props:
+// events
+
+// and then:
+// ...elementProps
 
 export default {
   title: 'Navigation/ActiveContainer',
   component: ActiveContainer,
   args: {
-    hasFocus: true,
+  	events: ['left', 'right', 'up', 'down'],
+  	ref: null,
     node: 'button',
-    columns: 5,
+    hasFocus: true,
   },
   argTypes: {
-    hasFocus: {
-      control: 'boolean'
+    events: {
+    	type: 'array',
+    	description: 'List of event names to propagate through to the active child.',
+    	table: {
+	    	defaultValue: {
+	    		summary: `
+	    			['up', 'down', 'left', 'right',
+	    			'cycleR', 'cycleL', 'confirm']`,
+	    	},
+    	},
+    },
+    ref: {
+    	type: 'RefObject<>',
+    	table: {
+    		category: 'Node Props',
+    	},
     },
     node: {
+    	type: {
+    		name: 'string',
+    		required: true,
+    	},
       table: {
-        disable: true,
+    		category: 'Node Props',
       },
+    },
+    hasFocus: {
+    	type: 'boolean',
+    	table: {
+    		category: 'Node Props',
+    	},
+    },
+    initial: {
+    	type: 'string',
+    	table: {
+    		category: 'Node Props',
+    	},
     },
   },
   parameters: {

@@ -9,7 +9,6 @@ import {
 	Description,
 	Markdown,
 } from '@storybook/addon-docs/blocks';
-import { Table } from '@docs/blocks/Table';
 
 import * as ActiveContainerStories from './ActiveContainer.stories';
 
@@ -17,29 +16,30 @@ import * as ActiveContainerStories from './ActiveContainer.stories';
 
 <Title />
 
-<Subtitle>This is the subtitle</Subtitle>
+<Subtitle>A basic container for holding active nodes.</Subtitle>
 
-here we can write our little vague description and stuff
-insert screenshot here if possible
+The most basic container element that renders an unstyled `div` element.  Its primary behavior is to listen for events and propagate them down to whichever of its direct child nodes is currently active.
 
 ### Usage Guidelines
 
-### Event Listeners
-
 ### Anatomy
 
-source doesnt have to be here, should just be a text blob
+```jsx
+import { ActiveContainer } from 'seel-ui';
 
-<Source />
+<ActiveContainer />
+```
+
+### Examples
+
+#### Example 1
+
+hello
+
+#### Example 2
+
+hi
 
 ### API Reference
 
 <ArgTypes />
-
-<Table
-  headers={['Header 1', 'Header 2', 'Header 3']}
-  rows={[
-    ['Cell 1', 'Cell 2', 'foo'],
-    ['Cell 3', 'Cell 4', 'bar'],
-  ]}
-/>
