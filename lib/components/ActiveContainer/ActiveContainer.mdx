@@ -32,13 +32,30 @@ import { ActiveContainer } from 'seel-ui';
 
 ### Examples
 
-#### Example 1
+#### Active Container with 2 Buttons
 
-hello
+```jsx
+const App = () => {
+	const ref = useRef();
 
-#### Example 2
-
-hi
+	return (
+		<InputProvider inputRef={ ref }>
+			<ActiveContainer ref={ ref } initial={ 'foo' }>
+				<Button
+					node={ 'foo' }
+					adjacentNodes={{ right: 'bar' }}
+					onClick={() => { console.log('foo') }}
+				> foo </Button>
+				<Button
+					node={ 'bar' }
+					adjacentNodes={{ left: 'foo' }}
+					onClick={() => { console.log('bar') }}
+				> bar </Button>
+			</ActiveContainer>
+		</InputProvider>
+	)
+}
+```
 
 ### API Reference
 
