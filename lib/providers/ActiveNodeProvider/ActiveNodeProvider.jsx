@@ -27,6 +27,9 @@ const createNodeContainerStore = (props) => {
 
         hasFocus: true,
         setHasFocus: (hasFocus) => set(state => ({ hasFocus })),
+
+        controlledFocus: null,
+        setControlledFocus: (controlledFocus) => set(state => ({ controlledFocus })),
     }))
 }
 
@@ -94,8 +97,10 @@ export const withActiveNode = (WrappedComponent, ignoreParent) => {
 
         // for manually controlled hasFocus
         useEffect(() => {
-            const { setHasFocus } = store.getState();
-            if (typeof hasFocus == 'boolean') setHasFocus(hasFocus);
+            if (typeof hasFocus == 'boolean') {
+                const { setControlledFocus } = store.getState();
+                setControlledFocus(hasFocus);
+            }
         }, [hasFocus])
 
         return (

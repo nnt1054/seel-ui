@@ -25,11 +25,13 @@ export const useActiveNode = () => {
     const childrenRef = useStore(store, state => state.childrenRef);
     const activeNode = useStore(store, state => state.activeNode);
     const setActiveNode = useStore(store, state => state.setActiveNode);
+    const controlledFocus = useStore(store, state => state.controlledFocus);
 
     // note: removed since we don't need to rerender on this cause its
-    // for children node to hook into
+    // more specifically for children node to hook into
     // const hasFocus = useStore(store, state => state.hasFocus);
 
+    // todo: what to do if no parent? or we have a controlled hasFocus value
     const isActiveNode = useStore(
         parent || emptyParent,
         state => state.hasFocus && state.activeNode == node
@@ -38,13 +40,17 @@ export const useActiveNode = () => {
         parent || emptyParent,
         state => state.setActiveNode
     );
+
+    const hasFocus = typeof controlledFocus == 'boolean'
+        ? controlledFocus
+        : isActiveNode;
+
     useEffect(() => {
-        if (!parent) return;
-        setHasFocus(isActiveNode);
-    }, [parent, isActiveNode])
+        setHasFocus(hasFocus);
+    }, [parent, hasFocus])
 
     return {
-        hasFocus: isActiveNode,
+        hasFocus,
         moveFocus,
         grabFocus,
 

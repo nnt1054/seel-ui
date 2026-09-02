@@ -18,7 +18,7 @@ export const ActiveContainer = withActiveNode((props) => {
 		...others
 	} = props;
 
-    const { childrenRef, activeNode } = useActiveNode();
+    const { hasFocus, childrenRef, activeNode } = useActiveNode();
     usePropagateEvents({
         ref,
         childrenRef,
@@ -27,7 +27,11 @@ export const ActiveContainer = withActiveNode((props) => {
     })
 
 	return (
-		<div ref={ ref } { ...others }/>
+		<div
+			ref={ ref }
+			data-focused={ hasFocus ? "" : null }
+			{ ...others }
+		/>
 	)
 })
 
