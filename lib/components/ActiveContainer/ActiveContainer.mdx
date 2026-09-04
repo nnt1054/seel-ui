@@ -10,6 +10,7 @@ import {
 	Markdown,
 } from '@storybook/addon-docs/blocks';
 
+import { Table } from '@docs/blocks/Table';
 import * as ActiveContainerStories from './ActiveContainer.stories';
 
 <Meta of={ ActiveContainerStories } />
@@ -21,6 +22,8 @@ import * as ActiveContainerStories from './ActiveContainer.stories';
 The most basic container element that renders an unstyled `div` element.  Its primary behavior is to listen for events and propagate them down to whichever of its direct child nodes is currently active.
 
 ### Usage Guidelines
+* Moving focus between different children will/should be handled by the children nodes themselves via `adjacentNode` props and hooks that utilize them (Unlike `ActiveList`'s which manages its own focus between its children).
+* Recommended to manually control and set the `hasFocus` prop if container is the top level node with no parent.
 
 ### Anatomy
 
@@ -64,3 +67,10 @@ const App = () => {
 ### API Reference
 
 <ArgTypes />
+
+<Table
+  headers={['Attribute', 'Description']}
+  rows={[
+    [<b>data-focused</b>, "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`."],
+  ]}
+/>

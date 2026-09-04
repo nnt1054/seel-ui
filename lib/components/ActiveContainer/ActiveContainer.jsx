@@ -5,11 +5,12 @@ import { useActiveNode } from '@hooks/useActiveNode/useActiveNode'
 import { usePropagateEvents } from '@hooks/usePropagateEvents/usePropagateEvents';
 
 
+const defaultEvents =  [
+	'up', 'down', 'left', 'right',
+	'cycleR', 'cycleL', 'confirm',
+];
+
 export const ActiveContainer = withActiveNode((props) => {
-    const defaultEvents =  [
-    	'up', 'down', 'left', 'right',
-    	'cycleR', 'cycleL', 'confirm',
-    ];
 	const {
         ref = useRef(),
 		node,
@@ -19,6 +20,7 @@ export const ActiveContainer = withActiveNode((props) => {
 	} = props;
 
     const { hasFocus, childrenRef, activeNode } = useActiveNode();
+
     usePropagateEvents({
         ref,
         childrenRef,
