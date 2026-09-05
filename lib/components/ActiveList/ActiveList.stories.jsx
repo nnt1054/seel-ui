@@ -21,8 +21,8 @@ export default {
   decorators: [includeInputProvider],
   args: {
     adjacentNodes: {},
-    initialIndex: 0,
     maxIndex: 4,
+    initialIndex: 0,
     orientation: 'vertical',
     isReverse: false,
     disableWrap: false,
@@ -41,19 +41,19 @@ export default {
         readonly: true,
       },
     },
-    initialIndex: {
-      description: 'Index of child node to start with focus.  Changing the value of the initialIndex prop will automatically move focus to the node at the given index.',
-      table: {
-        defaultValue: {
-          summary: 0,
-        },
-      },
-    },
     maxIndex: {
       description: 'The number of active nodes in the list.  If maxIndex prop is not populated, maxIndex will default to the number of child components in the ActiveList.',
       table: {
         defaultValue: {
           summary: null,
+        },
+      },
+    },
+    initialIndex: {
+      description: 'Index of child node to start with focus.  Changing the value of the initialIndex prop will automatically move focus to the node at the given index.',
+      table: {
+        defaultValue: {
+          summary: 0,
         },
       },
     },

@@ -1,0 +1,86 @@
+import {
+	Meta,
+	Controls,
+	ArgTypes,
+	Source,
+	TableOfContents,
+	Title,
+	Subtitle,
+	Description,
+	Markdown,
+} from '@storybook/addon-docs/blocks';
+
+import { Table } from '@docs/blocks/Table';
+import * as ActiveGridStories from './ActiveGrid.stories';
+
+<Meta of={ ActiveGridStories } />
+
+<Title />
+
+<Subtitle>A container for rendering an ordered list of active nodes as a 2-dimensional grid.</Subtitle>
+
+A container element that renders either a `div` element with display `grid` styling added to it.  ActiveGrid's listens for directional navigation events and handles moving focus within its own children.  Propagates all other events to its children otherwise.
+
+### Usage Guidelines
+* ...
+
+
+### Anatomy
+
+```jsx
+import { ActiveGrid } from 'seel-ui';
+
+<ActiveGrid>
+	<ActiveGrid.Item />
+</ActiveGrid>
+```
+
+### Examples
+
+#### Active Grid with 25 Buttons
+
+```jsx
+const App = () => {
+	const ref = useRef();
+
+	return (
+		<InputProvider inputRef={ ref }>
+			<ActiveContainer
+				ref={ ref }
+				hasFocus={ true }
+				initial={ 'grid' }
+			>
+				<ActiveGrid
+					node={ 'grid' }
+					columns={ 5 }
+					maxIndex={ 25 }
+					initialIndex={ 0 }
+				>
+					{
+						Array(25).fill(0).map((_, i) => {
+							return (
+								<ActiveGrid.Item
+									key={ i }
+									node={ i }
+								>{ i }</ActiveGrid.Item>
+							)
+						})
+					}
+				</ActiveGrid>
+			</ActiveContainer>
+		</InputProvider>
+	)
+}
+```
+
+### API Reference
+
+<ArgTypes />
+
+<Table
+	headers={['Attribute', 'Description']}
+	rows={[
+		[<b>data-focused</b>, "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`."],
+		[<b>data-orientation</b>, "Always present with value `grid`."],
+	]}
+/>

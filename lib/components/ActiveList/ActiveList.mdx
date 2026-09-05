@@ -19,7 +19,7 @@ import * as ActiveListStories from './ActiveList.stories';
 
 <Subtitle>A container for holding an ordered list of active nodes.</Subtitle>
 
-The container element that renders either a horizontal or vertical flex `div` element.  ActiveList's listens for directional navigation events and handles moving focus within its own children.  Propagates all other events to it's children otherwise.
+A container element that renders either a horizontal or vertical flex `div` element.  ActiveList's listens for directional navigation events and handles moving focus within its own children.  Propagates all other events to it's children otherwise.
 
 ### Usage Guidelines
 * You're able to style the provided `ActiveList.Item` directly but you can also put any other active node component inside; additionally not all components within the list need to be same.
@@ -96,5 +96,17 @@ const App = () => {
 	rows={[
 		[<b>data-focused</b>, "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`."],
 		[<b>data-orientation</b>, "Indicates whether the list is either in a `vertical` or `horizontal` orientation."],
+	]}
+/>
+
+<Table
+	headers={['Event', 'Description']}
+	rows={[
+		[<b>confirm</b>, "Propagated to active child node."],
+		[<b>cancel</b>, "Propagated to active child node."],
+		[<b>left</b>, "If vertical orientation, either moves focus to a `left` adjacent node, jumps the focus to the beginning of the list, or propagates the event to the active child node.  If horizontal orientation, moves focus left from the current active child or wraps focus around to the end of the list."],
+		[<b>right</b>, "If vertical orientation, either moves focus to a `right` adjacent node, jumps the active index to end of the list, or propagates the event to the active child node.  If horizontal orientation, moves focus right from the current active child or wraps focus back around to the beginning of the list."],
+		[<b>up</b>, "If vertical orientation, moves focus up from the current active child or wraps focus around to the end of the list.  If horizontal orientation, either moves focus to an `up` adjacent node, jumps the active index to the beginning of the list, or propagates the event to the active child node."],
+		[<b>down</b>, "If vertical orientation, moves focus down from the current active child or wraps focus around to the beginning of the list.  If horizontal orientation, either moves focus to a `down` adjacent node, jumps the active index to the end of the list, or propagates the event to the active child node."],
 	]}
 />

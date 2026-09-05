@@ -11,6 +11,7 @@ import { useActiveGridIndex } from '@hooks/useActiveGridIndex/useActiveGridIndex
 import { usePropagateEvents } from '@hooks/usePropagateEvents/usePropagateEvents';
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
+
 const StyledActiveGrid = styled.div`
     display: grid;
     grid-template-columns: ${props => `repeat(${props.$columns}, 1fr)`};
@@ -20,9 +21,9 @@ export const ActiveGrid = withActiveNode((props) => {
         ref,
         node,
         adjacentNodes = {},
-        columns,
-        maxIndex: _maxIndex,
+        columns = 1,
         initialIndex = 0,
+        maxIndex: _maxIndex,
         children,
         ...others
 	} = props;
@@ -98,6 +99,7 @@ export const ActiveGridItem = withActiveNode((props) => {
             ref={ ref }
             onClick={ onClick }
             data-focused={ hasFocus ? "" : null }
+            data-orientation={ 'grid' }
             { ...others }
         />
     )

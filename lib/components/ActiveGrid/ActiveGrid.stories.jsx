@@ -13,17 +13,73 @@ export default {
   component: ActiveGrid,
   decorators: [includeInputProvider],
   args: {
-    hasFocus: true,
-    node: 'button',
+    adjacentNodes: {},
     columns: 5,
+    maxIndex: 25,
+    initialIndex: 0,
+    ref: null,
+    node: 'grid',
+    hasFocus: true,
   },
   argTypes: {
-    hasFocus: {
-      control: 'boolean'
+    adjacentNodes: {
+      description: 'Object denoting what nodes within the same parent, if any, are adjacent to the current node and in what direction.  See `useAdjacentNodes` hook for more information.',
+      table: {
+        defaultValue: {
+          summary: `{}`,
+        },
+        readonly: true,
+      },
+    },
+    columns: {
+      description: 'The number of columns (min. 1) to render the child nodes in.  The number of rows in the grid will be automatically calculated using maxIndex and columns.',
+      table: {
+        defaultValue: {
+          summary: 1,
+        },
+      },
+    },
+    maxIndex: {
+      description: 'The number of active nodes in the grid.  If maxIndex prop is not populated, maxIndex will default to the number of child components in the ActiveList.',
+      table: {
+        defaultValue: {
+          summary: null,
+        },
+      },
+    },
+    initialIndex: {
+      description: 'Index of child node to start with focus.  Changing the value of the initialIndex prop will automatically move focus to the node at the given index.',
+      table: {
+        defaultValue: {
+          summary: 0,
+        },
+      },
+    },
+    ref: {
+      type: 'RefObject<>',
+      table: {
+        category: 'Node Props',
+        readonly: true,
+      },
     },
     node: {
+      type: {
+        name: 'string',
+        required: true,
+      },
       table: {
-        disable: true,
+        category: 'Node Props',
+        readonly: true,
+      },
+    },
+    hasFocus: {
+      type: 'boolean',
+      description: "Controlled override for the node's `hasFocus` value.  Primarily used for setting focus value for the top level node.",
+      table: {
+        category: 'Node Props',
+        defaultValue: {
+          summary: 'null',
+        },
       },
     },
   },
