@@ -15,12 +15,20 @@ import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 const StyledActiveList = styled.div`
     display: flex;
 
+    &[data-orientation='horizontal'] {
+        flex-direction: row;
+    }
+
     &[data-orientation='vertical'] {
         flex-direction: column;
     }
 
-    &[data-orientation='horizontal'] {
-        flex-direction: row;
+    &[data-orientation='horizontal'][data-reversed] {
+        flex-direction: row-reverse;
+    }
+
+    &[data-orientation='vertical'][data-reversed] {
+        flex-direction: column-reverse;
     }
 `
 export const ActiveList = withActiveNode((props) => {
@@ -30,16 +38,17 @@ export const ActiveList = withActiveNode((props) => {
         adjacentNodes = {},
         maxIndex: _maxIndex,
         initialIndex = 0,
-        orientation = 'vertical', // or 'horizontal'
+        orientation = 'vertical',
+        isReverse = false,
         disableWrap = false,
         disableJump = false,
-        children,
         ...others
 	} = props;
 
     const maxIndex = Number.isInteger(_maxIndex)
         ? _maxIndex
-        : children.length;
+        : props.children.length;
+
     const isColumn = (orientation == 'vertical')
 
     const {
@@ -51,19 +60,6 @@ export const ActiveList = withActiveNode((props) => {
         setActiveNode: setActiveIndex,
     } = useActiveNode();
 
-    // todo: propagation controller
-    // issue to note: cancel should come from the child node provided via context
-    // why?  in the case of nested containers the top level node will receive
-    // the cancel event before the child nodes its intended for
-    // useEventListeners(ref, {
-    //     confirm: () => {
-    //         // propagate the confirm event or turn on propagation
-    //     },
-    //     cancel: () => {
-    //         // stop propagation
-    //     },
-    // })
-
     useActiveIndex({
         ref,
         activeIndex,
@@ -71,23 +67,31 @@ export const ActiveList = withActiveNode((props) => {
         maxIndex,
         initialIndex,
         isColumn,
+        isReverse,
         disableWrap,
         disableJump,
         adjacentNodes,
         moveFocus,
     });
 
+    const events = ['confirm', 'cancel'];
+
+    if (disableJump) {
+        if (isColumn) {
+            events.push('left', 'right')
+        } else {
+            events.push('up', 'down')
+        }
+    }
+
     usePropagateEvents({
         ref,
         childrenRef,
         activeNode: activeIndex,
-        events: isColumn
-            ? ['left', 'right', 'confirm']
-            : ['up', 'down', 'confirm'],
+        events,
     })
 
     const onClick = () => {
-        // setActiveNode?.(node)
         grabFocus();
     }
 
@@ -97,10 +101,9 @@ export const ActiveList = withActiveNode((props) => {
             onClick={ onClick }
             data-focused={ hasFocus ? "" : null }
             data-orientation={ isColumn ? 'vertical' : 'horizontal' }
+            data-reversed={ isReverse ? "" : null }
             { ...others }
-        >
-            { props.children }
-        </StyledActiveList>
+        />
     )
 })
 
@@ -109,13 +112,17 @@ export const ActiveListItem = withActiveNode((props) => {
     const {
         ref = useRef(),
         node,
+        onConfirm = () => {},
+
+        // deprecate callback
         callback = () => {},
         ...others
     } = props;
 
     const { hasFocus, grabFocus } = useActiveNode();
+
     const callbacks = useEventListeners(ref, {
-        confirm: () => { callback(); },
+        confirm: () => { onConfirm() },
     })
 
     const onClick = () => {
