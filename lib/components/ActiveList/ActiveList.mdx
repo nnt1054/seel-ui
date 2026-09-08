@@ -12,6 +12,7 @@ import {
 
 import { Table } from '@docs/blocks/Table';
 import * as ActiveListStories from './ActiveList.stories';
+import * as ActiveListItemStories from './ActiveListItem.stories';
 
 <Meta of={ ActiveListStories } />
 
@@ -89,6 +90,8 @@ const App = () => {
 
 ### API Reference
 
+#### ActiveList
+
 <ArgTypes />
 
 <Table
@@ -108,5 +111,23 @@ const App = () => {
 		[<b>right</b>, "If vertical orientation, either moves focus to a `right` adjacent node, jumps the active index to end of the list, or propagates the event to the active child node.  If horizontal orientation, moves focus right from the current active child or wraps focus back around to the beginning of the list."],
 		[<b>up</b>, "If vertical orientation, moves focus up from the current active child or wraps focus around to the end of the list.  If horizontal orientation, either moves focus to an `up` adjacent node, jumps the active index to the beginning of the list, or propagates the event to the active child node."],
 		[<b>down</b>, "If vertical orientation, moves focus down from the current active child or wraps focus around to the beginning of the list.  If horizontal orientation, either moves focus to a `down` adjacent node, jumps the active index to the end of the list, or propagates the event to the active child node."],
+	]}
+/>
+
+#### ActiveList.Item
+
+<ArgTypes of={ ActiveListItemStories } />
+
+<Table
+	headers={['Attribute', 'Description']}
+	rows={[
+		[<b>data-focused</b>, "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`."],
+	]}
+/>
+
+<Table
+	headers={['Event', 'Description']}
+	rows={[
+		[<b>confirm</b>, "Calls function passed from onConfirm prop."],
 	]}
 />

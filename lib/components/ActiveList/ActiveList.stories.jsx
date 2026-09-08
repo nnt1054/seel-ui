@@ -27,7 +27,7 @@ export default {
     isReverse: false,
     disableWrap: false,
     disableJump: false,
-    ref: null,
+    ref: undefined,
     node: 'list',
     hasFocus: true,
   },

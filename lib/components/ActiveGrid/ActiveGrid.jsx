@@ -68,6 +68,7 @@ export const ActiveGrid = withActiveNode((props) => {
             ref={ ref }
             onClick={ onClick }
             $columns={ columns }
+            data-orientation={ 'grid' }
             { ...others }
         >
             { props.children }
@@ -80,13 +81,14 @@ export const ActiveGridItem = withActiveNode((props) => {
     const {
         ref = useRef(),
         node,
-        callback = () => {},
+        onConfirm = () => {},
         ...others
     } = props;
 
     const { hasFocus, grabFocus } = useActiveNode();
+
     const callbacks = useEventListeners(ref, {
-        confirm: () => { callback(); },
+        confirm: () => { onConfirm() },
     })
 
     const onClick = () => {
@@ -99,7 +101,6 @@ export const ActiveGridItem = withActiveNode((props) => {
             ref={ ref }
             onClick={ onClick }
             data-focused={ hasFocus ? "" : null }
-            data-orientation={ 'grid' }
             { ...others }
         />
     )

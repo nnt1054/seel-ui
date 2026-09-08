@@ -110,12 +110,9 @@ export const ActiveList = withActiveNode((props) => {
 
 export const ActiveListItem = withActiveNode((props) => {
     const {
-        ref = useRef(),
+        ref,
         node,
         onConfirm = () => {},
-
-        // deprecate callback
-        callback = () => {},
         ...others
     } = props;
 

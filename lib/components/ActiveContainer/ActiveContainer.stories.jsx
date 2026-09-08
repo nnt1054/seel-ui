@@ -16,7 +16,7 @@ export default {
 	component: ActiveContainer,
 	args: {
 		events: ['left', 'right', 'confirm'],
-		ref: null,
+		ref: undefined,
 		node: 'container',
 		hasFocus: true,
 		initial: 'foo',

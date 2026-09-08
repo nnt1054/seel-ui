@@ -12,6 +12,7 @@ import {
 
 import { Table } from '@docs/blocks/Table';
 import * as ActiveGridStories from './ActiveGrid.stories';
+import * as ActiveGridItemStories from './ActiveGridItem.stories';
 
 <Meta of={ ActiveGridStories } />
 
@@ -75,6 +76,8 @@ const App = () => {
 
 ### API Reference
 
+#### ActiveGrid
+
 <ArgTypes />
 
 <Table
@@ -82,5 +85,23 @@ const App = () => {
 	rows={[
 		[<b>data-focused</b>, "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`."],
 		[<b>data-orientation</b>, "Always present with value `grid`."],
+	]}
+/>
+
+#### ActiveGrid.Item
+
+<ArgTypes of={ ActiveGridItemStories } />
+
+<Table
+	headers={['Attribute', 'Description']}
+	rows={[
+		[<b>data-focused</b>, "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`."],
+	]}
+/>
+
+<Table
+	headers={['Event', 'Description']}
+	rows={[
+		[<b>confirm</b>, "Calls function passed from onConfirm prop."],
 	]}
 />

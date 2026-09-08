@@ -17,7 +17,7 @@ export default {
     columns: 5,
     maxIndex: 25,
     initialIndex: 0,
-    ref: null,
+    ref: undefined,
     node: 'grid',
     hasFocus: true,
   },

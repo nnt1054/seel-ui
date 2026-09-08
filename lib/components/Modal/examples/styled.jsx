@@ -30,7 +30,7 @@ export const StyledModal = styled(Modal)`
 
 export const StyledModalListItem = (props) => {
     const store = useContext(ModalContext);
-    const callback = () => {
+    const onConfirm = () => {
         const { closeModal } = store.getState();
         closeModal();
     }
@@ -38,7 +38,7 @@ export const StyledModalListItem = (props) => {
     return (
         <StyledActiveListItem
             { ...props }
-            callback={ callback }
+            onConfirm={ onConfirm }
         />
     )
 }
