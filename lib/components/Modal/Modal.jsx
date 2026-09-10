@@ -7,6 +7,11 @@ import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 import { usePropagateEvents } from '@hooks/usePropagateEvents/usePropagateEvents';
 
 
+const defaultEvents =  [
+	'up', 'down', 'left', 'right',
+	'cycleR', 'cycleL', 'confirm',
+];
+
 export const ModalContext = createContext(null);
 
 const createModalContextStore = ({ closeModal }) => {
@@ -19,9 +24,10 @@ export const Modal = withActiveNode((props) => {
 	const {
 		ref,
 		node,
+    events = defaultEvents,
 		anchorName,
-		isOpen,
-		setIsOpen,
+		isOpen = false,
+		setIsOpen = () => {},
 		style = {},
 		...others
 	} = props;
@@ -51,16 +57,18 @@ export const Modal = withActiveNode((props) => {
 		}
 	}, [isOpen])
 
-	// todo: should always be true if open
-	const hasFocus = true;
-	const { childrenRef, activeNode } = useActiveNode();
+	const { hasFocus, childrenRef, activeNode } = useActiveNode();
 
 	usePropagateEvents({
 		ref,
 		childrenRef,
 		activeNode,
-		events: ['up', 'down', 'left', 'right', 'confirm'],
+    events,
 	});
+
+  useEventListeners(ref, {
+    cancel: () => { setIsOpen(false) },
+  })
 
 	return (
 		<ModalContext.Provider value={ store }>

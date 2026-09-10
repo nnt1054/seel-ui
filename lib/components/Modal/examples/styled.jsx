@@ -11,21 +11,21 @@ export const StyledModal = styled(Modal)`
 	appearance: none;
 	outline: none;
 
-    color: white;
+	color: white;
 
 	padding: 8px;
-    border:  2px solid transparent;
-    border-radius: 12px;
-    background-color: rgba(18, 18, 18, .6);
-    backdrop-filter: blur(10px);
+	border:  2px solid transparent;
+	border-radius: 12px;
+	background-color: rgba(18, 18, 18, .6);
+	backdrop-filter: blur(10px);
 
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 
-    &[data-focused] {
-	    border-color: #FFC067;
-    }
+	&[data-focused] {
+		border-color: #FFC067;
+	}
 `
 
 export const StyledModalListItem = (props) => {
