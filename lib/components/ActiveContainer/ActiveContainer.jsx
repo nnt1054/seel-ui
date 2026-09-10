@@ -12,21 +12,21 @@ const defaultEvents =  [
 
 export const ActiveContainer = withActiveNode((props) => {
 	const {
-        ref = useRef(),
+		ref = useRef(),
 		node,
 		initial,
 		events = defaultEvents,
 		...others
 	} = props;
 
-    const { hasFocus, childrenRef, activeNode } = useActiveNode();
+	const { hasFocus, childrenRef, activeNode } = useActiveNode();
 
-    usePropagateEvents({
-        ref,
-        childrenRef,
-        activeNode,
-        events,
-    })
+	usePropagateEvents({
+		ref,
+		childrenRef,
+		activeNode,
+		events,
+	})
 
 	return (
 		<div

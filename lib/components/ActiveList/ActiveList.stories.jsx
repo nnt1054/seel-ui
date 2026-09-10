@@ -133,7 +133,7 @@ export const Styled = {
     const items = [
       { label: 'Button 0', onConfirm: () => { console.log('Button 0') } },
       { label: 'Button 1', onConfirm: () => { console.log('Button 1') } },
-      { label: 'Button 2', onConfirm: () => { console.log('Button 2') } },    
+      { label: 'Button 2', onConfirm: () => { console.log('Button 2') } },
     ]
 
     return (

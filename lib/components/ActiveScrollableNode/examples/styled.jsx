@@ -68,26 +68,25 @@ export const StyledActions = styled(ActiveList)`
 `
 
 export const StyledAction = styled(ActiveList.Item)`
-    width: 128px;
-    padding: 8px;
+	width: 128px;
+	padding: 8px;
 	border: 4px solid transparent;
-    border-radius: 12px;
-    user-select: none;
-    font-family: sans-serif;
-    font-size: 12pt;
-    text-align: center;
-    cursor: pointer;
+	border-radius: 12px;
+	user-select: none;
+	font-family: sans-serif;
+	font-size: 12pt;
+	text-align: center;
+	cursor: pointer;
 
-    &:hover {
-        background-color: rgba(0, 0, 0, .1);
-    	transition: background-color 0.1s;
-    }
+	&:hover {
+		background-color: rgba(0, 0, 0, .1);
+		transition: background-color 0.1s;
+	}
 
 	&[data-focused] {
-        font-weight: bold;
-    	background-color: rgba(0, 0, 0, .3);
+		font-weight: bold;
 		border-color: #FFC067;
-    	transition: background-color 0.1s;
+		transition: background-color 0.1s;
 	}
 `
 
@@ -114,4 +113,5 @@ export const StyledActiveContainer = styled(ActiveContainer)`
 
 export const StyledHeader = styled.h2`
     font-family: sans-serif;
+		margin: 4px;
 `

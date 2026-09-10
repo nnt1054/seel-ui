@@ -8,23 +8,28 @@ import { useActiveScrollableNode } from '@hooks/useActiveScrollableNode/useActiv
 
 export const ActiveScrollableNode = withActiveNode((props) => {
 	const {
-        ref = useRef(),
+		ref,
 		node,
 		adjacentNodes,
-		initial,
 		...others
 	} = props;
 
-    const { hasFocus, moveFocus } = useActiveNode();
+	const { hasFocus, moveFocus, grabFocus } = useActiveNode();
+
 	useActiveScrollableNode({
 		ref,
 		adjacentNodes,
 		moveFocus,
 	})
 
+	const onClick = () => {
+		grabFocus();
+	}
+
 	return (
 		<div
 			ref={ ref }
+			onClick={ onClick }
 			data-focused={ hasFocus ? "" : null }
 			{ ...others }
 		/>

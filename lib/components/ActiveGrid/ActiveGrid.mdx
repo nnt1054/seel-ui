@@ -23,8 +23,8 @@ import * as ActiveGridItemStories from './ActiveGridItem.stories';
 A container element that renders either a `div` element with display `grid` styling added to it.  ActiveGrid's listens for directional navigation events and handles moving focus within its own children.  Propagates all other events to its children otherwise.
 
 ### Usage Guidelines
-* ...
-
+* You're able to style the provided `ActiveGrid.Item` directly but you can also put any other active node component inside; additionally not all components within the list need to be same.
+* All items within the grid must have an incrementing integer `node` name; and components with non-integer nodes should not be included as a direct child to the active list.
 
 ### Anatomy
 
@@ -81,6 +81,18 @@ const App = () => {
 <ArgTypes />
 
 <Table
+	headers={['Event', 'Description']}
+	rows={[
+		[<b>confirm</b>, "Propagated to active child node."],
+		[<b>cancel</b>, "Propagated to active child node."],
+		[<b>left</b>, "Moves focus left from the current active child or wraps focus around one row up and to the end of the row."],
+		[<b>left</b>, "Moves focus right from the current active child or wraps focus around one row down and to the beginning of the row."],
+		[<b>up</b>, "Moves focus up from the current active child or wraps focus around one column left and to the end of the column."],
+		[<b>down</b>, "Moves focus down from the current active child or wraps focus around one column right and to the beginning of the column."],
+	]}
+/>
+
+<Table
 	headers={['Attribute', 'Description']}
 	rows={[
 		[<b>data-focused</b>, "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`."],
@@ -102,6 +114,6 @@ const App = () => {
 <Table
 	headers={['Event', 'Description']}
 	rows={[
-		[<b>confirm</b>, "Calls function passed from onConfirm prop."],
+		[<b>confirm</b>, "Calls function passed from onConfirm prop in addition to grabbing focus."],
 	]}
 />
