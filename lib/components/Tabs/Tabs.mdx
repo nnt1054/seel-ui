@@ -19,9 +19,12 @@ import * as TabsStories from './Tabs.stories';
 
 <Subtitle>A container element for rendering and cycling between multiple panels.</Subtitle>
 
-A container element that renders a `dialog` element with `manual` popover behavior.  Modal's will capture and trap focus while open but will otherwise behave similaraly to ActiveContainer's and propagate events to its children.
+A container that renders a `div` element and can cycle between rendering one panel from an ordered series of child panel components.  Tabs will also render a list of buttons for swapping between the different panels as well as listens for `cycleL` and `cycleR` to cycle through the available options.
 
 ### Usage Guidelines
+* ...
+* cycle button is not an active node (but it *is* a clickable button)
+* each panel node must/should accept an adjacentNodes prop
 * ...
 
 ### Anatomy
@@ -31,9 +34,8 @@ import { Tabs } from 'seel-ui';
 
 <Tabs>
   <Tabs.List>
-    <Tabs.CycleButton />
-    <Tabs.Tab />
-    <Tabs.CycleButton />
+	<Tabs.CycleButton />
+	<Tabs.Tab />
   </Tabs.List>
 
   <Tabs.Panel />
@@ -42,62 +44,62 @@ import { Tabs } from 'seel-ui';
 
 ### Examples
 
-#### Dropdown Modal with 3 List Items
+#### Tabs with 3 Different Panels
 
 ```jsx
 const App = () => {
 	const ref = useRef();
 
-	const anchorName = useDashedIdent();
-
-	const [isOpen, setIsOpen] = useState(false);
-	const toggle = () => setIsOpen(!isOpen);
-
 	return (
 		<InputProvider inputRef={ ref }>
-
-			<Button
+			<Tabs
 				ref={ ref }
-				onClick={ toggle }
-				style={{ anchorName, }}
-			> toggle </Button>
-
-			<Modal
-				node={ 'modal' }
-				hasFocus={ isOpen }
-				initial={ 'list' }
-				anchorName={ anchorName }
-				isOpen={ isOpen }
-				setIsOpen={ setIsOpen }
+				hasFocus={ true }
+				initial={ 1 }
+				maxIndex={ 3 }
 			>
-				<ActiveList node={ 'list' }>
-					<ModalListItem node={ 0 }> Item { 0 } </ModalListItem>
-					<ModalListItem node={ 1 }> Item { 1 } </ModalListItem>
-					<ModalListItem node={ 2 }> Item { 2 } </ModalListItem>
-				</ActiveList>
-			</Modal>
+				<Tabs.List>
+					<Tabs.CycleButton direction={ 'left' }> L </Tabs.CycleButton>
+					<Tabs.Tab node={ 0 }> Tab w/ Text </Tabs.Tab>
+					<Tabs.Tab node={ 1 }> Tab w/ Buttons  </Tabs.Tab>
+					<Tabs.Tab node={ 2 }> Tab w/ Grid </Tabs.Tab>
+					<Tabs.CycleButton direction={ 'right' }> R </Tabs.CycleButton>
+				</Tabs.List>
 
+				<Tabs.Panel index={ 0 }>
+					<ActiveScrollableNode>
+						Lorem ipsum dolor sit amet.
+						Ut autem dolores et quasi itaque ut molestiae ipsum.
+						Est quaerat aliquam id sapiente ullam non dolores odio.
+						...
+					</ActiveScrollableNode>
+				</Tabs.Panel>
+
+				<Tabs.Panel index={ 1 }>
+					<ActiveList>
+						<ActiveList.Item node={ 0 }> Item 0 </ActiveList.Item>
+						<ActiveList.Item node={ 1 }> Item 1 </ActiveList.Item>
+						<ActiveList.Item node={ 2 }> Item 2 </ActiveList.Item>
+					</ActiveList>
+				</Tabs.Panel>
+
+				<Tabs.Panel index={ 2 }>
+					<ActiveGrid columns={ 2 }>
+						<ActiveList.Item node={ 0 }> Item 0 </ActiveList.Item>
+						<ActiveList.Item node={ 1 }> Item 1 </ActiveList.Item>
+						<ActiveList.Item node={ 2 }> Item 2 </ActiveList.Item>
+						<ActiveList.Item node={ 3 }> Item 3 </ActiveList.Item>
+					</ActiveGrid>
+				</Tabs.Panel>
+			</Tabs>
 		</InputProvider>
 	)
-}
-
-export const ModalListItem = (props) => {
-    const store = useContext(ModalContext);
-    const onConfirm = () => {
-        const { closeModal } = store.getState();
-        closeModal();
-    }
-
-    return (
-        <ActiveList.Item
-            { ...props }
-            onConfirm={ onConfirm }
-        />
-    )
 }
 ```
 
 ### API Reference
+
+#### Tabs
 
 <ArgTypes />
 
@@ -108,13 +110,35 @@ export const ModalListItem = (props) => {
 	]}
 />
 
-#### ModalContext
+<Table
+	headers={['Event', 'Description']}
+	rows={[
+		[<b>cycleL</b>, "Changes the active panel to the next panel left of the current active panel."],
+		[<b>cycleR</b>, "Changes the active panel to the next panel right of the current active panel."],
+	]}
+/>
 
-Note that the `ModalContext` react context object only stores a zustand store as its value.  The following table describes the properties of the held zustand store and can be accessed using `store.getState()` or hooked into via zustand's `useStore` function.
+#### Tabs.Panel
+
+#### Tabs.List
+
+#### Tabs.Tab
+
+#### Tabs.CycleButton
+
+#### TabsContext
+
+Note that the `TabsContext` react context object only stores a zustand store as its value.  The following table describes the properties of the held zustand store and can be accessed using `store.getState()` or hooked into via zustand's `useStore` function.
 
 <Table
 	headers={['Property', 'Description']}
 	rows={[
-		[<b>closeModal</b>, "Function used to close modal.  Defined using the `setIsOpen` prop passed into the Modal component."],
+		[<b>activeIndex</b>, "..."],
+		[<b>setActiveIndex</b>, "..."],
+		[<b>maxIndex</b>, "..."],
+		[<b>setMaxIndex</b>, "..."],
+		[<b>listPositions</b>, "..."],
+		[<b>setListPositions</b>, "..."],
+		[<b>adjacentNodes</b>, "..."],
 	]}
 />

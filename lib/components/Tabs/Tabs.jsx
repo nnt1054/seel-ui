@@ -15,6 +15,11 @@ import { usePropagateEvents } from '@hooks/usePropagateEvents/usePropagateEvents
 import { useEventListeners } from '@hooks/useEventListeners/useEventListeners';
 
 
+const defaultEvents =  [
+	'up', 'down', 'left', 'right',
+	'confirm',
+];
+
 export const TabsContext = createContext(null);
 
 const createTabsContextStore = ({ maxIndex, adjacentNodes }) => {
@@ -42,6 +47,7 @@ export const Tabs = withActiveNode((props) => {
 		node,
 		adjacentNodes = {},
 		maxIndex = 1,
+		events = defaultEvents,
 		...others
 	} = props;
 
@@ -60,7 +66,7 @@ export const Tabs = withActiveNode((props) => {
     ref,
     childrenRef,
     activeNode,
-    events: ['left', 'right', 'up', 'down', 'confirm'],
+    events,
   })
 
   useEventListeners(ref, {
@@ -88,6 +94,7 @@ export const Tabs = withActiveNode((props) => {
     	<StyledTabs
     		ref={ ref }
     		onClick={ grabFocus }
+				data-focused={ hasFocus ? "" : null }
     		{ ...others }
     	/>
     </TabsContext.Provider>

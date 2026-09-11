@@ -13,16 +13,65 @@ export default {
   component: Tabs,
   decorators: [includeInputProvider],
   args: {
+    adjacentNodes: {},
+    maxIndex: undefined,
+    events: undefined,
+    ref: undefined,
+    node: 'tabs',
     hasFocus: true,
-    node: 'button',
   },
   argTypes: {
-    hasFocus: {
-      control: 'boolean'
+    adjacentNodes: {
+      description: 'Object denoting what nodes within the same parent, if any, are adjacent to the current node and in what direction.  See `useAdjacentNodes` hook for more information.',
+      table: {
+        defaultValue: {
+          summary: `{}`,
+        },
+        readonly: true,
+      },
+    },
+    maxIndex: {
+      description: 'The number of panels in the Tabs component.',
+      table: {
+        defaultValue: {
+          summary: null,
+        },
+      },
+    },
+    events: {
+      type: 'array',
+      description: 'List of event names to propagate through to the active child.',
+      table: {
+        defaultValue: {
+          summary: `['up', 'down', 'left', 'right', 'confirm']`,
+        },
+      },
+    },
+    ref: {
+      type: 'RefObject<>',
+      table: {
+        category: 'Node Props',
+        readonly: true,
+      },
     },
     node: {
+      type: {
+        name: 'string',
+        required: true,
+      },
       table: {
-        disable: true,
+        category: 'Node Props',
+        readonly: true,
+      },
+    },
+    hasFocus: {
+      type: 'boolean',
+      description: "Controlled override for the node's `hasFocus` value.  Primarily used for setting focus value for the top level node.",
+      table: {
+        category: 'Node Props',
+        defaultValue: {
+          summary: 'null',
+        },
       },
     },
   },
@@ -34,15 +83,15 @@ export default {
 export const Default = {
   render: (props) => {
     return (
-        <Tabs initial={ 1 } maxIndex={ 4 } { ...props }>
+        <Tabs { ...props } maxIndex={ 4 }>
 
           <Tabs.List>
-            <Tabs.CycleButton direction={ 'left' }> -1 </Tabs.CycleButton>
+            <Tabs.CycleButton direction={ 'left' }> L </Tabs.CycleButton>
             <Tabs.Tab node={ 0 }> Tab 1 </Tabs.Tab>
             <Tabs.Tab node={ 1 }> Tab 2 </Tabs.Tab>
             <Tabs.Tab node={ 2 }> Tab 3 </Tabs.Tab>
             <Tabs.Tab node={ 3 }> Tab 4 </Tabs.Tab>
-            <Tabs.CycleButton direction={ 'right' }> +1 </Tabs.CycleButton>
+            <Tabs.CycleButton direction={ 'right' }> R </Tabs.CycleButton>
           </Tabs.List>
 
           <Tabs.Panel index={ 0 }>
@@ -58,7 +107,7 @@ export const Default = {
               {
                 Array(5).fill(0).map((_, i) => {
                   return (
-                    <ActiveListItem key={ i } node={ i } />
+                    <ActiveListItem key={ i } node={ i }> { i }</ActiveListItem>
                   )
                 })
               }
@@ -70,7 +119,7 @@ export const Default = {
               {
                 Array(25).fill(0).map((_, i) => {
                   return (
-                    <ActiveListItem key={ i } node={ i } />
+                    <ActiveGrid.Item key={ i } node={ i }> { i } </ActiveGrid.Item> 
                   )
                 })
               }
@@ -85,7 +134,7 @@ export const Default = {
 export const Styled = {
   render: (props) => {
     return (
-        <StyledTabs initial={ 1 } maxIndex={ 4 } { ...props }>
+        <StyledTabs { ...props } maxIndex={ 4 }>
           <StyledList>
             <StyledCycleButtons direction={ 'left' }> ⇧Tab </StyledCycleButtons>
             <div style={{ display: 'flex', flexDirection: 'row', gap: '8px', }}>

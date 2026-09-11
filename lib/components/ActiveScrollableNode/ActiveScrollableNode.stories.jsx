@@ -21,11 +21,21 @@ export default {
   component: ActiveScrollableNode,
   decorators: [includeInputProvider],
   args: {
+    adjacentNodes: {},
     ref: undefined,
 		node: 'container',
 		hasFocus: true,
   },
   argTypes: {
+    adjacentNodes: {
+      description: 'Object denoting what nodes within the same parent, if any, are adjacent to the current node and in what direction.  See `useAdjacentNodes` hook for more information.',
+      table: {
+        defaultValue: {
+          summary: `{}`,
+        },
+        readonly: true,
+      },
+    },
     ref: {
 			type: 'RefObject<>',
 			table: {
