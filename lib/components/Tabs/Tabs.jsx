@@ -45,28 +45,28 @@ export const Tabs = withActiveNode((props) => {
 		...others
 	} = props;
 
-    const [store] = useState(() => createTabsContextStore({ maxIndex, adjacentNodes }));
+	const [store] = useState(() => createTabsContextStore({ maxIndex, adjacentNodes }));
 	const { activeIndex, setActiveIndex, setMaxIndex } = useStore(store);
 
-    const {
-    	hasFocus,
-    	grabFocus,
-        childrenRef,
-        activeNode,
-        setActiveNode,
-    } = useActiveNode();
+  const {
+  	hasFocus,
+  	grabFocus,
+    childrenRef,
+    activeNode,
+    setActiveNode,
+  } = useActiveNode();
 
-    usePropagateEvents({
-        ref,
-        childrenRef,
-        activeNode,
-        events: ['left', 'right', 'up', 'down', 'confirm'],
-    })
+  usePropagateEvents({
+    ref,
+    childrenRef,
+    activeNode,
+    events: ['left', 'right', 'up', 'down', 'confirm'],
+  })
 
-    useEventListeners(ref, {
-    	'cycleR': () => { setActiveIndex((activeIndex + 1) % maxIndex) },
-    	'cycleL': () => { setActiveIndex((activeIndex - 1 + maxIndex) % maxIndex) },
-    })
+  useEventListeners(ref, {
+  	'cycleR': () => { setActiveIndex((activeIndex + 1) % maxIndex) },
+  	'cycleL': () => { setActiveIndex((activeIndex - 1 + maxIndex) % maxIndex) },
+  })
 
 	// failsafe when moving to non-node tabs panel
 	useEffect(() => {
@@ -83,15 +83,15 @@ export const Tabs = withActiveNode((props) => {
 		setMaxIndex(maxIndex || 1);
 	}, [maxIndex])
 
-    return (
+  return (
 		<TabsContext.Provider value={ store }>
-	    	<StyledTabs
-	    		ref={ ref }
-	    		onClick={ grabFocus }
-	    		{ ...others }
-	    	/>
-        </TabsContext.Provider>
-    )
+    	<StyledTabs
+    		ref={ ref }
+    		onClick={ grabFocus }
+    		{ ...others }
+    	/>
+    </TabsContext.Provider>
+  )
 });
 
 const TabsList = memo((props) => {
@@ -201,14 +201,14 @@ const TabsCycleButton = (props) => {
 	const cycleL = () => { setActiveIndex((activeIndex - 1 + maxIndex) % maxIndex) };
 	const onClick = (direction == 'left') ? cycleL : cycleR;
 
-    return (
-    	<button
-    		data-direction={ direction }
-    		onClick={ onClick }
-	        onMouseDown={ event => event.preventDefault() }
-    		{ ...others }
-    	/>
-    )
+  return (
+  	<button
+  		data-direction={ direction }
+  		onClick={ onClick }
+        onMouseDown={ event => event.preventDefault() }
+  		{ ...others }
+  	/>
+  )
 }
 
 Tabs.Panel = TabsPanel;

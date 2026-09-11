@@ -1,0 +1,120 @@
+import {
+	Meta,
+	Controls,
+	ArgTypes,
+	Source,
+	TableOfContents,
+	Title,
+	Subtitle,
+	Description,
+	Markdown,
+} from '@storybook/addon-docs/blocks';
+
+import { Table } from '@docs/blocks/Table';
+import * as TabsStories from './Tabs.stories';
+
+<Meta of={ TabsStories } />
+
+<Title />
+
+<Subtitle>A container element for rendering and cycling between multiple panels.</Subtitle>
+
+A container element that renders a `dialog` element with `manual` popover behavior.  Modal's will capture and trap focus while open but will otherwise behave similaraly to ActiveContainer's and propagate events to its children.
+
+### Usage Guidelines
+* ...
+
+### Anatomy
+
+```jsx
+import { Tabs } from 'seel-ui';
+
+<Tabs>
+  <Tabs.List>
+    <Tabs.CycleButton />
+    <Tabs.Tab />
+    <Tabs.CycleButton />
+  </Tabs.List>
+
+  <Tabs.Panel />
+</Tabs>
+```
+
+### Examples
+
+#### Dropdown Modal with 3 List Items
+
+```jsx
+const App = () => {
+	const ref = useRef();
+
+	const anchorName = useDashedIdent();
+
+	const [isOpen, setIsOpen] = useState(false);
+	const toggle = () => setIsOpen(!isOpen);
+
+	return (
+		<InputProvider inputRef={ ref }>
+
+			<Button
+				ref={ ref }
+				onClick={ toggle }
+				style={{ anchorName, }}
+			> toggle </Button>
+
+			<Modal
+				node={ 'modal' }
+				hasFocus={ isOpen }
+				initial={ 'list' }
+				anchorName={ anchorName }
+				isOpen={ isOpen }
+				setIsOpen={ setIsOpen }
+			>
+				<ActiveList node={ 'list' }>
+					<ModalListItem node={ 0 }> Item { 0 } </ModalListItem>
+					<ModalListItem node={ 1 }> Item { 1 } </ModalListItem>
+					<ModalListItem node={ 2 }> Item { 2 } </ModalListItem>
+				</ActiveList>
+			</Modal>
+
+		</InputProvider>
+	)
+}
+
+export const ModalListItem = (props) => {
+    const store = useContext(ModalContext);
+    const onConfirm = () => {
+        const { closeModal } = store.getState();
+        closeModal();
+    }
+
+    return (
+        <ActiveList.Item
+            { ...props }
+            onConfirm={ onConfirm }
+        />
+    )
+}
+```
+
+### API Reference
+
+<ArgTypes />
+
+<Table
+	headers={['Attribute', 'Description']}
+	rows={[
+		[<b>data-focused</b>, "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`."],
+	]}
+/>
+
+#### ModalContext
+
+Note that the `ModalContext` react context object only stores a zustand store as its value.  The following table describes the properties of the held zustand store and can be accessed using `store.getState()` or hooked into via zustand's `useStore` function.
+
+<Table
+	headers={['Property', 'Description']}
+	rows={[
+		[<b>closeModal</b>, "Function used to close modal.  Defined using the `setIsOpen` prop passed into the Modal component."],
+	]}
+/>
