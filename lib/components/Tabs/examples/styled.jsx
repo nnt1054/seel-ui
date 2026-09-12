@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Tabs } from '@components/Tabs/Tabs'; 
+import { Tabs } from '@components/Tabs/Tabs';
 
 
 export const StyledTabs = styled(Tabs)`
@@ -62,7 +62,7 @@ export const StyledTab = styled(Tabs.Tab)`
 	justify-content: center;
 	align-items: center;
 
-	width: 128px;
+	width: 196px;
 	padding: 8px;
 
 	color: black;

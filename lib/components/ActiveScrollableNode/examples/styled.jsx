@@ -5,25 +5,19 @@ import { ActiveScrollableNode } from '@components/ActiveScrollableNode/ActiveScr
 import { ActiveList } from '@components/ActiveList/ActiveList';
 
 
-export const StyledDiv = styled.div`
+export const StyledActiveScrollableNode = styled(ActiveScrollableNode)`
 	width: 512px;
 	height: 128px;
+	overflow: auto;
+
 	padding: 8px;
-	overflow: hidden;
 
 	border: 4px solid transparent;
 	border-radius: 16px;
 
-	&:has(*[data-focused]) {
+	&[data-focused] {
 		border-color: #FFC067;
 	}
-`
-
-export const StyledActiveScrollableNode = styled(ActiveScrollableNode)`
-	height: 100%;
-	overflow: auto;
-
-	padding: 8px;
 
 	scrollbar-width: thin;
 	scrollbar-gutter: stable both-edges;

@@ -12,6 +12,10 @@ import {
 
 import { Table } from '@docs/blocks/Table';
 import * as TabsStories from './Tabs.stories';
+import * as TabsPanelStories from './TabsPanel.stories';
+import * as TabsListStories from './TabsList.stories';
+import * as TabsTabStories from './TabsTab.stories';
+import * as TabsCycleButtonStories from './TabsCycleButton.stories';
 
 <Meta of={ TabsStories } />
 
@@ -22,10 +26,9 @@ import * as TabsStories from './Tabs.stories';
 A container that renders a `div` element and can cycle between rendering one panel from an ordered series of child panel components.  Tabs will also render a list of buttons for swapping between the different panels as well as listens for `cycleL` and `cycleR` to cycle through the available options.
 
 ### Usage Guidelines
-* ...
-* cycle button is not an active node (but it *is* a clickable button)
-* each panel node must/should accept an adjacentNodes prop
-* ...
+* `Tabs.Panel` components are expected to only have one direct child descendent which is an Active Node and accepts a `node` and `adjacentNodes` prop.  Additionally, nodes within a Panel will automaticaly have their `node` prop populated to `content` and their `adjacentNodes` prop derived using the `listPositions` and `adjacnetNodes` property from the `TabsContext`.
+* The `Tabs.List` is a wrapper over the `ActiveList` component.  It will largely have the same API with the exception that its `adjacentNodes` prop will be automaticaly populated based on its relative position to the content.
+* The `Tabs.CycleButton` renders a plain `button` component and is not an actual active node; so it will have a clickable behavior but cannot be navigated to by normal means.
 
 ### Anatomy
 
@@ -33,12 +36,12 @@ A container that renders a `div` element and can cycle between rendering one pan
 import { Tabs } from 'seel-ui';
 
 <Tabs>
-  <Tabs.List>
-	<Tabs.CycleButton />
-	<Tabs.Tab />
-  </Tabs.List>
+	<Tabs.List>
+		<Tabs.CycleButton />
+		<Tabs.Tab />
+	</Tabs.List>
 
-  <Tabs.Panel />
+	<Tabs.Panel />
 </Tabs>
 ```
 
@@ -120,11 +123,19 @@ const App = () => {
 
 #### Tabs.Panel
 
+<ArgTypes of={ TabsPanelStories } />
+
 #### Tabs.List
+
+<ArgTypes of={ TabsListStories } />
 
 #### Tabs.Tab
 
+<ArgTypes of={ TabsTabStories } />
+
 #### Tabs.CycleButton
+
+<ArgTypes of={ TabsCycleButtonStories } />
 
 #### TabsContext
 
@@ -133,12 +144,12 @@ Note that the `TabsContext` react context object only stores a zustand store as 
 <Table
 	headers={['Property', 'Description']}
 	rows={[
-		[<b>activeIndex</b>, "..."],
-		[<b>setActiveIndex</b>, "..."],
-		[<b>maxIndex</b>, "..."],
-		[<b>setMaxIndex</b>, "..."],
-		[<b>listPositions</b>, "..."],
-		[<b>setListPositions</b>, "..."],
-		[<b>adjacentNodes</b>, "..."],
+		[<b>activeIndex</b>, "Index corresponding to the `node` of the current active tab panel of the component."],
+		[<b>setActiveIndex</b>, "Function for setting the `activeIndex`."],
+		[<b>maxIndex</b>, "Max integer value (exclusive) for `activeIndex`.  Also corresponds to the number of tabs in the component."],
+		[<b>setMaxIndex</b>, "Function for setting the maxIndex.  Automatically is called when the `maxIndex` prop in updated."],
+		[<b>listPositions</b>, "Object denoting the relative positions of TabsList components relative to the `content`/panel area of the Tabs component.  Object is used alongside the `adjacentNodes` property to calculate `adjacentNodes` object properties for sub-components."],
+		[<b>setListPositions</b>, "Function for setting the `listPositions`."],
+		[<b>adjacentNodes</b>, "Object denoting what nodes are adjacent to the Tabs component and in what direction.  Object is used alongside the `listPositions` property to calculate `adjacentNodes` object properties for sub-components"],
 	]}
 />

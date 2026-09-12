@@ -10,7 +10,6 @@ import {
   StyledActions,
   StyledAction,
   StyledActionAccept,
-  StyledDiv,
   StyledHeader,
 } from './examples/styled';
 import { InputProvider } from '@providers/InputProvider/InputProvider';
@@ -71,39 +70,37 @@ export default {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <StyledHeader> Terms and Conditions </StyledHeader>
-        <StyledDiv>
-          <StyledActiveScrollableNode
-            node={ props.node }
-            adjacentNodes={{
-              down: 'actions',
-            }}
-          >
-              Lorem ipsum dolor sit amet.
-              Ut autem dolores et quasi itaque ut molestiae ipsum.
-              Est quaerat aliquam id sapiente ullam non dolores odio.
-              <br/> <br/>
-              Et harum culpa cum unde pariatur et dolor animi aut eius animi ut velit explicabo!
-              Et iusto similique nam quasi voluptatem eos dignissimos facere.
-              Quo maxime quos rem voluptatibus provident sit velit rerum At exercitationem dolor hic delectus autem?
-              <br/> <br/>
-              Ex enim exercitationem sed fugit molestias id soluta modi est voluptates sunt aut
-              aspernatur beatae et aliquid cumque est sequi facilis.
-              In expedita molestiae eos ullam quaerat 33 dolores esse rem quibusdam consequatur ad culpa dolor.
-              <br/> <br/>
-              Lorem ipsum dolor sit amet.
-              Ut autem dolores et quasi itaque ut molestiae ipsum.
-              Est quaerat aliquam id sapiente ullam non dolores odio.
-              <br/> <br/>
-              Et harum culpa cum unde pariatur et dolor animi aut eius animi ut velit explicabo!
-              Et iusto similique nam quasi voluptatem eos dignissimos facere.
-              Quo maxime quos rem voluptatibus provident sit velit rerum At exercitationem dolor hic delectus autem?
-              <br/> <br/>
-              Ex enim exercitationem sed fugit molestias id soluta modi est voluptates sunt aut
-              aspernatur beatae et aliquid cumque est sequi facilis.
-              In expedita molestiae eos ullam quaerat 33 dolores esse rem quibusdam consequatur ad culpa dolor.
-              <br/> <br/>
-          </StyledActiveScrollableNode>
-        </StyledDiv>
+        <StyledActiveScrollableNode
+          node={ props.node }
+          adjacentNodes={{
+            down: 'actions',
+          }}
+        >
+            Lorem ipsum dolor sit amet.
+            Ut autem dolores et quasi itaque ut molestiae ipsum.
+            Est quaerat aliquam id sapiente ullam non dolores odio.
+            <br/> <br/>
+            Et harum culpa cum unde pariatur et dolor animi aut eius animi ut velit explicabo!
+            Et iusto similique nam quasi voluptatem eos dignissimos facere.
+            Quo maxime quos rem voluptatibus provident sit velit rerum At exercitationem dolor hic delectus autem?
+            <br/> <br/>
+            Ex enim exercitationem sed fugit molestias id soluta modi est voluptates sunt aut
+            aspernatur beatae et aliquid cumque est sequi facilis.
+            In expedita molestiae eos ullam quaerat 33 dolores esse rem quibusdam consequatur ad culpa dolor.
+            <br/> <br/>
+            Lorem ipsum dolor sit amet.
+            Ut autem dolores et quasi itaque ut molestiae ipsum.
+            Est quaerat aliquam id sapiente ullam non dolores odio.
+            <br/> <br/>
+            Et harum culpa cum unde pariatur et dolor animi aut eius animi ut velit explicabo!
+            Et iusto similique nam quasi voluptatem eos dignissimos facere.
+            Quo maxime quos rem voluptatibus provident sit velit rerum At exercitationem dolor hic delectus autem?
+            <br/> <br/>
+            Ex enim exercitationem sed fugit molestias id soluta modi est voluptates sunt aut
+            aspernatur beatae et aliquid cumque est sequi facilis.
+            In expedita molestiae eos ullam quaerat 33 dolores esse rem quibusdam consequatur ad culpa dolor.
+            <br/> <br/>
+        </StyledActiveScrollableNode>
         <StyledActions
           node={ 'actions' }
           adjacentNodes={{
