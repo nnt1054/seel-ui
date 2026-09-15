@@ -1,0 +1,82 @@
+import {
+	Meta,
+	Controls,
+	ArgTypes,
+	Source,
+	TableOfContents,
+	Title,
+	Subtitle,
+	Description,
+	Markdown,
+} from '@storybook/addon-docs/blocks';
+
+import { Table } from '@docs/blocks/Table';
+import * as RangeInputStories from './RangeInput.stories';
+
+<Meta of={ RangeInputStories } />
+
+<Title />
+
+<Subtitle>A basic range input slider.</Subtitle>
+
+A basic range input slider component that renders an unstyled `input` element with type `range`.  Dispatching `left` and `right` events can be used to increment/decrement the input value based on the `step` value.
+
+### Usage Guidelines
+* `RangeInput` does not support an `adjacentNodes` prop; to replicate this logic it's recommended to wrap this input in something like an `ActiveList.item` component or another container node that supports `adjacentNodes` logic that will propagate `confirm`/`cancel` events appropriately.  This is due to expected directional navigation behavior being different depending on if the component has keyboard focus or not.
+* As `RangeInput` renders an actual `input` element and passes through the remaining props to it, this node can be styled using most styling libraries and methods including CSS-in-JS, CSS modules and tailwind.  In-line styling is also possible with the caveat that it does not support data selectors at this time.
+
+### Anatomy
+
+```jsx
+import { RangeInput } from 'seel-ui';
+
+<RangeInput />
+```
+
+### Examples
+
+#### Active List with 2 Number Inputs
+
+```jsx
+const App = () => {
+	const ref = useRef();
+
+	return (
+		<InputProvider inputRef={ ref }>
+			<ActiveList
+				ref={ ref }
+				hasFocus={ true }
+			>
+        <div>
+          <span> Input 1: </span>
+          <RangeInput node={ 0 }/>
+        </div>
+        <div>
+	        <span> Input 2: </span>
+          <RangeInput node={ 1 }/>
+        </div>
+			</ActiveContainer>
+		</InputProvider>
+	)
+}
+
+```
+
+### API Reference
+
+<ArgTypes />
+
+<Table
+  headers={['Attribute', 'Description']}
+  rows={[
+    [<b>data-focused</b>, "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`."],
+  ]}
+/>
+
+<Table
+	headers={['Event', 'Description']}
+	rows={[
+		[<b>left</b>, "Decrements the value of the input element by the step value."],
+		[<b>right</b>, "Incremenets the value of the input element by the step value."],
+	]}
+/>

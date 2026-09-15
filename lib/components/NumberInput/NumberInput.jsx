@@ -9,6 +9,9 @@ export const NumberInput = withActiveNode((props) => {
   const {
     ref = useRef(),
     node,
+    adjacentNodes = {},
+    onCycleL = () => {},
+    onCycleR = () => {},
     ...others
   } = props;
 

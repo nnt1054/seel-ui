@@ -13,16 +13,52 @@ export default {
   component: NumberInput,
   decorators: [includeInputProvider],
   args: {
-    hasFocus: false,
-    node: 'button',
+    onCycleL: fn(),
+    onCycleR: fn(),
+    ref: undefined,
+    node: 'checkbox',
+    hasFocus: true,
   },
   argTypes: {
-    hasFocus: {
-      control: 'boolean'
+    onCycleL: {
+      type: 'function',
+      description: "Function to call on receieving a `cycleL` event.",
+      table: {
+        readonly: true,
+      },
+    },
+    onCycleR: {
+      type: 'function',
+      description: "Function to call on receieving a `cycleL` event.",
+      table: {
+        readonly: true,
+      },
+    },
+    ref: {
+      type: 'RefObject<>',
+      table: {
+        category: 'Node Props',
+        readonly: true,
+      },
     },
     node: {
+      type: {
+        name: 'string',
+        required: true,
+      },
       table: {
-        disable: true,
+        category: 'Node Props',
+        readonly: true,
+      },
+    },
+    hasFocus: {
+      type: 'boolean',
+      description: "Controlled override for the node's `hasFocus` value.  Primarily used for setting focus value for the top level node.",
+      table: {
+        category: 'Node Props',
+        defaultValue: {
+          summary: 'null',
+        },
       },
     },
   },

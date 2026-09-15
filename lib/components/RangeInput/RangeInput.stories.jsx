@@ -13,16 +13,39 @@ export default {
   component: RangeInput,
   decorators: [includeInputProvider],
   args: {
-    hasFocus: false,
-    node: 'button',
+    min: 0,
+    max: 100,
+    step: 1,
+    ref: undefined,
+    node: 'checkbox',
+    hasFocus: true,
   },
   argTypes: {
-    hasFocus: {
-      control: 'boolean'
+    ref: {
+      type: 'RefObject<>',
+      table: {
+        category: 'Node Props',
+        readonly: true,
+      },
     },
     node: {
+      type: {
+        name: 'string',
+        required: true,
+      },
       table: {
-        disable: true,
+        category: 'Node Props',
+        readonly: true,
+      },
+    },
+    hasFocus: {
+      type: 'boolean',
+      description: "Controlled override for the node's `hasFocus` value.  Primarily used for setting focus value for the top level node.",
+      table: {
+        category: 'Node Props',
+        defaultValue: {
+          summary: 'null',
+        },
       },
     },
   },

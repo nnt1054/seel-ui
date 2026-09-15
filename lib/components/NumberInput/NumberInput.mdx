@@ -17,26 +17,25 @@ import * as NumberInputStories from './NumberInput.stories';
 
 <Title />
 
-<Subtitle>A basic number input that.</Subtitle>
+<Subtitle>A basic number input.</Subtitle>
 
-A basic number input component that renders an unstyled `input` element with type `number`.  It's onClick callback function is also called upon receiving a `confirm` event.  Supports an `adjacentNode` prop for passing focus to other nodes.
+A basic number input component that renders an unstyled `input` element with type `number`.  Dispatching `confirm` and `cancel` events can be used to toggle or remove actual keyboard focus on the number input.
 
 ### Usage Guidelines
-* As `CheckboxInput` renders an actual `input` element and passes through the remaining props to it, this node can be styled using most styling libraries and methods including CSS-in-JS, CSS modules and tailwind.  In-line styling is also possible with the caveat that it does not support data selectors at this time.
-* `CheckboxInput` is intended to be used as a controlled input and must have a `value` + `setValue` pair passed into the props.
-* If you're looking to create a custom toggle component instead of a checkbox, it is recommended to create a new component from scratch using the CheckboxInput source code as a starting point.
+* `NumberInput` does not support an `adjacentNodes` prop; to replicate this logic it's recommended to wrap this input in something like an `ActiveList.item` component or another container node that supports `adjacentNodes` logic that will propagate `confirm`/`cancel` events appropriately.  This is due to expected directional navigation behavior being different depending on if the component has keyboard focus or not.
+* As `NumberInput` renders an actual `input` element and passes through the remaining props to it, this node can be styled using most styling libraries and methods including CSS-in-JS, CSS modules and tailwind.  In-line styling is also possible with the caveat that it does not support data selectors at this time.
 
 ### Anatomy
 
 ```jsx
-import { CheckboxInput } from 'seel-ui';
+import { NumberInput } from 'seel-ui';
 
-<CheckboxInput />
+<NumberInput />
 ```
 
 ### Examples
 
-#### Active Container with 2 Checkbox Toggles
+#### Active List with 2 Number Inputs
 
 ```jsx
 const App = () => {
@@ -44,29 +43,23 @@ const App = () => {
 
 	return (
 		<InputProvider inputRef={ ref }>
-			<ActiveContainer
+			<ActiveList
 				ref={ ref }
 				hasFocus={ true }
-				initial={ 'foo' }
 			>
-        <div>
-          <span> Toggle 1: </span>
-          <CheckboxInput
-  					node={ 'foo' }
-  					adjacentNodes={{ down: 'bar' }}
-  				> foo </CheckboxInput>
-        </div>
-        <div>
-        <span> Toggle 2: </span>
-          <CheckboxInput
-  					node={ 'bar' }
-  					adjacentNodes={{ up: 'foo' }}
-  				> bar </CheckboxInput>
-        </div>
+				<div>
+					<span> Input 1: </span>
+					<NumberInput node={ 0 }/>
+				</div>
+				<div>
+					<span> Input 2: </span>
+					<NumberInput node={ 1 }/>
+				</div>
 			</ActiveContainer>
 		</InputProvider>
 	)
 }
+
 ```
 
 ### API Reference
@@ -74,19 +67,19 @@ const App = () => {
 <ArgTypes />
 
 <Table
-  headers={['Attribute', 'Description']}
-  rows={[
-    [<b>data-focused</b>, "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`."],
-  ]}
+	headers={['Attribute', 'Description']}
+	rows={[
+		[<b>data-focused</b>, "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`."],
+	]}
 />
 
 <Table
 	headers={['Event', 'Description']}
 	rows={[
-		[<b>confirm</b>, "Flips the current input boolean value."],
-		[<b>left</b>, "Moves focus to a `left` adjacent node."],
-		[<b>right</b>, "Moves focus to a `right` adjacent node."],
-		[<b>up</b>, "Moves focus to an `up` adjacent node."],
-		[<b>down</b>, "Moves focus to a `down ` adjacent node."],
+		[<b>confirm</b>, "Toggles keyboard focus from the input element."],
+		[<b>cancel</b>, "Removes keyboard focus from the input element."],
+		[<b>cycleL</b>, "Calls function passed to onCycleL prop."],
+		[<b>cycleR</b>, "Calls function passed to onCycleR prop."],
+
 	]}
 />

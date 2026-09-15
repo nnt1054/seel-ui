@@ -1,0 +1,85 @@
+import {
+	Meta,
+	Controls,
+	ArgTypes,
+	Source,
+	TableOfContents,
+	Title,
+	Subtitle,
+	Description,
+	Markdown,
+} from '@storybook/addon-docs/blocks';
+
+import { Table } from '@docs/blocks/Table';
+import * as TextInputStories from './TextInput.stories';
+
+<Meta of={ TextInputStories } />
+
+<Title />
+
+<Subtitle>A basic text input.</Subtitle>
+
+A basic text input component that renders an unstyled `input` element with type `text`.  Dispatching `confirm` and `cancel` events can be used to toggle or remove actual keyboard focus on the number input.
+
+### Usage Guidelines
+* `TextInput` does not support an `adjacentNodes` prop; to replicate this logic it's recommended to wrap this input in something like an `ActiveList.item` component or another container node that supports `adjacentNodes` logic that will propagate `confirm`/`cancel` events appropriately.  This is due to expected directional navigation behavior being different depending on if the component has keyboard focus or not.
+* As `TextInput` renders an actual `input` element and passes through the remaining props to it, this node can be styled using most styling libraries and methods including CSS-in-JS, CSS modules and tailwind.  In-line styling is also possible with the caveat that it does not support data selectors at this time.
+* While the input has keyboard focus, by default the ENTER key will call the `onConfirm` function, `Tab` will call the `onCycleR` function and `Shift + Tab` will call `onCycleL`.
+
+### Anatomy
+
+```jsx
+import { TextInput } from 'seel-ui';
+
+<TextInput />
+```
+
+### Examples
+
+#### Active List with 2 Text Inputs
+
+```jsx
+const App = () => {
+	const ref = useRef();
+
+	return (
+		<InputProvider inputRef={ ref }>
+			<ActiveList
+				ref={ ref }
+				hasFocus={ true }
+			>
+				<div>
+					<span> Input 1: </span>
+					<TextInput node={ 0 }/>
+				</div>
+				<div>
+					<span> Input 2: </span>
+					<TextInput node={ 1 }/>
+				</div>
+			</ActiveContainer>
+		</InputProvider>
+	)
+}
+
+```
+
+### API Reference
+
+<ArgTypes />
+
+<Table
+	headers={['Attribute', 'Description']}
+	rows={[
+		[<b>data-focused</b>, "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`."],
+	]}
+/>
+
+<Table
+	headers={['Event', 'Description']}
+	rows={[
+		[<b>confirm</b>, "Grabs keyboard focus for the input element or calls the onConfirm function if already in focus."],
+		[<b>cancel</b>, "Removes keyboard focus from the input element or calls the onCancel function if already not in focus."],
+		[<b>cycleL</b>, "Calls function passed to onCycleL prop."],
+		[<b>cycleR</b>, "Calls function passed to onCycleR prop."],
+	]}
+/>

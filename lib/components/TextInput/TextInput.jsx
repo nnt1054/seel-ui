@@ -21,8 +21,22 @@ export const TextInput = withActiveNode((props) => {
 
     // events while node has focus
     useEventListeners(ref, {
-    	confirm: () => { ref.current.focus(); },
-    	cancel: () => { onCancel() },
+    	confirm: () => {
+    		const hasKeyboardFocus = ref.current == document.activeElement;
+    		if (hasKeyboardFocus) {
+    			onConfirm();
+    		} else {
+	    		ref.current.focus();
+    		}
+    	},
+    	cancel: () => {
+    		const hasKeyboardFocus = ref.current == document.activeElement;
+    		if (hasKeyboardFocus) {
+	    		ref.current.blur();
+    		} else {
+    			onCancel();
+    		}
+    	},
     	cycleR: () => { onCycleR() },
     	cycleL: () => { onCycleL() },
     })
@@ -50,6 +64,7 @@ export const TextInput = withActiveNode((props) => {
 
 	return (
 		<input
+			type="text"
 			ref={ ref }
 			onKeyDown={ onKeyDown }
 			data-focused={ hasFocus ? "" : null }

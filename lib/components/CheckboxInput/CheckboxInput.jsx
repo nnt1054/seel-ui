@@ -2,6 +2,7 @@ import { useRef } from "react";
 
 import { KeyCodes } from "@constants";
 import { useActiveNode } from "@hooks/useActiveNode/useActiveNode";
+import { useAdjacentNodes } from "@hooks/useAdjacentNodes/useAdjacentNodes";
 import { useEventListeners } from "@hooks/useEventListeners/useEventListeners";
 import { withActiveNode } from "@providers/ActiveNodeProvider/ActiveNodeProvider";
 
@@ -9,12 +10,13 @@ export const CheckboxInput = withActiveNode((props) => {
   const {
     ref = useRef(),
     node,
+    adjacentNodes = {},
     value,
     setValue = () => {},
     ...others
   } = props;
 
-  const { hasFocus } = useActiveNode();
+  const { hasFocus, moveFocus } = useActiveNode();
 
   useEventListeners(ref, {
     confirm: () => {
@@ -25,6 +27,12 @@ export const CheckboxInput = withActiveNode((props) => {
       const checked = event.target.checked;
       setValue(checked);
     },
+  });
+
+  useAdjacentNodes({
+    ref,
+    adjacentNodes,
+    moveFocus,
   });
 
   return (
