@@ -1,0 +1,86 @@
+import {
+	Meta,
+	Controls,
+	ArgTypes,
+	Source,
+	TableOfContents,
+	Title,
+	Subtitle,
+	Description,
+	Markdown,
+} from '@storybook/addon-docs/blocks';
+
+import { Table } from '@docs/blocks/Table';
+import * as ButtonStories from './Button.stories';
+
+<Meta of={ ButtonStories } />
+
+<Title />
+
+<Subtitle>A basic button for calling a function on click or on a `confirm` event.</Subtitle>
+
+A basic component that renders an unstyled `button` element.  It's onClick callback function is also called upon receiving a `confirm` event.  Supports an `adjacentNode` prop for passing focus to other nodes.
+
+### Usage Guidelines
+* As `Button` renders an actual `button` element and passes through the remaining props to it, this node can be styled using most styling libraries and methods including CSS-in-JS, CSS modules and tailwind.  In-line styling is also possible with the caveat that it does not support data selectors at this time.
+
+### Anatomy
+
+```jsx
+import { Button } from 'seel-ui';
+
+<Button />
+```
+
+### Examples
+
+#### Active Container with 2 Buttons
+
+```jsx
+const App = () => {
+	const ref = useRef();
+
+	return (
+		<InputProvider inputRef={ ref }>
+			<ActiveContainer
+				ref={ ref }
+				hasFocus={ true }
+				initial={ 'foo' }
+			>
+				<Button
+					node={ 'foo' }
+					adjacentNodes={{ right: 'bar' }}
+					onClick={() => { console.log('foo') }}
+				> foo </Button>
+				<Button
+					node={ 'bar' }
+					adjacentNodes={{ left: 'foo' }}
+					onClick={() => { console.log('bar') }}
+				> bar </Button>
+			</ActiveContainer>
+		</InputProvider>
+	)
+}
+```
+
+### API Reference
+
+<ArgTypes />
+
+<Table
+  headers={['Attribute', 'Description']}
+  rows={[
+    [<b>data-focused</b>, "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`."],
+  ]}
+/>
+
+<Table
+	headers={['Event', 'Description']}
+	rows={[
+		[<b>confirm</b>, "Calls function passed to the `onClick` property."],
+		[<b>left</b>, "Moves focus to a `left` adjacent node."],
+		[<b>right</b>, "Moves focus to a `right` adjacent node."],
+		[<b>up</b>, "Moves focus to an `up` adjacent node."],
+		[<b>down</b>, "Moves focus to a `down ` adjacent node."],
+	]}
+/>

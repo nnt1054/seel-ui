@@ -14,18 +14,55 @@ export default {
   decorators: [includeInputProvider],
   args: {
     onClick: fn(),
-    hasFocus: false,
+    adjacentNodes: {},
+    ref: undefined,
     node: 'button',
+		hasFocus: true,
   },
   argTypes: {
-    hasFocus: {
-      control: 'boolean'
-    },
-    node: {
+    onClick: {
+      type: 'function',
+      description: "Function to call when button is clicked or on receieving a `confirm` event.",
+			table: {
+				readonly: true,
+			},
+		},
+    adjacentNodes: {
+      description: 'Object denoting what nodes within the same parent, if any, are adjacent to the current node and in what direction.  See `useAdjacentNodes` hook for more information.',
       table: {
-        disable: true,
+        defaultValue: {
+          summary: `{}`,
+        },
+        readonly: true,
       },
-    }
+    },
+    ref: {
+			type: 'RefObject<>',
+			table: {
+				category: 'Node Props',
+				readonly: true,
+			},
+		},
+		node: {
+			type: {
+				name: 'string',
+				required: true,
+			},
+			table: {
+				category: 'Node Props',
+				readonly: true,
+			},
+		},
+		hasFocus: {
+			type: 'boolean',
+			description: "Controlled override for the node's `hasFocus` value.  Primarily used for setting focus value for the top level node.",
+			table: {
+				category: 'Node Props',
+				defaultValue: {
+					summary: 'null',
+				},
+			},
+		},
   },
   parameters: {
     layout: 'centered',

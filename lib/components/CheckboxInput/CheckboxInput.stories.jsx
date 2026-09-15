@@ -13,18 +13,64 @@ export default {
   component: CheckboxInput,
   decorators: [includeInputProvider],
   args: {
-    hasFocus: false,
-    node: 'button',
+    value: undefined,
+    setValue: undefined,
+    adjacentNodes: {},
+    ref: undefined,
+    node: 'checkbox',
+		hasFocus: true,
   },
   argTypes: {
-    hasFocus: {
-      control: 'boolean'
-    },
-    node: {
+    value: {
+      type: 'boolean',
+      control: false,
       table: {
-        disable: true,
+        readonly: true,
       },
     },
+    setValue: {
+      type: 'function',
+      control: false,
+      table: {
+        readonly: true,
+      },
+    },
+    adjacentNodes: {
+      description: 'Object denoting what nodes within the same parent, if any, are adjacent to the current node and in what direction.  See `useAdjacentNodes` hook for more information.',
+      table: {
+        defaultValue: {
+          summary: `{}`,
+        },
+        readonly: true,
+      },
+    },
+    ref: {
+			type: 'RefObject<>',
+			table: {
+				category: 'Node Props',
+				readonly: true,
+			},
+		},
+		node: {
+			type: {
+				name: 'string',
+				required: true,
+			},
+			table: {
+				category: 'Node Props',
+				readonly: true,
+			},
+		},
+		hasFocus: {
+			type: 'boolean',
+			description: "Controlled override for the node's `hasFocus` value.  Primarily used for setting focus value for the top level node.",
+			table: {
+				category: 'Node Props',
+				defaultValue: {
+					summary: 'null',
+				},
+			},
+		},
   },
   parameters: {
     layout: 'centered',

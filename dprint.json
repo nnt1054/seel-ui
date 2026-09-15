@@ -1,0 +1,26 @@
+{
+  "typescript": {
+  },
+  "json": {
+  },
+  "markdown": {
+  },
+  "malva": {
+  },
+  "markup": {
+  },
+  "prettier": {
+  },
+  "excludes": [
+    "**/node_modules",
+    "**/*-lock.json"
+  ],
+  "plugins": [
+    "npm:@dprint/typescript@0.96.1",
+    "npm:@dprint/json@0.23.0",
+    "npm:@dprint/markdown@0.24.0",
+    "npm:dprint-plugin-malva@0.16.0",
+    "npm:dprint-plugin-markup@0.27.3",
+    "npm:@dprint/prettier@0.70.0/plugin.json@97c0dccf54ed5b7343e7a3f6418e77bd80afcd2b74beed3a632689d47e392ddc"
+  ]
+}
