@@ -1,0 +1,77 @@
+import {
+	Meta,
+	Controls,
+	ArgTypes,
+	Source,
+	TableOfContents,
+	Title,
+	Subtitle,
+	Description,
+	Markdown,
+} from '@storybook/addon-docs/blocks';
+
+import { Table } from '@docs/blocks/Table';
+import * as useActiveGridIndexStories from './useActiveGridIndex.stories';
+
+<Meta of={ useActiveGridIndexStories } />
+
+<Title />
+
+<Subtitle>Hook for moving and controlling an focus across a 2-dimensional grid of ordered integer nodes.</Subtitle>
+
+### Usage Guidelines
+
+* All child nodes must have integer node names in sequential order from 0 (inclusive) to `maxIndex` (exclusive).
+
+### Examples
+
+#### Custom Component with Active Grid Index Hook
+
+```jsx
+const CustomComponent = withActiveNode((props) => {
+	const {
+		ref,
+		node,
+		adjacentNodes = {},
+		columns = 1,
+		maxIndex = 1,
+		initialIndex = 0,
+		...others
+	} = props;
+
+	const {
+		moveFocus,
+		activeNode: activeIndex,
+		setActiveNode: setActiveIndex,
+	} = useActiveNode();
+
+	useActiveGridIndex({
+		ref,
+		activeIndex,
+		setActiveIndex,
+		columns,
+		maxIndex,
+		initialIndex,
+		adjacentNodes,
+		moveFocus,
+	});
+
+	return (
+		<div ref={ ref } {...others } />
+	)
+})
+```
+
+### API Reference
+
+<ArgTypes />
+
+<Table
+	headers={['Event', 'Description']}
+	rows={[
+		[<b>left</b>, "Moves activeIndex left from the current active child or wraps activeIndex around one row up and to the end of the row."],
+		[<b>left</b>, "Moves activeIndex right from the current active child or wraps activeIndex around one row down and to the beginning of the row."],
+		[<b>up</b>, "Moves activeIndex up from the current active child or wraps activeIndex around one column left and to the end of the column."],
+		[<b>down</b>, "Moves activeIndex down from the current active child or wraps activeIndex around one column right and to the beginning of the column."],
+	]}
+/>

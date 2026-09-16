@@ -87,7 +87,7 @@ export default {
     },
     disableJump: {
       type: 'boolean',
-      description: 'When navigating perpendicular to the list orientation, controls whether or not focus will move and jump to the beginning/end of the list.  If an adjacent node exists in the current direction, moving focus to the adjacent node will take priority over wrapping.',
+      description: 'When navigating perpendicular to the list orientation, controls whether or not focus will move and jump to the beginning/end of the list.  If an adjacent node exists in the current direction, moving focus to the adjacent node will take priority over jumping.',
       table: {
         defaultValue: {
           summary: 'false',
