@@ -1,0 +1,65 @@
+import {
+	Meta,
+	Controls,
+	ArgTypes,
+	Source,
+	TableOfContents,
+	Title,
+	Subtitle,
+	Description,
+	Markdown,
+} from '@storybook/addon-docs/blocks';
+
+import { Table } from '@docs/blocks/Table';
+import * as useAdjacentNodesStories from './useAdjacentNodes.stories';
+
+<Meta of={ useAdjacentNodesStories } />
+
+<Title />
+
+<Subtitle>Hook for moving focus to an adjacent node in response to directional navigation events.</Subtitle>
+
+
+### Usage Guidelines
+* The `adjacentNodes` object props only supports `left`, `right` `up`, and `down` directional event name keys.
+* The `adjacentNodes` object prop also accepts functions instead of a string node name as the value for a direction.  In these cases, the function will be called instead of the default moveFocus on the the node name value.
+* The `isActive` prop can be used to toggle this behavior on and off for custom components that may want to respond to the same events differently based on current state.
+
+### Examples
+
+#### Custom Component with Adjacent Nodes Hook
+
+```jsx
+const CustomComponent = withActiveNode((props) => {
+	const {
+		ref,
+		adjacentNodes = {},
+	} = props;
+
+	const ( moveFocus ) = useActiveNode();
+
+	useAdjacentNodes({
+		ref,
+		adjacentNodes,
+		moveFocus,
+	});
+
+	return (
+		<div />
+	)
+})
+```
+
+### API Reference
+
+<ArgTypes />
+
+<Table
+	headers={['Event', 'Description']}
+	rows={[
+		[<b>left</b>, "Moves focus to a `left` adjacent node."],
+		[<b>right</b>, "Moves focus to a `right` adjacent node."],
+		[<b>up</b>, "Moves focus to an `up` adjacent node."],
+		[<b>down</b>, "Moves focus to a `down ` adjacent node."],
+	]}
+/>
