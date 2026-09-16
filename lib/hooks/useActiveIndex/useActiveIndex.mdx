@@ -19,48 +19,47 @@ import * as useActiveIndexStories from './useActiveIndex.stories';
 
 <Subtitle>Hook for moving and controlling an focus across a 2D list of ordered integer nodes.</Subtitle>
 
-
 ### Usage Guidelines
 * All child nodes must have integer node names in sequential order from 0 (inclusive) to `maxIndex` (exclusive).
 
 ### Examples
 
-#### Custom Component with Adjacent Nodes Hook
+#### Custom Component with Active Index Hook
 
 ```jsx
 const CustomComponent = withActiveNode((props) => {
 	const {
-        ref,
-        node,
-        adjacentNodes = {},
-        maxIndex = 1,
-        initialIndex = 0,
-        isColumn = true,
-        isReverse = false,
-        disableWrap = false,
-        disableJump = false,
-        ...others
+		ref,
+		node,
+		adjacentNodes = {},
+		maxIndex = 1,
+		initialIndex = 0,
+		isColumn = true,
+		isReverse = false,
+		disableWrap = false,
+		disableJump = false,
+		...others
 	} = props;
 
-    const {
-        moveFocus,
-        activeNode: activeIndex,
-        setActiveNode: setActiveIndex,
-    } = useActiveNode();
+	const {
+		moveFocus,
+		activeNode: activeIndex,
+		setActiveNode: setActiveIndex,
+	} = useActiveNode();
 
-    useActiveIndex({
-        ref,
-        activeIndex,
-        setActiveIndex,
-        maxIndex,
-        initialIndex,
-        isColumn,
-        isReverse,
-        disableWrap,
-        disableJump,
-        adjacentNodes,
-        moveFocus,
-    });
+	useActiveIndex({
+		ref,
+		activeIndex,
+		setActiveIndex,
+		maxIndex,
+		initialIndex,
+		isColumn,
+		isReverse,
+		disableWrap,
+		disableJump,
+		adjacentNodes,
+		moveFocus,
+	});
 
 	return (
 		<div />

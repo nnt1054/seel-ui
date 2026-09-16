@@ -9,6 +9,36 @@ import { useActiveIndex } from './useActiveIndex';
 export default {
   title: 'Hooks/useActiveIndex',
   component: useActiveIndex,
+  args: {
+    ref: undefined,
+    activeIndex: undefined,
+    setActiveIndex: undefined,
+    maxIndex: 0,
+    initialIndex: 0,
+    isColumn: false,
+    isReverse: false,
+    disableWrap: false,
+    disableJump: false,
+    adjacentNodes: {},
+    moveFocus: () => {},
+    isActive: true,
+  },
+  argTypes: {
+    ref: {
+      type: 'RefObject<>',
+      table: {
+        readonly: true,
+      },
+    },
+    activeIndex: {
+      type: 'number',
+      table: { readonly: true },
+    },
+    setActiveIndex: {
+      type: 'function',
+      table: { readonly: true },
+    },
+  },
   parameters: {
     layout: 'centered',
   },
@@ -30,7 +60,7 @@ export default {
         <span> Active Index: { activeIndex } </span> <br/>
         <button onClick={() => emit('left')}> Left </button>
         <button onClick={() => emit('right')}> Right </button>
-        <button onClick={() => emit('up')}> Up </button>        
+        <button onClick={() => emit('up')}> Up </button>
         <button onClick={() => emit('down')}> Down </button>
         <br/>
         <div style={{ display: 'flex', flexDirection: isColumn ? 'column' : 'row' }}>

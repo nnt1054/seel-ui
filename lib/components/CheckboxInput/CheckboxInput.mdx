@@ -1,37 +1,40 @@
 import {
-	Meta,
-	Controls,
-	ArgTypes,
-	Source,
-	TableOfContents,
-	Title,
-	Subtitle,
-	Description,
-	Markdown,
-} from '@storybook/addon-docs/blocks';
+  Meta,
+  Controls,
+  ArgTypes,
+  Source,
+  TableOfContents,
+  Title,
+  Subtitle,
+  Description,
+  Markdown,
+} from "@storybook/addon-docs/blocks";
 
-import { Table } from '@docs/blocks/Table';
-import * as CheckboxInputStories from './CheckboxInput.stories';
+import { Table } from "@docs/blocks/Table";
+import * as CheckboxInputStories from "./CheckboxInput.stories";
 
-<Meta of={ CheckboxInputStories } />
+<Meta of={CheckboxInputStories} />
 
 <Title />
 
-<Subtitle>A basic boolean input that toggles itself on a `confirm` event.</Subtitle>
+<Subtitle>
+  A basic boolean input that toggles itself on a `confirm` event.
+</Subtitle>
 
-A basic boolean input component that renders an unstyled `input` element with type `checkbox`.  It's onClick callback function is also called upon receiving a `confirm` event.  Supports an `adjacentNode` prop for passing focus to other nodes.
+A basic boolean input component that renders an unstyled `input` element with type `checkbox`. It's onClick callback function is also called upon receiving a `confirm` event. Supports an `adjacentNode` prop for passing focus to other nodes.
 
 ### Usage Guidelines
-* As `CheckboxInput` renders an actual `input` element and passes through the remaining props to it, this node can be styled using most styling libraries and methods including CSS-in-JS, CSS modules and tailwind.  In-line styling is also possible with the caveat that it does not support data selectors at this time.
-* `CheckboxInput` is intended to be used as a controlled input and must have a `value` + `setValue` pair passed into the props.
-* If you're looking to create a custom toggle component instead of a checkbox, it is recommended to create a new component from scratch using the CheckboxInput source code as a starting point.
+
+- As `CheckboxInput` renders an actual `input` element and passes through the remaining props to it, this node can be styled using most styling libraries and methods including CSS-in-JS, CSS modules and tailwind. In-line styling is also possible with the caveat that it does not support data selectors at this time.
+- `CheckboxInput` is intended to be used as a controlled input and must have a `value` + `setValue` pair passed into the props.
+- If you're looking to create a custom toggle component instead of a checkbox, it is recommended to create a new component from scratch using the CheckboxInput source code as a starting point.
 
 ### Anatomy
 
 ```jsx
-import { CheckboxInput } from 'seel-ui';
+import { CheckboxInput } from "seel-ui";
 
-<CheckboxInput />
+<CheckboxInput />;
 ```
 
 ### Examples
@@ -40,33 +43,23 @@ import { CheckboxInput } from 'seel-ui';
 
 ```jsx
 const App = () => {
-	const ref = useRef();
+  const ref = useRef();
 
-	return (
-		<InputProvider inputRef={ ref }>
-			<ActiveContainer
-				ref={ ref }
-				hasFocus={ true }
-				initial={ 'foo' }
-			>
+  return (
+    <InputProvider inputRef={ref}>
+      <ActiveContainer ref={ref} hasFocus={true} initial={"foo"}>
         <div>
           <span> Toggle 1: </span>
-          <CheckboxInput
-  					node={ 'foo' }
-  					adjacentNodes={{ down: 'bar' }}
-  				/>
+          <CheckboxInput node={"foo"} adjacentNodes={{ down: "bar" }} />
         </div>
         <div>
-        	<span> Toggle 2: </span>
-          <CheckboxInput
-  					node={ 'bar' }
-  					adjacentNodes={{ up: 'foo' }}
-  				/>
+          <span> Toggle 2: </span>
+          <CheckboxInput node={"bar"} adjacentNodes={{ up: "foo" }} />
         </div>
-			</ActiveContainer>
-		</InputProvider>
-	)
-}
+      </ActiveContainer>
+    </InputProvider>
+  );
+};
 ```
 
 ### API Reference
@@ -74,19 +67,22 @@ const App = () => {
 <ArgTypes />
 
 <Table
-  headers={['Attribute', 'Description']}
+  headers={["Attribute", "Description"]}
   rows={[
-    [<b>data-focused</b>, "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`."],
+    [
+      <b>data-focused</b>,
+      "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`.",
+    ],
   ]}
 />
 
 <Table
-	headers={['Event', 'Description']}
-	rows={[
-		[<b>confirm</b>, "Flips the current input boolean value."],
-		[<b>left</b>, "Moves focus to a `left` adjacent node."],
-		[<b>right</b>, "Moves focus to a `right` adjacent node."],
-		[<b>up</b>, "Moves focus to an `up` adjacent node."],
-		[<b>down</b>, "Moves focus to a `down ` adjacent node."],
-	]}
+  headers={["Event", "Description"]}
+  rows={[
+    [<b>confirm</b>, "Flips the current input boolean value."],
+    [<b>left</b>, "Moves focus to a `left` adjacent node."],
+    [<b>right</b>, "Moves focus to a `right` adjacent node."],
+    [<b>up</b>, "Moves focus to an `up` adjacent node."],
+    [<b>down</b>, "Moves focus to a `down ` adjacent node."],
+  ]}
 />
