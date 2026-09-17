@@ -1,0 +1,56 @@
+import {
+	Meta,
+	Controls,
+	ArgTypes,
+	Source,
+	TableOfContents,
+	Title,
+	Subtitle,
+	Description,
+	Markdown,
+} from '@storybook/addon-docs/blocks';
+
+import { Table } from '@docs/blocks/Table';
+import * as usePropagateEventsStories from './usePropagateEvents.stories';
+
+<Meta of={ usePropagateEventsStories } />
+
+<Title />
+
+<Subtitle>Hook for propagating events from a parent to its active child node.</Subtitle>
+
+### Usage Guidelines
+* Behavior can be toggled on and off using the `isActive` argument.
+
+### Examples
+
+#### Custom Component with Propagate Events Hook
+
+```jsx
+const CustomComponent = withActiveNode((props) => {
+	const {
+		ref,
+	} = props;
+
+	const [isActive, setIsActive] = useState(true);
+	const toggleIsActive = () => { setIsActive(!isActive) };
+
+	const { childrenRef, activeNode } = useActiveNode();
+
+	usePropagateEvents({
+		ref,
+		childrenRef,
+		activeNode,
+		events: ['left', 'right', 'confirm'],
+		isActive,
+	})
+
+	return (
+		<div onClick={ toggleIsActive } />
+	)
+})
+```
+
+### API Reference
+
+<ArgTypes />
