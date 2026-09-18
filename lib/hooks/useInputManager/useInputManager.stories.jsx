@@ -10,6 +10,51 @@ import { DefaultKeybinds } from '../../constants';
 export default {
   title: 'Hooks/useInputManager',
   component: useInputManager,
+  args: {
+    commands: undefined,
+    keybinds: undefined,
+    gamepadMapping: undefined,
+    onBeforeKeyDown: undefined,
+  },
+  argTypes: {
+    commands: {
+      type: 'object',
+      table: {
+        defaultValue: {
+          summary: '{}',
+        },
+        readonly: true,
+      },
+    },
+    keybinds: {
+      type: 'object',
+      table: {
+        defaultValue: {
+          summary: 'DefaultKeybinds',
+        },
+        readonly: true,
+      },
+    },
+    gamepadMapping: {
+      type: 'object',
+      table: {
+        defaultValue: {
+          summary: 'DefaultGamepadMapping',
+        },
+        readonly: true,
+      },
+    },
+    onBeforeKeyDown: {
+      type: 'function',
+      description: "Function called on keydown event before executing an associated command.  If function returns a truthy value, propagation is stopped and the command will not execute.",
+      table: {
+        defaultValue: {
+          summary: '() => {}',
+        },
+        readonly: true,
+      },
+    },
+  },
   parameters: {
     layout: 'centered',
   },

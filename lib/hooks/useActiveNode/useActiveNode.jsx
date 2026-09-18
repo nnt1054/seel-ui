@@ -31,7 +31,6 @@ export const useActiveNode = () => {
     // more specifically for children node to hook into
     // const hasFocus = useStore(store, state => state.hasFocus);
 
-    // todo: what to do if no parent? or we have a controlled hasFocus value
     const isActiveNode = useStore(
         parent || emptyParent,
         state => state.hasFocus && state.activeNode == node

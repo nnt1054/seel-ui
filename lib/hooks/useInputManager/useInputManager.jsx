@@ -66,7 +66,7 @@ const useGamepad = (mapping, callback) => {
         [axis.RSY]: {
             pos: buttons.RS_DOWN,
             neg: buttons.RS_UP,
-        }, 
+        },
     }
 
     const onGamepadConnect = (event) => {
@@ -111,7 +111,7 @@ const useGamepad = (mapping, callback) => {
         }
 
         const listener = new GamepadListener({ deadZone: 0.3 });
-        
+
         listener.on('gamepad:button', event => {
             const { button, pressed, value } = event.detail;
             const isDown = (pressed && value > 0.5);

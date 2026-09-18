@@ -1,0 +1,63 @@
+import {
+  Meta,
+  Controls,
+  ArgTypes,
+  Source,
+  TableOfContents,
+  Title,
+  Subtitle,
+  Description,
+  Markdown,
+} from "@storybook/addon-docs/blocks";
+
+import { Table } from "@docs/blocks/Table";
+import * as useActiveNodeStories from "./useActiveNode.stories";
+
+<Meta of={useActiveNodeStories} />
+
+<Title />
+
+<Subtitle>Hook for retrieving Active Node Properties and Methods.</Subtitle>
+
+Hook that provides the primary properties and function methods for controlling focus within the Active Node System.  The properties are split into two categories that either deal with the current node as a child within a parent or as a parent with a set of chidren.  The functions provided are intended to directly be used with other hooks within the `seel-ui` library.
+
+### Usage Guidelines
+
+* Using `useActiveNode` will set up hooks into the active node properties so components will be expected to rerender when their focus or activeNode values are updated.
+* The `hasFocus` property is also dependent on having both the current node being the activeNode within its parent as well as the parent being the `activeNode` within the grand-parent (with the exception of if the `hasFocus` prop is populated).
+* In order to retrieve properties/methods without hooking into it/causing rerenders, it is possible to retrieve the underlying zustand store using the `ActiveNodeContext` and the `store.getState()` method.
+
+### Examples
+
+#### Custom Component with Active Node Hook
+
+```jsx
+const CustomComponent = withActiveNode((props) => {
+  const { ref } = props;
+
+  const {
+    hasFocus,
+    moveFocus,
+    grabFocus,
+    childrenRef,
+    activeNode,
+    setActiveNode,
+  } = useActiveNode();
+
+  return <div ref={ref} />
+});
+```
+
+### API Reference
+
+<Table
+  headers={["Property", "Description"]}
+  rows={[
+    [<b>hasFocus</b>, "Boolean denoting if current node is the activeNode of its parent."],
+    [<b>moveFocus</b>, "Changes the activeNode of the current node\'s parent."],
+    [<b>grabFocus</b>, "Sets the current node as the activeNode of its parent and recursively repeats for its parent and parent\'s parent, etc."],
+    [<b>childrenRef</b>, "Object mapping the node names of the current node\'s children to each child\'s ref DOM element."],
+    [<b>activeNode</b>, "Node name of the current node\'s child with focus."],
+    [<b>setActiveNode</b>, "Sets the child with focus of a the current node."],
+  ]}
+/>

@@ -1,0 +1,162 @@
+import {
+	Meta,
+	Controls,
+	ArgTypes,
+	Source,
+	TableOfContents,
+	Title,
+	Subtitle,
+	Description,
+	Markdown,
+} from '@storybook/addon-docs/blocks';
+
+import { Table } from '@docs/blocks/Table';
+import * as useInputManagerStories from './useInputManager.stories';
+
+<Meta of={ useInputManagerStories } />
+
+<Title />
+
+<Subtitle>Hook for setting up keyboard and gamepad input event listeners and mapping their associated commands.</Subtitle>
+
+### Usage Guidelines
+* If creating custom commands for use with the active node navigation system, it's recommended to use the `inputInFocus` or `getNavigationCommands` utility functions.  Example can be find below.
+* It is encouraged to leverage the `useInputManager` in order to extend and create your own InputProvider wrapper component.
+
+### Examples
+
+#### Custom Input Provider
+
+```jsx
+const KeybindsContext = createContext({});
+
+const InputProvider = (props) => {
+    const {
+        inputRef,
+        children,
+    } = props;
+
+    const commands = getNavigationCommands(inputRef);
+
+    const keybinds = {
+      'up': KeyCodes.I,
+      'down': KeyCodes.K,
+      'left': KeyCodes.J,
+      'right': KeyCodes.L,
+    }
+
+    useInputManager({
+        commands,
+        keybinds,
+    })
+
+    return (
+        <KeybindsContext.Provider value={ keybinds }>
+            { children }
+        </KeybindsContext.Provider>
+    )
+}
+```
+
+#### Event Dispatcher to Active Node System
+
+```jsx
+const inputInFocus = () => {
+    return (
+        document.activeElement?.tagName == 'DIALOG' ||
+        document.activeElement?.tagName == 'INPUT' ||
+        document.activeElement?.isContentEditable ||
+        document.getSelection()?.type == 'Range'
+    )
+}
+
+const handleEvent = (event) => {
+	return () => {
+		if (inputInFocus()) {
+			const input = document.activeElement;
+			if (input) input.dispatchEvent(new Event(event));
+		} else {
+			const element = ref?.current;
+      if (element) element.dispatchEvent(new Event(event));
+    }
+	}
+}
+
+const commands = {
+	'left': { execute: handleEvent('left') },
+	'right': { execute: handleEvent('right') },
+	'confirm': { execute: handleEvent('confirm') },
+	...
+}
+```
+
+### API Reference
+
+#### useInputManager
+
+<ArgTypes />
+
+#### commands
+
+```jsx
+const commands = {
+	'left': {
+		execute: console.log('left'),
+	},
+	'right': {
+		execute: console.log('right'),
+		ignoreModifiers: true,
+	},
+	'confirm': {
+		execute: () => { console.log('confirm:press') },
+		release: () => { console.log('confirm:release') },
+	},
+}
+```
+
+<Table
+	headers={['Property', 'Description']}
+	rows={[
+		[<b>execute</b>, "Function to call on pressing a button on key."],
+		[<b>release</b>, "Function to call on releasing a button on key."],
+		[<b>ignoreModifiers</b>, "Boolean property for whether or not command needs to match exact modifiers in key combination in order to execute."],
+	]}
+/>
+
+#### keybinds
+
+`keybinds` values map a command name to either a keycode integer or a list of keycode integers that made of a keycode + modifier keycode.
+
+```jsx
+import { KeyCodes } from 'seel-ui';
+
+export const keybinds = {
+	'confirm': KeyCodes.ENTER,
+	'cancel': 27,
+	'cycleR': [KeyCodes.TAB],
+	'cycleL': [KeyCodes.SHIFT, KeyCodes.TAB],
+	...
+}
+```
+
+#### gamepadMapping
+
+* `analog` values for axis aren't supported at this time, so axis inputs are translated into button inputs as `LS_UP`, `LS_DOWN`, `LS_LEFT`, etc.
+* `DefaultGamepadMapping` is for controlers with `standard` gamepad mapping as determined by the browser;  it should not be necessary to provide a custom value here unless you need to support other controller types.
+
+```jsx
+export const gamepadMapping = {
+    buttons: {
+        A: 0,
+        B: 1,
+				...
+        RS_LEFT: 106,
+        RS_RIGHT: 107,
+    },
+    axis: {
+        LSX: 0,
+        LSY: 1,
+        RSX: 2,
+        RSY: 3,
+    },
+}
