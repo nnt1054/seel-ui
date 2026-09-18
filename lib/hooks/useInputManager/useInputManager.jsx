@@ -202,7 +202,8 @@ export const useInputManager = (props) => {
     const onKeyDown = (event) => {
         const name = getKeybinds(event, true)[0];
 
-        const stopPropagation = onBeforeKeyDown(name, commands);
+        // todo: we need to be passing the event also; reorder/organize args here
+        const stopPropagation = onBeforeKeyDown(name, commands, event);
         if (stopPropagation) return;
 
         if (!name) return;

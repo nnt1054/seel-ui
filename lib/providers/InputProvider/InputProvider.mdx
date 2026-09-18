@@ -1,0 +1,152 @@
+import {
+	Meta,
+	Controls,
+	ArgTypes,
+	Source,
+	TableOfContents,
+	Title,
+	Subtitle,
+	Description,
+	Markdown,
+} from '@storybook/addon-docs/blocks';
+
+import { Table } from '@docs/blocks/Table';
+import * as InputProviderStories from './InputProvider.stories';
+
+<Meta of={ InputProviderStories } />
+
+<Title />
+
+<Subtitle>Hook for setting up keyboard and gamepad input event listeners and mapping their associated commands.</Subtitle>
+
+### Usage Guidelines
+* If integrating `seel-ui` into a normal website/application (as opposed to a web game with custom commands), the default InputProvider should be sufficient; otherwise it's recommended to create custom and multiple `InputProvider` components using the `useInputManager` hook for different pages and use cases.
+* For dynamic applications, you may store relevant keybinds in a state manager and leverage the `onBeforeKeyDown` prop to implemen rebindable keybind logic.
+* The `gamepadMapping` is available to override in order to support different gamepad API mappings outside of the `standard` mapping. (Button indexes may be different on different controllers or have missing axes.)  It will be up to the developer to create a flow for updating or switching between different mappings based on the controller.
+* The `KeybindsContext` isn't required for custom InputManagers but is meant to be useful for rendering buttons labels as a UI element in the case of having rebindable keys. Example: Retrieving the `keyCode` bound to the `cycleL` command in order to determine what label to render in the Tab's CycleButton component.
+* As stated in the `useInputManager` Hook documentation, in order to bridge into the Active Node System, the intended navigation command functions should leverage the `inputInFocus` utility and an `inputRef` prop in order to determine what DOM Element to call dispatchEvent on.
+
+### Examples
+
+#### Default Input Provider
+
+```jsx
+import { DefaultKeybinds } from 'seel-ui';
+
+const KeybindsContext = createContext({});
+
+const InputProvider = (props) => {
+    const {
+        inputRef,
+        children,
+    } = props;
+
+    const commands = getNavigationCommands(inputRef);
+
+    useInputManager({
+        commands,
+        keybinds: DefaultKeybinds,
+    })
+
+    return (
+        <KeybindsContext.Provider value={ keybinds }>
+            { children }
+        </KeybindsContext.Provider>
+    )
+}
+```
+
+#### Custom Input Provider w/ Rebindable Keys
+
+```jsx
+export const useKeybindsStore = create((set) => ({
+  keybinds: {
+    'up': KeyCodes.I,
+    'down': KeyCodes.K,
+    'left': KeyCodes.J,
+    'right': KeyCodes.L,
+    ...
+  },
+  setKeybind: (command, keyCode) => set(state => ({
+    keybinds: { ...state.keybinds, [command]: keyCode },
+  })),
+  commandToAssign: null,
+  setCommandToAssign: (commandToAssign) => set(state => ({ commandToAssign, })),
+})
+
+const checkAndSetKeybind = (event, existingCommand, commands={}) => {
+  const {
+    setKeybind,
+    commandToAssign,
+    setCommandToAssign,
+  } = useKeybindsStore.getState();
+
+  if (keybindToAssign) {
+    if (existing) setKeybind(existingCommand, null);
+    setKeybind(commandToAssign, [event.keyCode]);
+    setKeybindToAssign(null);
+  }
+}
+
+const KeybindsContext = createContext({});
+
+const InputProvider = (props) => {
+    const {
+        inputRef,
+        children,
+    } = props;
+
+    const commands = getNavigationCommands(inputRef);
+    const keybinds = useKeybindsStore(state => state.keybinds);
+
+    useInputManager({
+        commands,
+        keybinds: DefaultKeybinds,
+        onBeforeKeyDown: checkAndSetKeybind,
+    })
+
+    return (
+        <KeybindsContext.Provider value={ keybinds }>
+            { children }
+        </KeybindsContext.Provider>
+    )
+}
+```
+
+#### Event Dispatcher to Active Node System
+
+```jsx
+const inputInFocus = () => {
+    return (
+        document.activeElement?.tagName == 'DIALOG' ||
+        document.activeElement?.tagName == 'INPUT' ||
+        document.activeElement?.isContentEditable ||
+        document.getSelection()?.type == 'Range'
+    )
+}
+
+const handleEvent = (event) => {
+	return () => {
+		if (inputInFocus()) {
+			const input = document.activeElement;
+			if (input) input.dispatchEvent(new Event(event));
+		} else {
+			const element = ref?.current;
+      if (element) element.dispatchEvent(new Event(event));
+    }
+	}
+}
+
+const commands = {
+	'left': { execute: handleEvent('left') },
+	'right': { execute: handleEvent('right') },
+	'confirm': { execute: handleEvent('confirm') },
+	...
+}
+```
+
+### API Reference
+
+#### InputProvider (Default)
+
+<ArgTypes />
