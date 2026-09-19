@@ -6,7 +6,9 @@ const config = {
     "../lib/**/*.mdx",
     "../lib/**/*.stories.@(js|jsx|mjs|ts|tsx)",
   ],
+  "staticDirs": ['../public'],
   "addons": ["@storybook/addon-docs"],
   "framework": "@storybook/react-vite"
+
 };
 export default config;

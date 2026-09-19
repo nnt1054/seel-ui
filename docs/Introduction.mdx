@@ -10,6 +10,16 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 Seel UI is an unstyled UI component library/system for building out user interfaces with (hopefully) more intuitive navigation using directional input events from both a keyboard or gamepad.
 
+### Installation
+
+Install `seel-ui` using npm.
+
+```console
+npm install seel-ui
+```
+
+All components, hooks and utility functions should be included with the single package.  A core concept with `seel-ui` is that you should be able to recreate every components by importing individual hooks and utilities that make up their composition.
+
 ### How does it work?
 
 There are two main parts for making the system work; the Input Manager and the Active Node System. The Input Manager is in charge of listening to keyboard and Gamepad API events and execute actions based on a user provided keybind to command function mapping.  From there, the default commands will dispatch a set of events to the Active Node System through the DOM Events API.
@@ -26,8 +36,10 @@ The active node system provides a pattern for creating and designating dom eleme
 All nodes can be nested inside a parent node and have a set of active nodes as children; among their child nodes at most one node will be designated as having "focus" or being the "active node" within their parent node and the node the bottom of the hierarchy is where the "virtual cursor" is considered to be.
 
 #### Focus and Event Propagation
+
+![low fidelity diagram of events passing from input provider to the focus targeted node](/public/seel-ui-diagram.png)
+
 * Events are handled in "Capturing Phase" style only where events are propagated recursively from parent to child until it reaches the lowest child/target node or any node decides to capture and not propagate the event.
-* [include diagram of events passing through]
 * event propagation enters through the top most node and gets passed down through to the end child in a capture phase style flow
 * nodes where events would propogate through are considered to have focus and the end lowest node in the hierarchy is considered to be the target node
 * base components with focus will automatically have `data-focused` attribute added
@@ -37,14 +49,10 @@ All nodes can be nested inside a parent node and have a set of active nodes as c
 (so for this section its going to quickly be about how to use the premade components and then segueing into how to style them before going on to the custom components stuff)
 
 #### Setting up the Input Provider
-* here we're setting up a very barebones input provider
-* the gist is that we have a `commands` object that maps named command names to a command config object/function to execute
-	* go here (insert link) for more information on commands and command properties
-* then we define a `keybinds` object which maps those same command names to an event keyCode
-* passing both into the `useInputManager` hook sets up the required event listeners and fires the corresponding commands upon detecting the appropriate keyboard event.
-* for more cool party tricks see here (insert another link here)
-	* tricks includes gamepad mappings, modal support and rebindable keybinds
-```
+
+Here we're setting up a very barebones input provider.  The basic idea is that we have a `commands` object that maps named command names to a command config object/function to execute. (Visit the [useInputManager](/docs/hooks-useinputmanager--docs) docs for more information on commands and command properties.)  Then we define a `keybinds` object which maps those same command names to an event keyCode. Passing both into the `useInputManager` hook sets up the required event listeners and fires the corresponding commands upon detecting the appropriate keyboard event.  For more examples visit the [useInputManager](/docs/hooks-useinputmanager--docs) docs.
+
+```jsx
 const BasicInputProvider = (props) => {
     const {
         inputRef,
@@ -93,7 +101,8 @@ const BasicInputProvider = (props) => {
 ```
 
 #### Adding a Button
-````
+
+```jsx
 const App = () => {
 	const ref = useRef();
 	const onClick = () => { console.log('hello world') };
@@ -104,14 +113,15 @@ const App = () => {
 		</InputProvider>
 	}
 }
-````
+```
 
 * since we passed the button's ref as the inputRef to the InputProvider, we've designated the button as the top level active node and events will be dispatched directly to the button active node
 * when the input provider receives a keyboard event for the ENTER key, it'll execute the `confirm` command which dispatches the a `confirm` event directly to the button component
 * on receiving the `confirm` event, the button component will by default manually call its onClick function
 
 #### Adding Adjacent Nodes
-````
+
+```jsx
 const App = () => {
 	const ref = useRef();
 	const onClick = () => { console.log('hello world') };
@@ -135,7 +145,8 @@ const App = () => {
 		</InputProvider>
 	}
 }
-````
+```
+
 * from here we add a second button and wrap them in an active container node
 * the active container will now receive events directly from the input provider instead and will then propagate events to whichever of the buttons is the active child or has focus;  `button 1` having focus first as specified by the `initial` prop
 * since we've defined adjacent nodes, when `button 1` receives a `down` event propagated from the container; we pass focus to the specified `button 2` node and vice versa
@@ -234,6 +245,8 @@ export const ExampleNode = withActiveNode(() => {
 
 #### Hooks
 
+Below is a brief list of available hooks to illustrate how behaviors can be configured.
+
 ##### useActiveNode
 * provides all relevant information/context for the active node
 	* node as child properties: hasFocus, moveFocus, grabFocus
@@ -247,11 +260,11 @@ export const ExampleNode = withActiveNode(() => {
 * upon receeiving an event (from a specified list of events), dispatches the same event down to the active child node within the current container if any
 
 ##### useAdjacentNodes
-* adds callbacks to moveFocus to specified neighbors upon receiving a directional event; aka receiving an `up` event will move focus to the adjacent node in the `up` direction and so on and so forth
+* adds callbacks to move focus to specified neighbors upon receiving a directional event; aka receiving an `up` event will move focus to the adjacent node in the `up` direction and so on and so forth
+
+##### useActiveScrollableNode
+* very similar to `useAdjacentNodes` but directional/navigation events will scroll the current node in the given direction and then will only moveFocus if the node is at its max/min scroll position
 
 ##### useActiveIndex / useActiveGridIndex
 * used for active lists and active grid indexes
 * assumes all nodes within the container have an ordered integer node name
-
-##### useActiveScrollableNode
-* very similar to `useAdjacentNodes` but directional/navigation events will scroll the current node in the given direction and then will only moveFocus if the node is at its max/min scroll position
