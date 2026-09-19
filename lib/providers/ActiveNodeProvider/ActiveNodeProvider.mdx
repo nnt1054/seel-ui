@@ -1,0 +1,105 @@
+import {
+  Meta,
+  Controls,
+  ArgTypes,
+  Source,
+  TableOfContents,
+  Title,
+  Subtitle,
+  Description,
+  Markdown,
+} from "@storybook/addon-docs/blocks";
+
+import { Table } from "@docs/blocks/Table";
+
+<Meta title="Providers/ActiveNodeProvider" />
+
+<Title>ActiveNodeProvider</Title>
+
+### withActiveNode
+
+HOC Decorator for instantiating and creating custom active node components.
+
+Using the decorator will make the wrapped component:
+
+- register itself onto its parent childrenRef
+- set up and provide its ActiveNodeContext which enables the usage of the `useActiveNode` hook in the component.
+
+Every node has their own zustand store initialized and stored within the ActiveNodeContext; the zustand store holds all the relevant properties for managing and moving focus within a parent as well as among a node's children nodes.
+
+### Usage Guidelines
+
+- `withActiveNode` requires all components to support a `ref` and `node` prop, where the ref is required to be set to a DOM element. It will also provide a default value for the `ref` prop, so when instantiating an active node component, it's not required to manually generate a new ref for each one.
+- `withActiveNode` has an additional boolean arg `ignoreParent` for creating node components within a node that want to break from the normal hierarchy. This is primarily used with popover/dialog/dropdown components that are expected to receive events directly using the `inputInFocus` utility.
+
+### Examples
+
+```jsx
+const CustomComponent = withActiveNode((props) => {
+  const { ref, node, ...elementProps } = props;
+
+  const { hasFocus } = useActiveNode();
+
+  return (
+    <div ref={ref} data-focused={hasFocus ? "" : null} {...elementProps} />
+  );
+});
+```
+
+### API Reference
+
+#### withActiveNode
+
+<Table
+  headers={["Name", "Description"]}
+  rows={[
+    [
+      <b>WrappedComponent</b>,
+      "React Component to turn into an Active Node Component.  Component is required to support a `ref` and `node` props.",
+    ],
+    [
+      <b>ignoreParent</b>,
+      "If set to `true`, overrides and sets the parent value in the ActiveNodeContext to `null`",
+    ],
+  ]}
+/>
+
+#### ActiveNodeContext
+
+Note that the `ActiveNodeContext` react context object only stores a zustand store as its value. The following table describes the properties of the held zustand store and can be accessed using `store.getState()` or hooked into via zustand's `useStore` function.
+
+<Table
+  headers={["Property", "Description"]}
+  rows={[
+    [
+      <b>parent</b>,
+      "A reference to the ActiveNodeContext of the current node\'s parent if they exist.  Used to determine if the current node has focus within its parent.",
+    ],
+    [
+      <b>childrenRef</b>,
+      "A ref object that stores a map between children nodes\' names and their DOM element.  Child nodes will register themselves to their parent\'s `childrenRef` property on render.",
+    ],
+    [
+      <b>grabFocus</b>,
+      "Sets the current node as the activeNode of its parent and recursively repeats for its parent and parent\'s parent, etc.",
+    ],
+    [
+      <b>activeNode</b>,
+      "String or integer value denoting the child node name with focus in the current node.",
+    ],
+    [<b>setActiveNode</b>, "Function for setting the `activeNode`."],
+    [
+      <b>hasFocus</b>,
+      "Boolean denoting if node has focus either through the `hasFocus` prop or is the active node within its parent.",
+    ],
+    [<b>setHasFocus</b>, "Function for setting the `hasFocus` property."],
+    [
+      <b>controlledFocus</b>,
+      "Boolean value passed into the `hasFocus` prop of the active node or null if none.",
+    ],
+    [
+      <b>setControlledFocus</b>,
+      "Function for setting the `controlledFocus` property.",
+    ],
+  ]}
+/>
