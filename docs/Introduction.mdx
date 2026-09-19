@@ -39,7 +39,7 @@ All nodes can be nested inside a parent node and have a set of active nodes as c
 
 #### Focus and Event Propagation
 
-![low fidelity diagram of events passing from input provider to the focus targeted node](/public/seel-ui-diagram.png)
+![low fidelity diagram of events passing from input provider to the focus targeted node](/seel-ui-diagram.png)
 
 * Events are handled in "Capturing Phase" style only where events are propagated recursively from parent to child until it reaches the lowest child/target node or any node decides to capture and not propagate the event.
 * event propagation enters through the top most node and gets passed down through to the end child in a capture phase style flow
