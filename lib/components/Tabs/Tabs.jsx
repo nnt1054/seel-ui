@@ -14,7 +14,6 @@ import { createStore, useStore } from "zustand";
 
 import { withActiveNode } from "@providers/ActiveNodeProvider/ActiveNodeProvider";
 import { useActiveNode } from "@hooks/useActiveNode/useActiveNode";
-import { Column } from "@components/Column/Column";
 import { ActiveList } from "@components/ActiveList/ActiveList";
 import { Button } from "@components/Button/Button";
 import { usePropagateEvents } from "@hooks/usePropagateEvents/usePropagateEvents";
