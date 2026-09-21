@@ -16,10 +16,11 @@ export default defineConfig({
       fileName: 'seel-ui',
     },
     rolldownOptions: {
-      external: ['react'],
+      external: [/^react(\/.*)?$/, /^react-dom(\/.*)?$/],
       output: {
         globals: {
           react: 'react',
+          'react/jsx-runtime': 'react/jsx-runtime',
         },
       },
     },
