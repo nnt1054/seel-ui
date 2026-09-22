@@ -182,7 +182,7 @@ export const useInputManager = (props) => {
         return Object.keys(keybinds).filter(name => {
             const command = commands[name];
             const keybind = keybinds[name];
-            if (!keybind) return;
+            if (!command || !keybind) return;
 
             const keybindCombination = Number.isInteger(keybind) ? [keybind] : keybind;
 
