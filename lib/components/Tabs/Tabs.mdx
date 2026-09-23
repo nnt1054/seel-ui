@@ -133,6 +133,14 @@ const App = () => {
 
 <ArgTypes of={ TabsTabStories } />
 
+<Table
+	headers={['Attribute', 'Description']}
+	rows={[
+		[<b>data-focused</b>, "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`."],
+		[<b>data-active-tab</b>, "Present when node is the active tab within a Tabs component."],
+	]}
+/>
+
 #### Tabs.CycleButton
 
 <ArgTypes of={ TabsCycleButtonStories } />
