@@ -21,28 +21,31 @@ export const RangeInput = withActiveNode((props) => {
 		step = 1,
 	} = others;
 
-    const { hasFocus } = useActiveNode();
+  const { hasFocus } = useActiveNode();
 
-    useEventListeners(ref, {
-    	left: () => {
-    		ref.current.valueAsNumber -= step;
+  useEventListeners(ref, {
+  	left: () => {
+  		ref.current.valueAsNumber -= step;
 			ref.current.dispatchEvent(new Event("change"));
-    	},
-    	right: () => {
-    		ref.current.valueAsNumber += step;
+  	},
+  	right: () => {
+  		ref.current.valueAsNumber += step;
 			ref.current.dispatchEvent(new Event("change"));
-    	},
-    	change: (event) => {
-    		const value = event.target.valueAsNumber;
-    		setValue(value);
-    	},
-    })
+  	},
+  })
+
+	const onChange = (event) => {
+		const value = event.target.valueAsNumber;
+		setValue(value);
+	};
 
 	return (
 		<input
 			type="range"
 			ref={ ref }
 			data-focused={ hasFocus ? "" : null }
+			value={ value }
+			onChange={ onChange }
 			{ ...others }
 		/>
 	)
