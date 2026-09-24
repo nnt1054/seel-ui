@@ -18,6 +18,7 @@ import { ActiveList } from "@components/ActiveList/ActiveList";
 import { Button } from "@components/Button/Button";
 import { usePropagateEvents } from "@hooks/usePropagateEvents/usePropagateEvents";
 import { useEventListeners } from "@hooks/useEventListeners/useEventListeners";
+import { handleAdjacentNode } from '@utils';
 
 const defaultEvents = ["up", "down", "left", "right", "confirm"];
 
@@ -54,13 +55,26 @@ export const Tabs = withActiveNode((props) => {
     ...others
   } = props;
 
+  const {
+    hasFocus,
+    grabFocus,
+    moveFocus,
+    childrenRef,
+    activeNode,
+    setActiveNode,
+  } = useActiveNode();
+
+  // todo: convert to utility function
+  // allow for child nodes to move focus outside of this tabs node
+  const _adjacentNodes = Object.entries(adjacentNodes).reduce((adjacentNodes, [key, value]) => {
+      adjacentNodes[key] = () => handleAdjacentNode(value, moveFocus);
+      return adjacentNodes;
+  }, {})
+
   const [store] = useState(() =>
-    createTabsContextStore({ maxIndex, adjacentNodes }),
+    createTabsContextStore({ maxIndex, adjacentNodes: _adjacentNodes }),
   );
   const { activeIndex, setActiveIndex, setMaxIndex } = useStore(store);
-
-  const { hasFocus, grabFocus, childrenRef, activeNode, setActiveNode } =
-    useActiveNode();
 
   usePropagateEvents({
     ref,

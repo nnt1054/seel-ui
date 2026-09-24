@@ -23,10 +23,6 @@ export const CheckboxInput = withActiveNode((props) => {
       ref.current.checked = !ref.current.checked;
       ref.current.dispatchEvent(new Event("change"));
     },
-    change: (event) => {
-      const checked = event.target.checked;
-      setValue(checked);
-    },
   });
 
   useAdjacentNodes({
@@ -35,11 +31,18 @@ export const CheckboxInput = withActiveNode((props) => {
     moveFocus,
   });
 
+  const onChange = (event) => {
+    const checked = event.target.checked;
+    setValue(checked);
+  };
+
   return (
     <input
       type="checkbox"
       ref={ref}
       data-focused={hasFocus ? "" : null}
+      checked={ !!value }
+      onChange={ onChange }
       {...others}
     />
   );

@@ -32,7 +32,7 @@ const StyledActiveList = styled.div`
     }
 `
 export const ActiveList = withActiveNode((props) => {
-	const {
+    const {
         ref,
         node,
         adjacentNodes = {},
@@ -43,7 +43,7 @@ export const ActiveList = withActiveNode((props) => {
         disableWrap = false,
         disableJump = false,
         ...others
-	} = props;
+    } = props;
 
     const maxIndex = Number.isInteger(_maxIndex)
         ? _maxIndex
