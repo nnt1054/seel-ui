@@ -1,6 +1,6 @@
 import {
     useEffect, useState, useContext,
-    useRef, useMemo, memo,
+    useRef, useMemo, memo, Children,
 } from 'react';
 import styled from 'styled-components';
 import { createStore, useStore } from 'zustand'
@@ -47,7 +47,7 @@ export const ActiveList = withActiveNode((props) => {
 
     const maxIndex = Number.isInteger(_maxIndex)
         ? _maxIndex
-        : props.children.length;
+        : Children.count(props.children);
 
     const isColumn = (orientation == 'vertical')
 
