@@ -113,6 +113,7 @@ export const ActiveListItem = withActiveNode((props) => {
         ref,
         node,
         onConfirm = () => {},
+        onFocus = () => {},
         ...others
     } = props;
 
@@ -126,6 +127,10 @@ export const ActiveListItem = withActiveNode((props) => {
         grabFocus();
         callbacks.confirm();
     }
+
+    useEffect(() => {
+        if (hasFocus) onFocus();
+    }, [hasFocus])
 
     return (
         <div

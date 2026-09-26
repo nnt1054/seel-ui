@@ -24,7 +24,7 @@ export const Modal = withActiveNode((props) => {
 	const {
 		ref,
 		node,
-    events = defaultEvents,
+    	events = defaultEvents,
 		anchorName,
 		isOpen = false,
 		setIsOpen = () => {},
