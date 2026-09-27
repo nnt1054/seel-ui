@@ -87,7 +87,7 @@ export const withActiveNode = (WrappedComponent, ignoreParent) => {
         const {
             ref = useRef(),
             node,
-            initial,
+            initial = 'default',
             hasFocus,
             ...others
         } = props;
