@@ -102,6 +102,7 @@ export const ActiveList = withActiveNode((props) => {
             data-focused={ hasFocus ? "" : null }
             data-orientation={ isColumn ? 'vertical' : 'horizontal' }
             data-reversed={ isReverse ? "" : null }
+            data-active-index={ activeIndex }
             { ...others }
         />
     )

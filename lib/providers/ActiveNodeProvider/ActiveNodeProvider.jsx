@@ -22,6 +22,8 @@ const createNodeContainerStore = (props) => {
         childrenRef,
         grabFocus,
 
+        setNode: (node) => set(state => ({ node })),
+
         activeNode: initial,
         setActiveNode: (activeNode) => set(state => ({ activeNode })),
 
@@ -94,6 +96,12 @@ export const withActiveNode = (WrappedComponent, ignoreParent) => {
 
         const parent = ignoreParent ? null : registerNode({ ref, node });
         const store = createNodeContainer({ node, initial, parent });
+
+        // keep node synced with updated prop
+        useEffect(() => {
+            const { setNode } = store.getState();
+            setNode(node);
+        }, [node])
 
         // for manually controlled hasFocus
         useEffect(() => {
