@@ -28,7 +28,7 @@ export const useActiveGridIndex = (props) => {
         } else {
             let newIndex = activeIndex - columns;
             if (newIndex < 0) {
-                newIndex += gridSize - 1;
+                newIndex += gridSize - 1 + columns;
                 if (newIndex >= maxIndex) newIndex -= columns;
                 if (newIndex < 0) newIndex += columns;
                 setActiveIndex(newIndex);
