@@ -167,6 +167,17 @@ const TabsTab = withActiveNode((props) => {
   const isActive = useStore(store, (state) => state.activeIndex == node);
   const { hasFocus, grabFocus } = useActiveNode();
 
+  // todo: convert to hook OR normalize an onFocus param
+  useEffect(() => {
+    if (hasFocus || isActive) {
+      ref.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+          inline: 'center',
+      })
+    }
+  }, [hasFocus, isActive]);
+
   const callbacks = useEventListeners(ref, {
     confirm: () => {
       grabFocus();
