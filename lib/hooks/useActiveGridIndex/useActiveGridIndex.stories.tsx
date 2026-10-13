@@ -1,10 +1,11 @@
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { useActiveGridIndex } from './useActiveGridIndex';
 
 
-export default {
+const meta = {
   title: 'Hooks/useActiveGridIndex',
   component: useActiveGridIndex,
   args: {
@@ -107,7 +108,7 @@ export default {
         <span> Active Index: { activeIndex } </span> <br/>
         <button onClick={() => emit('left')}> Left </button>
         <button onClick={() => emit('right')}> Right </button>
-        <button onClick={() => emit('up')}> Up </button>        
+        <button onClick={() => emit('up')}> Up </button>
         <button onClick={() => emit('down')}> Down </button>
         <br/>
         <Grid columns={ columns }>
@@ -134,9 +135,12 @@ export default {
       </div>
     )
   },
-};
+} satisfies Meta<typeof useActiveGridIndex>;
 
-export const Default = {
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
   args: {
     columns: 5,
     maxIndex: 23,

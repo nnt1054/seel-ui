@@ -11,16 +11,17 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/seel-ui.js",
-      "require": "./dist/seel-ui.umd.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/seel-ui.umd.cjs"
     }
   },
   "scripts": {
     "build": "vite build",
     "lint": "eslint .",
     "storybook": "storybook dev -p 6006 --no-open",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "tsc": "tsc -b ./tsconfig.app.json --noEmit"
   },
   "dependencies": {
     "@storybook/addon-docs": "^10.5.2",
@@ -53,5 +54,13 @@
     "typescript-eslint": "^8.71.2",
     "unplugin-dts": "^1.1.2",
     "vite": "^8.1.1"
+  },
+  "overrides": {
+    "@microsoft/api-extractor": {
+      "typescript": "$typescript"
+    }
+  },
+  "resolutions": {
+    "@microsoft/api-extractor/**/typescript": "*"
   }
 }

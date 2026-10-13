@@ -1,3 +1,4 @@
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useRef, useState, useContext, useEffect } from 'react';
 import { fn } from 'storybook/test';
 
@@ -8,7 +9,7 @@ import { InputProvider } from '@providers/InputProvider/InputProvider';
 import { StyledActiveGrid, StyledActiveGridItem } from './examples/styled';
 
 
-export default {
+const meta = {
   title: 'Navigation/ActiveGrid',
   component: ActiveGrid,
   decorators: [includeInputProvider],
@@ -86,9 +87,12 @@ export default {
   parameters: {
     layout: 'centered',
   },
-};
+} satisfies Meta<typeof ActiveGrid>;
 
-export const Styled = {
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Styled: Story = {
   render: (props) => {
     return (
         <StyledActiveGrid

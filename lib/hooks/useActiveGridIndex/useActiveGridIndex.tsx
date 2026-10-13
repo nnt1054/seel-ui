@@ -3,7 +3,11 @@ import { useEffect, useState } from 'react';
 import { handleAdjacentNode } from '@utils';
 
 
-export const useActiveGridIndex = (props) => {
+interface ActiveGridProps {
+    onWordAdd?: (value: string | undefined) => void;
+}
+
+export const useActiveGridIndex = (props: ActiveGridProps) => {
     const {
         ref,
         activeIndex,
