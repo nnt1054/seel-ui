@@ -26,3 +26,5 @@ export * from './providers/InputProvider';
 // todo: create /constants and /utils directories
 export * from './constants';
 export * from './utils';
+
+export * from './test';

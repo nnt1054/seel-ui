@@ -8,10 +8,12 @@
   ],
   "main": "./dist/seel-ui.umd.cjs",
   "module": "./dist/seel-ui.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/seel-ui.js",
-      "require": "./dist/seel-ui.umd.cjs"
+      "require": "./dist/seel-ui.umd.cjs",
+      "types": "./dist/index.d.ts"
     }
   },
   "scripts": {
@@ -32,7 +34,9 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@microsoft/api-extractor": "^7.59.4",
     "@storybook/react-vite": "^10.4.6",
+    "@types/node": "^26.6.5",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.3",
@@ -45,6 +49,9 @@
     "jsdoc": "^4.0.5",
     "prop-types": "^15.8.1",
     "storybook": "^10.4.6",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.71.2",
+    "unplugin-dts": "^1.1.2",
     "vite": "^8.1.1"
   }
 }

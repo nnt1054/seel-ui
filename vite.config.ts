@@ -2,16 +2,21 @@ import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
+import dts from 'unplugin-dts/vite'
 
 
 export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
+    dts({
+      tsconfigPath: './tsconfig.app.json',
+      bundleTypes: true,
+    }),
   ],
   build: {
     lib: {
-      entry: resolve(import.meta.dirname, 'lib/main.js'),
+      entry: resolve(import.meta.dirname, 'lib/main.ts'),
       name: 'seel-ui',
       fileName: 'seel-ui',
     },
