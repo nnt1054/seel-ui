@@ -1,14 +1,72 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useRef, useState } from 'react';
-import styled from 'styled-components';
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { type PropsWithChildren, type RefObject, useRef, useState } from "react";
+import styled from "styled-components";
 
-import { useActiveGridIndex } from './useActiveGridIndex';
+import { useActiveGridIndex } from "./useActiveGridIndex";
 
-// todo: need demo component
+type Node = number | string | null;
+type AdjacentNode = Node | (() => void);
+type AdjacentNodes = {
+  up?: AdjacentNode;
+  down?: AdjacentNode;
+  left?: AdjacentNode;
+  right?: AdjacentNode;
+};
+export interface DemoProps {
+  columns?: number;
+  maxIndex?: number;
+  adjacentNodes: AdjacentNodes;
+  moveFocus?: (activeNode: Node) => void;
+  isActive?: boolean;
+}
+
+const Demo = (props: DemoProps) => {
+  const { columns, maxIndex } = props;
+
+  const ref = useRef<HTMLElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useActiveGridIndex({
+    ...props,
+    ref,
+    activeIndex,
+    setActiveIndex,
+  });
+
+  const emit = (name: string) => ref.current?.dispatchEvent(new Event(name));
+
+  return (
+    <div ref={ref as RefObject<HTMLDivElement>}>
+      <span>Active Index: {activeIndex}</span> <br />
+      <button onClick={() => emit("left")}>Left</button>
+      <button onClick={() => emit("right")}>Right</button>
+      <button onClick={() => emit("up")}>Up</button>
+      <button onClick={() => emit("down")}>Down</button>
+      <br />
+      <Grid columns={columns}>
+        {Array(maxIndex).fill(0).map((_, i) => {
+          const isActive = i == activeIndex;
+          const style = {
+            width: "32px",
+            height: "32px",
+            fontWeight: isActive ? "bold" : "normal",
+            color: isActive ? "white" : "black",
+            background: isActive ? "red" : "none",
+            borderRadius: "25px",
+            textAlign: "center" as const,
+            verticalAlign: "middle",
+            lineHeight: "32px",
+          };
+          return <span key={i} style={style}>{i}</span>;
+        })}
+      </Grid>
+    </div>
+  );
+};
 
 const meta = {
-  title: 'Hooks/useActiveGridIndex',
-  component: useActiveGridIndex,
+  title: "Hooks/useActiveGridIndex",
+  component: Demo,
   args: {
     ref: undefined,
     activeIndex: undefined,
@@ -22,21 +80,21 @@ const meta = {
   },
   argTypes: {
     ref: {
-      type: 'RefObject<>',
+      type: "RefObject<>",
       table: {
         readonly: true,
       },
     },
     activeIndex: {
-      type: 'number',
+      type: "number",
       table: { readonly: true },
     },
     setActiveIndex: {
-      type: 'function',
+      type: "function",
       table: { readonly: true },
     },
     columns: {
-      description: 'The number of columns in the grid.  Rows will be calculated based off number of columns and items.',
+      description: "The number of columns in the grid.  Rows will be calculated based off number of columns and items.",
       table: {
         defaultValue: {
           summary: 0,
@@ -44,7 +102,7 @@ const meta = {
       },
     },
     maxIndex: {
-      description: 'The max integer number activeIndex will increment to (exclusive).',
+      description: "The max integer number activeIndex will increment to (exclusive).",
       table: {
         defaultValue: {
           summary: 0,
@@ -52,7 +110,8 @@ const meta = {
       },
     },
     initialIndex: {
-      description: 'Initial starting value for activeIndex. Changing the value of the initialIndex prop will automatically move focus to the node at the given index.',
+      description:
+        "Initial starting value for activeIndex. Changing the value of the initialIndex prop will automatically move focus to the node at the given index.",
       table: {
         defaultValue: {
           summary: 0,
@@ -60,7 +119,8 @@ const meta = {
       },
     },
     adjacentNodes: {
-      description: 'Object denoting what nodes within the same parent, if any, are adjacent to the current node and in what direction.  See `useAdjacentNodes` hook for more information.',
+      description:
+        "Object denoting what nodes within the same parent, if any, are adjacent to the current node and in what direction.  See `useAdjacentNodes` hook for more information.",
       table: {
         defaultValue: {
           summary: `{}`,
@@ -69,102 +129,66 @@ const meta = {
       },
     },
     moveFocus: {
-      description: "Function to be called on a node name when responding to a directional navigation event.  This function is expected to be retrieved from the `useActiveNode` hook.",
+      description:
+        "Function to be called on a node name when responding to a directional navigation event.  This function is expected to be retrieved from the `useActiveNode` hook.",
       table: {
         defaultValue: {
-          summary: '() => {}',
+          summary: "() => {}",
         },
       },
     },
     isActive: {
-      type: 'boolean',
+      type: "boolean",
       description: "Controls whether or not hook is actively listening for events.",
       table: {
         defaultValue: {
-          summary: 'true',
+          summary: "true",
         },
       },
     },
   },
   parameters: {
-    layout: 'centered',
+    layout: "centered",
   },
-  render: (props) => {
-    const ref = useRef();
-    const { columns, maxIndex } = props;
-    const rows = Math.ceil(maxIndex / columns);
-
-    const [activeIndex, setActiveIndex] = useState(0);
-    useActiveGridIndex({
-      ...props,
-      ref,
-      activeIndex,
-      setActiveIndex,
-    });
-
-    const emit = (name) => ref.current.dispatchEvent(new Event(name));
-
-    return (
-      <div ref={ ref }>
-        <span> Active Index: { activeIndex } </span> <br/>
-        <button onClick={() => emit('left')}> Left </button>
-        <button onClick={() => emit('right')}> Right </button>
-        <button onClick={() => emit('up')}> Up </button>
-        <button onClick={() => emit('down')}> Down </button>
-        <br/>
-        <Grid columns={ columns }>
-          {
-            Array(maxIndex).fill(0).map((_, i) => {
-              const isActive = i == activeIndex;
-              const style = {
-                width: '32px',
-                height: '32px',
-                fontWeight: isActive ? 'bold' : 'normal',
-                color: isActive ? 'white' : 'black',
-                background: isActive ? 'red' : 'none',
-                borderRadius: '25px',
-                textAlign: 'center',
-                verticalAlign: 'middle',
-                lineHeight: '32px',
-              }
-              return (
-                <span key={ i } style={ style }> { i } </span>
-              )
-            })
-          }
-        </Grid>
-      </div>
-    )
-  },
-// };
 } satisfies Meta<typeof useActiveGridIndex>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-// export const Default = {
   args: {
     columns: 5,
     maxIndex: 23,
   },
 };
 
-
-const StyledGrid = styled.div`
+interface StyledGridProps {
+  $columns?: number;
+  $gap?: number;
+}
+interface GridProps extends PropsWithChildren {
+  columns?: number;
+  gap?: number;
+}
+const StyledGrid = styled.div<StyledGridProps>`
   display: grid;
   grid-template-columns: ${props => `repeat(${props.$columns}, 1fr)`};
   justify-content: space-between;
   align-items: center;
   gap: ${props => `${props.$gap}px`};
-`
-const Grid = ({ columns, children, gap = 16 }) => {
-    return (
-        <StyledGrid
-          $columns={ columns }
-          $gap={ gap }
-        >
-            { children }
-        </StyledGrid>
-    )
-}
+`;
+const Grid = (props: GridProps) => {
+  const {
+    columns = 1,
+    gap = 16,
+    ...others
+  } = props;
+
+  return (
+    <StyledGrid
+      $columns={columns}
+      $gap={gap}
+      {...others}
+    />
+  );
+};

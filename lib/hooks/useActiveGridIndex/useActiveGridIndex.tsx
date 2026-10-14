@@ -13,7 +13,7 @@ type AdjacentNodes = {
 };
 
 export interface UseActiveGridIndexProps {
-  ref: RefObject<HTMLElement>;
+  ref: RefObject<HTMLElement | null>;
   activeIndex: number;
   setActiveIndex: (index: number) => void;
   columns?: number;
