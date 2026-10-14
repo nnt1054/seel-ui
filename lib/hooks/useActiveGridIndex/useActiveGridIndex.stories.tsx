@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { useActiveGridIndex } from './useActiveGridIndex';
 
+// todo: need demo component
 
 const meta = {
   title: 'Hooks/useActiveGridIndex',
@@ -135,12 +136,14 @@ const meta = {
       </div>
     )
   },
+// };
 } satisfies Meta<typeof useActiveGridIndex>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+// export const Default = {
   args: {
     columns: 5,
     maxIndex: 23,

@@ -25,7 +25,16 @@
     // ts migration
     "sourceMap": true,
     "strictNullChecks": true,
-    "allowJs": true
+    "allowJs": true,
+
+    "paths": {
+      "@hooks/*": ["./lib/hooks/*"],
+      "@components": ["./lib/components"],
+      "@providers": ["./lib/providers"],
+      "@constants": ["./lib/constants"],
+      "@utils": ["./lib/utils"],
+      "@docs": ["./docs"]
+    }
   },
   "include": ["lib"]
 }

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
+// import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useRef, useState, useContext, useEffect } from 'react';
 import { fn } from 'storybook/test';
 
@@ -87,12 +87,14 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
-} satisfies Meta<typeof ActiveGrid>;
+};
+// } satisfies Meta<typeof ActiveGrid>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+// type Story = StoryObj<typeof meta>;
 
-export const Styled: Story = {
+// export const Styled: Story = {
+export const Styled = {
   render: (props) => {
     return (
         <StyledActiveGrid

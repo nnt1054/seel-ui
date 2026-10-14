@@ -9,7 +9,7 @@ export const useEventListeners = (ref, callbacks={}, isActive=true) => {
         if (!isActive) return;
 
         const element = ref.current;
-        
+
         for (const event of events) {
             element?.addEventListener(event, callbacks[event]);
         }

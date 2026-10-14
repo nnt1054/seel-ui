@@ -1,3 +1,0 @@
-export {
-  useActiveGridIndex,
-} from './useActiveGridIndex';
