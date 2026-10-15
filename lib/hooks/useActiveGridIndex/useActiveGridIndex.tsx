@@ -11,6 +11,7 @@ export interface UseActiveGridIndexProps {
   activeIndex: number;
   setActiveIndex: (index: number) => void;
   columns?: number;
+  initialIndex?: number;
   maxIndex?: number;
   adjacentNodes: AdjacentNodes;
   moveFocus?: (activeNode: Node) => void;
@@ -23,6 +24,7 @@ export const useActiveGridIndex = (props: UseActiveGridIndexProps) => {
     activeIndex,
     setActiveIndex,
     columns: _columns = 1,
+    initialIndex = 0,
     maxIndex = 1,
     adjacentNodes = {},
     moveFocus = () => {},
@@ -80,6 +82,11 @@ export const useActiveGridIndex = (props: UseActiveGridIndexProps) => {
       setActiveIndex(newIndex);
     }
   };
+
+  useEffect(() => {
+    if (!Number.isInteger(initialIndex)) return;
+    setActiveIndex(initialIndex);
+  }, [initialIndex]);
 
   useEffect(() => {
     if (maxIndex < 1) return;
