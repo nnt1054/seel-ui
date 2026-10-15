@@ -1,16 +1,10 @@
-import { type RefObject, useEffect } from "react";
+import { useEffect } from "react";
+import type { RefObject } from "react";
 
 import { useEventListeners } from "@hooks/useEventListeners";
 import { handleAdjacentNode } from "@utils";
+import type { Node, AdjacentNodes } from "@types";
 
-type Node = number | string | null;
-type AdjacentNode = Node | (() => void);
-type AdjacentNodes = {
-  up?: AdjacentNode;
-  down?: AdjacentNode;
-  left?: AdjacentNode;
-  right?: AdjacentNode;
-};
 
 export interface UseActiveGridIndexProps {
   ref: RefObject<HTMLElement | null>;

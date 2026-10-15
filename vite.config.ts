@@ -37,6 +37,7 @@ export default defineConfig({
       '@providers': '/lib/providers',
       '@constants': '/lib/constants',
       '@utils': '/lib/utils',
+      '@types': '/lib/types',
       '@docs': '/docs',
     },
   },

@@ -1,18 +1,12 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import { type PropsWithChildren, type RefObject, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { useActiveGridIndex } from "./useActiveGridIndex";
+import type { Node, AdjacentNodes } from "@types";
 
-type Node = number | string | null;
-type AdjacentNode = Node | (() => void);
-type AdjacentNodes = {
-  up?: AdjacentNode;
-  down?: AdjacentNode;
-  left?: AdjacentNode;
-  right?: AdjacentNode;
-};
-export interface DemoProps {
+
+interface DemoProps {
   columns?: number;
   maxIndex?: number;
   adjacentNodes: AdjacentNodes;
@@ -23,7 +17,7 @@ export interface DemoProps {
 const Demo = (props: DemoProps) => {
   const { columns, maxIndex } = props;
 
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   useActiveGridIndex({
@@ -36,14 +30,14 @@ const Demo = (props: DemoProps) => {
   const emit = (name: string) => ref.current?.dispatchEvent(new Event(name));
 
   return (
-    <div ref={ref as RefObject<HTMLDivElement>}>
+    <div ref={ref}>
       <span>Active Index: {activeIndex}</span> <br />
       <button onClick={() => emit("left")}>Left</button>
       <button onClick={() => emit("right")}>Right</button>
       <button onClick={() => emit("up")}>Up</button>
       <button onClick={() => emit("down")}>Down</button>
       <br />
-      <Grid columns={columns}>
+      <StyledGrid $columns={columns}>
         {Array(maxIndex).fill(0).map((_, i) => {
           const isActive = i == activeIndex;
           const style = {
@@ -59,7 +53,7 @@ const Demo = (props: DemoProps) => {
           };
           return <span key={i} style={style}>{i}</span>;
         })}
-      </Grid>
+      </StyledGrid>
     </div>
   );
 };
@@ -164,31 +158,11 @@ export const Default: Story = {
 
 interface StyledGridProps {
   $columns?: number;
-  $gap?: number;
-}
-interface GridProps extends PropsWithChildren {
-  columns?: number;
-  gap?: number;
 }
 const StyledGrid = styled.div<StyledGridProps>`
   display: grid;
   grid-template-columns: ${props => `repeat(${props.$columns}, 1fr)`};
   justify-content: space-between;
   align-items: center;
-  gap: ${props => `${props.$gap}px`};
+  gap: 16px;
 `;
-const Grid = (props: GridProps) => {
-  const {
-    columns = 1,
-    gap = 16,
-    ...others
-  } = props;
-
-  return (
-    <StyledGrid
-      $columns={columns}
-      $gap={gap}
-      {...others}
-    />
-  );
-};
