@@ -1,3 +1,0 @@
-export {
-  useActiveIndex,
-} from './useActiveIndex';

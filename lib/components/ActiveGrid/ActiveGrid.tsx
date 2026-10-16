@@ -1,6 +1,6 @@
 import { Children } from "react";
-import type { RefObject } from "react";
 import styled from "styled-components";
+import type { RefObject } from "react";
 
 import { useActiveGridIndex } from "@hooks/useActiveGridIndex/useActiveGridIndex";
 import { useActiveNode } from "@hooks/useActiveNode/useActiveNode";
@@ -20,15 +20,11 @@ interface ActiveGridItemProps extends ActiveNodeProps {
   onConfirm?: () => void;
 }
 
-interface StyledActiveGridProps {
-  readonly $columns?: number;
-}
-
 type ActiveGridComponent = typeof ActiveGridRoot & {
   Item: typeof ActiveGridItem;
 };
 
-const StyledActiveGrid = styled.div<StyledActiveGridProps>`
+const StyledActiveGrid = styled.div<{ $columns: number }>`
     display: grid;
     grid-template-columns: ${props => `repeat(${props.$columns}, 1fr)`};
 `;

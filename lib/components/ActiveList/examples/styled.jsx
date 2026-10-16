@@ -1,14 +1,13 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { ActiveList } from '@components/ActiveList/ActiveList'; 
-
+import { ActiveList } from "@components/ActiveList/ActiveList";
 
 export const StyledActiveList = styled(ActiveList)`
 	padding: 8px;
 	gap: 8px;
 	align-items: center;
 	justify-content: center;
-`
+`;
 
 export const StyledActiveListItem = styled(ActiveList.Item)`
     width: 256px;
@@ -30,7 +29,7 @@ export const StyledActiveListItem = styled(ActiveList.Item)`
       background-color: rgba(0, 0, 0, .3);
       transition: background-color 0.1s;
     }
-`
+`;
 
 export const StyledActiveListButton = styled(ActiveList.Item)`
   display: flex;
@@ -67,4 +66,4 @@ export const StyledActiveListButton = styled(ActiveList.Item)`
   &[data-focused] {
     border-color: #FFC067;
   }
-`
+`;

@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useRef, useState } from "react";
 import styled from "styled-components";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import type { AdjacentNodes, Node } from "@types";
 import { useActiveGridIndex } from "./useActiveGridIndex";
+import type { AdjacentNodes, Node } from "@types";
 
 interface DemoProps {
   columns?: number;
@@ -48,6 +48,27 @@ const Demo = (props: DemoProps) => {
     </div>
   );
 };
+
+const StyledGrid = styled.div<{ $columns: number }>`
+  display: grid;
+  grid-template-columns: ${props => `repeat(${props.$columns}, 1fr)`};
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+`;
+
+const StyledGridItem = styled.span<{ $isActive: boolean }>`
+  width: 32px;
+  height: 32px;
+  border-radius: 25px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 32px;
+
+  font-weight: ${props => props.$isActive ? "bold" : "normal"};
+  color: ${props => props.$isActive ? "white" : "black"};
+  background: ${props => props.$isActive ? "red" : "none"};
+`;
 
 const meta = {
   title: "Hooks/useActiveGridIndex",
@@ -146,23 +167,3 @@ export const Default: Story = {
     maxIndex: 23,
   },
 };
-
-const StyledGrid = styled.div<{ $columns: number }>`
-  display: grid;
-  grid-template-columns: ${props => `repeat(${props.$columns}, 1fr)`};
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-`;
-const StyledGridItem = styled.span<{ $isActive: boolean }>`
-  width: 32px;
-  height: 32px;
-  border-radius: 25px;
-  text-align: center;
-  vertical-align: middle;
-  line-height: 32px;
-
-  font-weight: ${props => props.$isActive ? "bold" : "normal"};
-  color: ${props => props.$isActive ? "white" : "black"};
-  background: ${props => props.$isActive ? "red" : "none"};
-`;

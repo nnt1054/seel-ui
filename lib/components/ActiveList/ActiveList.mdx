@@ -1,40 +1,41 @@
 import {
-	Meta,
-	Controls,
-	ArgTypes,
-	Source,
-	TableOfContents,
-	Title,
-	Subtitle,
-	Description,
-	Markdown,
-} from '@storybook/addon-docs/blocks';
+  Meta,
+  Controls,
+  ArgTypes,
+  Source,
+  TableOfContents,
+  Title,
+  Subtitle,
+  Description,
+  Markdown,
+} from "@storybook/addon-docs/blocks";
 
-import { Table } from '@docs/blocks/Table';
-import * as ActiveListStories from './ActiveList.stories';
-import * as ActiveListItemStories from './ActiveListItem.stories';
+import { Table } from "@docs/blocks/Table";
+import * as ActiveListStories from "./ActiveList.stories";
+import * as ActiveListItemStories from "./ActiveListItem.stories";
 
-<Meta of={ ActiveListStories } />
+<Meta of={ActiveListStories} />
 
 <Title />
 
 <Subtitle>A container for holding an ordered list of active nodes.</Subtitle>
 
-A container element that renders either a horizontal or vertical flex `div` element.  ActiveList's listens for directional navigation events and handles moving focus within its own children.  Propagates all other events to it's children otherwise.
+A container element that renders either a horizontal or vertical flex `div` element. ActiveList's listens for directional navigation events and handles moving focus within its own children. Propagates all other events to it's children otherwise.
 
 ### Usage Guidelines
-* You're able to style the provided `ActiveList.Item` directly but you can also put any other active node component inside; additionally not all components within the list need to be same.
-* All items within the list must have an incrementing integer `node` name; and components with non-integer nodes should not be included as a direct child to the active list.
-* In the edge case where there is a left adjacent node to a vertical active list and its child node with focus has a `left` event handler, on receiving a `left` event, both the event will still propagate and focus will be moved to the left adjacent node; which is likely not desirable so it's advised not to structure your components in this way.  This applies vice versa for `right` events and `up`/`down` events for horizontal lists.
+
+- You're able to style the provided `ActiveList.Item` directly but you can also put any other active node component inside; additionally not all components within the list need to be same.
+- All items within the list must have an incrementing integer `node` name; and components with non-integer nodes should not be included as a direct child to the active list.
+- In the edge case where there is a left adjacent node to a vertical active list and its child node with focus has a `left` event handler, on receiving a `left` event, both the event will still propagate and focus will be moved to the left adjacent node; which is likely not desirable so it's advised not to structure your components in this way. This applies vice versa for `right` events and `up`/`down` events for horizontal lists.
 
 ### Anatomy
 
 ```jsx
-import { ActiveList } from 'seel-ui';
+import { ActiveList } from "seel-ui";
 
 <ActiveList>
-	<ActiveList.Item />
-</ActiveList>
+  <ActiveList.Item />
+</ActiveList>;
 ```
 
 ### Examples
@@ -43,49 +44,62 @@ import { ActiveList } from 'seel-ui';
 
 ```jsx
 const App = () => {
-	const ref = useRef();
+  const ref = useRef();
 
-	const items = [
-		{ label: 'Button 0', onConfirm: () => { console.log('Button 0') } },
-		{ label: 'Button 1', onConfirm: () => { console.log('Button 1') } },
-		{ label: 'Button 2', onConfirm: () => { console.log('Button 2') } },
-	];
+  const items = [
+    {
+      label: "Button 0",
+      onConfirm: () => {
+        console.log("Button 0");
+      },
+    },
+    {
+      label: "Button 1",
+      onConfirm: () => {
+        console.log("Button 1");
+      },
+    },
+    {
+      label: "Button 2",
+      onConfirm: () => {
+        console.log("Button 2");
+      },
+    },
+  ];
 
-	return (
-		<InputProvider inputRef={ ref }>
-			<ActiveContainer
-				ref={ ref }
-				hasFocus={ true }
-				initial={ 'foo' }
-			>
-				<ActiveList
-					node={ 'foo' }
-					maxIndex={ 4 }
-					initialIndex={ 0 }
-					orientation={ 'vertical' }
-					disableWrap={ false }
-					disableJump={ false }
-				>
-					{
-						items.map((item, i) => {
-							return (
-								<ActiveList.Item
-									key={ i }
-									node={ i }
-									onConfirm={ item.onConfirm }
-								> { item.label } </ActiveList.Item>
-							)
-						})
-					}
-					<Button
-						node={ 3 }
-						onClick={() => { console.log('hello world') }}
-					> Hello World </Button>
-				</ActiveList>
-			</ActiveContainer>
-		</InputProvider>
-	)
-}
+  return (
+    <InputProvider inputRef={ref}>
+      <ActiveContainer ref={ref} hasFocus={true} initial={"foo"}>
+        <ActiveList
+          node={"foo"}
+          maxIndex={4}
+          initialIndex={0}
+          orientation={"vertical"}
+          disableWrap={false}
+          disableJump={false}
+        >
+          {items.map((item, i) => {
+            return (
+              <ActiveList.Item key={i} node={i} onConfirm={item.onConfirm}>
+                {" "}
+                {item.label}{" "}
+              </ActiveList.Item>
+            );
+          })}
+          <Button
+            node={3}
+            onClick={() => {
+              console.log("hello world");
+            }}
+          >
+            {" "}
+            Hello World{" "}
+          </Button>
+        </ActiveList>
+      </ActiveContainer>
+    </InputProvider>
+  );
+};
 ```
 
 ### API Reference
@@ -95,39 +109,58 @@ const App = () => {
 <ArgTypes />
 
 <Table
-	headers={['Attribute', 'Description']}
-	rows={[
-		[<b>data-focused</b>, "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`."],
-		[<b>data-orientation</b>, "Indicates whether the list is either in a `vertical` or `horizontal` orientation."],
-	]}
+  headers={["Attribute", "Description"]}
+  rows={[
+    [
+      <b>data-focused</b>,
+      "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`.",
+    ],
+    [
+      <b>data-orientation</b>,
+      "Indicates whether the list is either in a `vertical` or `horizontal` orientation.",
+    ],
+  ]}
 />
 
 <Table
-	headers={['Event', 'Description']}
-	rows={[
-		[<b>confirm</b>, "Propagated to active child node."],
-		[<b>cancel</b>, "Propagated to active child node."],
-		[<b>left</b>, "If vertical orientation, either moves focus to a `left` adjacent node, jumps the focus to the beginning of the list, or propagates the event to the active child node.  If horizontal orientation, moves focus left from the current active child or wraps focus around to the end of the list."],
-		[<b>right</b>, "If vertical orientation, either moves focus to a `right` adjacent node, jumps the active index to end of the list, or propagates the event to the active child node.  If horizontal orientation, moves focus right from the current active child or wraps focus back around to the beginning of the list."],
-		[<b>up</b>, "If vertical orientation, moves focus up from the current active child or wraps focus around to the end of the list.  If horizontal orientation, either moves focus to an `up` adjacent node, jumps the active index to the beginning of the list, or propagates the event to the active child node."],
-		[<b>down</b>, "If vertical orientation, moves focus down from the current active child or wraps focus around to the beginning of the list.  If horizontal orientation, either moves focus to a `down` adjacent node, jumps the active index to the end of the list, or propagates the event to the active child node."],
-	]}
+  headers={["Event", "Description"]}
+  rows={[
+    [<b>confirm</b>, "Propagated to active child node."],
+    [<b>cancel</b>, "Propagated to active child node."],
+    [
+      <b>left</b>,
+      "If vertical orientation, either moves focus to a `left` adjacent node, jumps the focus to the beginning of the list, or propagates the event to the active child node.  If horizontal orientation, moves focus left from the current active child or wraps focus around to the end of the list.",
+    ],
+    [
+      <b>right</b>,
+      "If vertical orientation, either moves focus to a `right` adjacent node, jumps the active index to end of the list, or propagates the event to the active child node.  If horizontal orientation, moves focus right from the current active child or wraps focus back around to the beginning of the list.",
+    ],
+    [
+      <b>up</b>,
+      "If vertical orientation, moves focus up from the current active child or wraps focus around to the end of the list.  If horizontal orientation, either moves focus to an `up` adjacent node, jumps the active index to the beginning of the list, or propagates the event to the active child node.",
+    ],
+    [
+      <b>down</b>,
+      "If vertical orientation, moves focus down from the current active child or wraps focus around to the beginning of the list.  If horizontal orientation, either moves focus to a `down` adjacent node, jumps the active index to the end of the list, or propagates the event to the active child node.",
+    ],
+  ]}
 />
 
 #### ActiveList.Item
 
-<ArgTypes of={ ActiveListItemStories } />
+<ArgTypes of={ActiveListItemStories} />
 
 <Table
-	headers={['Attribute', 'Description']}
-	rows={[
-		[<b>data-focused</b>, "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`."],
-	]}
+  headers={["Attribute", "Description"]}
+  rows={[
+    [
+      <b>data-focused</b>,
+      "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`.",
+    ],
+  ]}
 />
 
 <Table
-	headers={['Event', 'Description']}
-	rows={[
-		[<b>confirm</b>, "Calls function passed from onConfirm prop."],
-	]}
+  headers={["Event", "Description"]}
+  rows={[[<b>confirm</b>, "Calls function passed from onConfirm prop."]]}
 />
