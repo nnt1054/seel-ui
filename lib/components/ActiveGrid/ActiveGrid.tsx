@@ -1,6 +1,6 @@
 import { Children } from "react";
 import styled from "styled-components";
-import type { FC, PropsWithChildren, RefObject } from "react";
+import type { PropsWithChildren, RefObject } from "react";
 
 import { useActiveGridIndex } from "@hooks/useActiveGridIndex/useActiveGridIndex";
 import { useActiveNode } from "@hooks/useActiveNode/useActiveNode";
@@ -24,7 +24,8 @@ export interface ActiveGridItemProps extends PropsWithChildren {
   onConfirm?: () => void;
 }
 
-export interface ActiveGridComponent extends FC<any> {
+type BaseActiveGridComponent = typeof BaseActiveGrid;
+interface ActiveGridComponent extends BaseActiveGridComponent {
   Item: typeof ActiveGridItem;
 }
 
@@ -37,7 +38,7 @@ const StyledActiveGrid = styled.div<StyledActiveGridProps>`
     grid-template-columns: ${props => `repeat(${props.$columns}, 1fr)`};
 `;
 
-export const ActiveGrid = withActiveNode((props: ActiveGridProps) => {
+const BaseActiveGrid = withActiveNode((props: ActiveGridProps) => {
   const {
     ref,
     node,
@@ -93,7 +94,7 @@ export const ActiveGrid = withActiveNode((props: ActiveGridProps) => {
       {...others}
     />
   );
-}) as ActiveGridComponent;
+});
 
 export const ActiveGridItem = withActiveNode((props: ActiveGridItemProps) => {
   const {
@@ -124,6 +125,8 @@ export const ActiveGridItem = withActiveNode((props: ActiveGridItemProps) => {
   );
 });
 
+
+export const ActiveGrid = BaseActiveGrid as ActiveGridComponent;
 ActiveGrid.Item = ActiveGridItem;
 
 export default ActiveGrid;

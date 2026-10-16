@@ -43,6 +43,16 @@ interface CreateNodeContainerProps {
   parent: ActiveNodeStore | null;
 }
 
+interface ActiveNodeProps {
+  ref: RefObject<HTMLElement | null>;
+  node: Node;
+}
+
+interface ExtraActiveNodeProps {
+  initial?: Node;
+  hasFocus?: boolean;
+}
+
 export const ActiveNodeContext = createContext<ActiveNodeStore | null>(null);
 
 const createNodeContainerStore = (props: CreateNodeContainerStoreProps) => {
@@ -125,21 +135,15 @@ const createNodeContainer = (props: CreateNodeContainerProps) => {
   return store;
 };
 
-interface ActiveNodeProps {
-  ref: RefObject<HTMLElement | null>;
-  node: Node;
-}
 
-interface ExtraActiveNodeProps {
-  initial?: Node;
-  hasFocus?: boolean;
-}
+type ComponentProps<T> = Omit<T, keyof ActiveNodeProps> & Partial<ActiveNodeProps> & ExtraActiveNodeProps;
+type ActiveNode<T> = T & ExtraActiveNodeProps;
 
 export const withActiveNode = <T extends ActiveNodeProps>(
   WrappedComponent: FC<T>,
   ignoreParent: boolean = false,
-): FC<Omit<T, keyof ActiveNodeProps> & Partial<ActiveNodeProps> & ExtraActiveNodeProps> => {
-  const Component = memo((props: Omit<T, keyof ActiveNodeProps> & Partial<ActiveNodeProps> & ExtraActiveNodeProps) => {
+): FC<ComponentProps<T>> => {
+  const Component = memo((props: ComponentProps<T>) => {
     const defaultRef = useRef<HTMLElement | null>(null);
     const {
       ref = defaultRef,
@@ -174,7 +178,7 @@ export const withActiveNode = <T extends ActiveNodeProps>(
 
     return (
       <ActiveNodeContext.Provider value={store}>
-        <WrappedComponent {...componentProps as T & ExtraActiveNodeProps} />
+        <WrappedComponent {...componentProps as ActiveNode<T>} />
       </ActiveNodeContext.Provider>
     );
   });
