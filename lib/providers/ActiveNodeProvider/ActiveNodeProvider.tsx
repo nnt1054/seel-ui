@@ -138,12 +138,12 @@ interface ExtraActiveNodeProps {
 export const withActiveNode = <T extends ActiveNodeProps>(
   WrappedComponent: FC<T>,
   ignoreParent: boolean = false,
-): FC<T & ExtraActiveNodeProps> => {
-  const Component = memo((props: T & ExtraActiveNodeProps) => {
+): FC<Omit<T, keyof ActiveNodeProps> & Partial<ActiveNodeProps> & ExtraActiveNodeProps> => {
+  const Component = memo((props: Omit<T, keyof ActiveNodeProps> & Partial<ActiveNodeProps> & ExtraActiveNodeProps) => {
     const defaultRef = useRef<HTMLElement | null>(null);
     const {
       ref = defaultRef,
-      node,
+      node = null,
       initial = "default",
       hasFocus,
       ...others
