@@ -1,7 +1,2 @@
-export {
-  useActiveGridIndex,
-} from './useActiveGridIndex';
-
-export type {
-  UseActiveGridIndexProps
-} from './useActiveGridIndex';
+export { useActiveGridIndex } from "./useActiveGridIndex";
+export type { UseActiveGridIndexProps } from "./useActiveGridIndex";

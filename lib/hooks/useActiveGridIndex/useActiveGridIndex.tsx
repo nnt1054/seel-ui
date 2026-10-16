@@ -2,9 +2,8 @@ import { useEffect } from "react";
 import type { RefObject } from "react";
 
 import { useEventListeners } from "@hooks/useEventListeners";
+import type { AdjacentNodes, Node } from "@types";
 import { handleAdjacentNode } from "@utils";
-import type { Node, AdjacentNodes } from "@types";
-
 
 export interface UseActiveGridIndexProps {
   ref: RefObject<HTMLElement | null>;

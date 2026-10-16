@@ -1,3 +1,5 @@
+import type { PropsWithChildren, RefObject } from "react";
+
 export type Node = number | string | null;
 export type AdjacentNode = Node | (() => void);
 export type AdjacentNodes = {
@@ -6,3 +8,8 @@ export type AdjacentNodes = {
   left?: AdjacentNode;
   right?: AdjacentNode;
 };
+
+export interface ActiveNodeProps extends PropsWithChildren {
+  ref: RefObject<HTMLElement | null>;
+  node: Node;
+}

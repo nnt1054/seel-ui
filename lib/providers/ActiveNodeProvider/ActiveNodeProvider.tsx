@@ -3,7 +3,7 @@ import type { FC, RefObject } from "react";
 import { createStore, useStore } from "zustand";
 import type { StoreApi } from "zustand";
 
-import type { Node } from "@types";
+import type { ActiveNodeProps, Node } from "@types";
 
 type NodeRefMap = Map<Node, RefObject<HTMLElement | null>>;
 type ChildrenRef = RefObject<NodeRefMap>;
@@ -43,15 +43,12 @@ interface CreateNodeContainerProps {
   parent: ActiveNodeStore | null;
 }
 
-interface ActiveNodeProps {
-  ref: RefObject<HTMLElement | null>;
-  node: Node;
-}
-
 interface ExtraActiveNodeProps {
   initial?: Node;
   hasFocus?: boolean;
 }
+
+type ComponentProps<T> = Omit<T, keyof ActiveNodeProps> & Partial<ActiveNodeProps> & ExtraActiveNodeProps;
 
 export const ActiveNodeContext = createContext<ActiveNodeStore | null>(null);
 
@@ -135,10 +132,6 @@ const createNodeContainer = (props: CreateNodeContainerProps) => {
   return store;
 };
 
-
-type ComponentProps<T> = Omit<T, keyof ActiveNodeProps> & Partial<ActiveNodeProps> & ExtraActiveNodeProps;
-type ActiveNode<T> = T & ExtraActiveNodeProps;
-
 export const withActiveNode = <T extends ActiveNodeProps>(
   WrappedComponent: FC<T>,
   ignoreParent: boolean = false,
@@ -178,7 +171,7 @@ export const withActiveNode = <T extends ActiveNodeProps>(
 
     return (
       <ActiveNodeContext.Provider value={store}>
-        <WrappedComponent {...componentProps as ActiveNode<T>} />
+        <WrappedComponent {...componentProps as T & ExtraActiveNodeProps} />
       </ActiveNodeContext.Provider>
     );
   });

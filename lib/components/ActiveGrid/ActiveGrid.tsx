@@ -1,44 +1,39 @@
 import { Children } from "react";
+import type { RefObject } from "react";
 import styled from "styled-components";
-import type { PropsWithChildren, RefObject } from "react";
 
 import { useActiveGridIndex } from "@hooks/useActiveGridIndex/useActiveGridIndex";
 import { useActiveNode } from "@hooks/useActiveNode/useActiveNode";
 import { useEventListeners } from "@hooks/useEventListeners/useEventListeners";
 import { usePropagateEvents } from "@hooks/usePropagateEvents/usePropagateEvents";
 import { withActiveNode } from "@providers/ActiveNodeProvider/ActiveNodeProvider";
-import type { Node, AdjacentNodes } from "@types";
+import type { ActiveNodeProps, AdjacentNodes } from "@types";
 
-export interface ActiveGridProps extends PropsWithChildren {
-  ref: RefObject<HTMLElement | null>;
-  node: Node;
+interface ActiveGridProps extends ActiveNodeProps {
   adjacentNodes?: AdjacentNodes;
   columns?: number;
   initialIndex?: number;
   maxIndex?: number;
 }
 
-export interface ActiveGridItemProps extends PropsWithChildren {
-  ref: RefObject<HTMLElement | null>;
-  node: Node;
+interface ActiveGridItemProps extends ActiveNodeProps {
   onConfirm?: () => void;
 }
 
-type BaseActiveGridComponent = typeof BaseActiveGrid;
-interface ActiveGridComponent extends BaseActiveGridComponent {
-  Item: typeof ActiveGridItem;
+interface StyledActiveGridProps {
+  readonly $columns?: number;
 }
 
-interface StyledActiveGridProps {
-  $columns?: number;
-}
+type ActiveGridComponent = typeof ActiveGridRoot & {
+  Item: typeof ActiveGridItem;
+};
 
 const StyledActiveGrid = styled.div<StyledActiveGridProps>`
     display: grid;
     grid-template-columns: ${props => `repeat(${props.$columns}, 1fr)`};
 `;
 
-const BaseActiveGrid = withActiveNode((props: ActiveGridProps) => {
+const ActiveGridRoot = withActiveNode((props: ActiveGridProps) => {
   const {
     ref,
     node,
@@ -125,8 +120,5 @@ export const ActiveGridItem = withActiveNode((props: ActiveGridItemProps) => {
   );
 });
 
-
-export const ActiveGrid = BaseActiveGrid as ActiveGridComponent;
+export const ActiveGrid = ActiveGridRoot as ActiveGridComponent;
 ActiveGrid.Item = ActiveGridItem;
-
-export default ActiveGrid;

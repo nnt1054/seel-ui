@@ -1,11 +1,10 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { ActiveGrid } from '@components/ActiveGrid/ActiveGrid';
-
+import { ActiveGrid } from "@components/ActiveGrid/ActiveGrid";
 
 export const StyledActiveGrid = styled(ActiveGrid)`
 	gap: 8px;
-`
+`;
 
 export const StyledActiveGridItem = styled(ActiveGrid.Item)`
 	display: flex;
@@ -44,4 +43,4 @@ export const StyledActiveGridItem = styled(ActiveGrid.Item)`
 	&[data-focused] {
 		border-color: #FFC067;
 	}
-`
+`;

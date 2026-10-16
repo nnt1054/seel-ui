@@ -1,10 +1,9 @@
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useRef, useState } from "react";
 import styled from "styled-components";
-import type { Meta, StoryObj } from "@storybook/react-vite";
 
+import type { AdjacentNodes, Node } from "@types";
 import { useActiveGridIndex } from "./useActiveGridIndex";
-import type { Node, AdjacentNodes } from "@types";
-
 
 interface DemoProps {
   columns?: number;
@@ -15,7 +14,10 @@ interface DemoProps {
 }
 
 const Demo = (props: DemoProps) => {
-  const { columns, maxIndex } = props;
+  const {
+    columns = 1,
+    maxIndex = 1,
+  } = props;
 
   const ref = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -40,18 +42,7 @@ const Demo = (props: DemoProps) => {
       <StyledGrid $columns={columns}>
         {Array(maxIndex).fill(0).map((_, i) => {
           const isActive = i == activeIndex;
-          const style = {
-            width: "32px",
-            height: "32px",
-            fontWeight: isActive ? "bold" : "normal",
-            color: isActive ? "white" : "black",
-            background: isActive ? "red" : "none",
-            borderRadius: "25px",
-            textAlign: "center" as const,
-            verticalAlign: "middle",
-            lineHeight: "32px",
-          };
-          return <span key={i} style={style}>{i}</span>;
+          return <StyledGridItem key={i} $isActive={isActive}>{i}</StyledGridItem>;
         })}
       </StyledGrid>
     </div>
@@ -91,7 +82,7 @@ const meta = {
       description: "The number of columns in the grid.  Rows will be calculated based off number of columns and items.",
       table: {
         defaultValue: {
-          summary: 0,
+          summary: 1,
         },
       },
     },
@@ -99,7 +90,7 @@ const meta = {
       description: "The max integer number activeIndex will increment to (exclusive).",
       table: {
         defaultValue: {
-          summary: 0,
+          summary: 1,
         },
       },
     },
@@ -156,13 +147,22 @@ export const Default: Story = {
   },
 };
 
-interface StyledGridProps {
-  $columns?: number;
-}
-const StyledGrid = styled.div<StyledGridProps>`
+const StyledGrid = styled.div<{ $columns: number }>`
   display: grid;
   grid-template-columns: ${props => `repeat(${props.$columns}, 1fr)`};
   justify-content: space-between;
   align-items: center;
   gap: 16px;
+`;
+const StyledGridItem = styled.span<{ $isActive: boolean }>`
+  width: 32px;
+  height: 32px;
+  border-radius: 25px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 32px;
+
+  font-weight: ${props => props.$isActive ? "bold" : "normal"};
+  color: ${props => props.$isActive ? "white" : "black"};
+  background: ${props => props.$isActive ? "red" : "none"};
 `;

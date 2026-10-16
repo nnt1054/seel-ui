@@ -1,3 +1,1 @@
-export {
-  ActiveGrid,
-} from './ActiveGrid';
+export { ActiveGrid } from "./ActiveGrid";

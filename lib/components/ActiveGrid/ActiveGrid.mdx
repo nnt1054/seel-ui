@@ -1,39 +1,43 @@
 import {
-	Meta,
-	Controls,
-	ArgTypes,
-	Source,
-	TableOfContents,
-	Title,
-	Subtitle,
-	Description,
-	Markdown,
-} from '@storybook/addon-docs/blocks';
+  Meta,
+  Controls,
+  ArgTypes,
+  Source,
+  TableOfContents,
+  Title,
+  Subtitle,
+  Description,
+  Markdown,
+} from "@storybook/addon-docs/blocks";
 
-import { Table } from '@docs/blocks/Table';
-import * as ActiveGridStories from './ActiveGrid.stories';
-import * as ActiveGridItemStories from './ActiveGridItem.stories';
+import { Table } from "@docs/blocks/Table";
+import * as ActiveGridStories from "./ActiveGrid.stories";
+import * as ActiveGridItemStories from "./ActiveGridItem.stories";
 
-<Meta of={ ActiveGridStories } />
+<Meta of={ActiveGridStories} />
 
 <Title />
 
-<Subtitle>A container for rendering an ordered list of active nodes as a 2-dimensional grid.</Subtitle>
+<Subtitle>
+  A container for rendering an ordered list of active nodes as a 2-dimensional
+  grid.
+</Subtitle>
 
-A container element that renders either a `div` element with display `grid` styling added to it.  ActiveGrid's listens for directional navigation events and handles moving focus within its own children.  Propagates all other events to its children otherwise.
+A container element that renders either a `div` element with display `grid` styling added to it. ActiveGrid's listens for directional navigation events and handles moving focus within its own children. Propagates all other events to its children otherwise.
 
 ### Usage Guidelines
-* You're able to style the provided `ActiveGrid.Item` directly but you can also put any other active node component inside; additionally not all components within the list need to be same.
-* All items within the grid must have an incrementing integer `node` name; and components with non-integer nodes should not be included as a direct child to the active list.
+
+- You're able to style the provided `ActiveGrid.Item` directly but you can also put any other active node component inside; additionally not all components within the list need to be same.
+- All items within the grid must have an incrementing integer `node` name; and components with non-integer nodes should not be included as a direct child to the active list.
 
 ### Anatomy
 
 ```jsx
-import { ActiveGrid } from 'seel-ui';
+import { ActiveGrid } from "seel-ui";
 
 <ActiveGrid>
-	<ActiveGrid.Item />
-</ActiveGrid>
+  <ActiveGrid.Item />
+</ActiveGrid>;
 ```
 
 ### Examples
@@ -42,36 +46,26 @@ import { ActiveGrid } from 'seel-ui';
 
 ```jsx
 const App = () => {
-	const ref = useRef();
+  const ref = useRef();
 
-	return (
-		<InputProvider inputRef={ ref }>
-			<ActiveContainer
-				ref={ ref }
-				hasFocus={ true }
-				initial={ 'grid' }
-			>
-				<ActiveGrid
-					node={ 'grid' }
-					columns={ 5 }
-					maxIndex={ 25 }
-					initialIndex={ 0 }
-				>
-					{
-						Array(25).fill(0).map((_, i) => {
-							return (
-								<ActiveGrid.Item
-									key={ i }
-									node={ i }
-								>{ i }</ActiveGrid.Item>
-							)
-						})
-					}
-				</ActiveGrid>
-			</ActiveContainer>
-		</InputProvider>
-	)
-}
+  return (
+    <InputProvider inputRef={ref}>
+      <ActiveContainer ref={ref} hasFocus={true} initial={"grid"}>
+        <ActiveGrid node={"grid"} columns={5} maxIndex={25} initialIndex={0}>
+          {Array(25)
+            .fill(0)
+            .map((_, i) => {
+              return (
+                <ActiveGrid.Item key={i} node={i}>
+                  {i}
+                </ActiveGrid.Item>
+              );
+            })}
+        </ActiveGrid>
+      </ActiveContainer>
+    </InputProvider>
+  );
+};
 ```
 
 ### API Reference
@@ -81,39 +75,60 @@ const App = () => {
 <ArgTypes />
 
 <Table
-	headers={['Event', 'Description']}
-	rows={[
-		[<b>confirm</b>, "Propagated to active child node."],
-		[<b>cancel</b>, "Propagated to active child node."],
-		[<b>left</b>, "Moves focus left from the current active child or wraps focus around one row up and to the end of the row."],
-		[<b>left</b>, "Moves focus right from the current active child or wraps focus around one row down and to the beginning of the row."],
-		[<b>up</b>, "Moves focus up from the current active child or wraps focus around one column left and to the end of the column."],
-		[<b>down</b>, "Moves focus down from the current active child or wraps focus around one column right and to the beginning of the column."],
-	]}
+  headers={["Event", "Description"]}
+  rows={[
+    [<b>confirm</b>, "Propagated to active child node."],
+    [<b>cancel</b>, "Propagated to active child node."],
+    [
+      <b>left</b>,
+      "Moves focus left from the current active child or wraps focus around one row up and to the end of the row.",
+    ],
+    [
+      <b>left</b>,
+      "Moves focus right from the current active child or wraps focus around one row down and to the beginning of the row.",
+    ],
+    [
+      <b>up</b>,
+      "Moves focus up from the current active child or wraps focus around one column left and to the end of the column.",
+    ],
+    [
+      <b>down</b>,
+      "Moves focus down from the current active child or wraps focus around one column right and to the beginning of the column.",
+    ],
+  ]}
 />
 
 <Table
-	headers={['Attribute', 'Description']}
-	rows={[
-		[<b>data-focused</b>, "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`."],
-		[<b>data-orientation</b>, "Always present with value `grid`."],
-	]}
+  headers={["Attribute", "Description"]}
+  rows={[
+    [
+      <b>data-focused</b>,
+      "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`.",
+    ],
+    [<b>data-orientation</b>, "Always present with value `grid`."],
+  ]}
 />
 
 #### ActiveGrid.Item
 
-<ArgTypes of={ ActiveGridItemStories } />
+<ArgTypes of={ActiveGridItemStories} />
 
 <Table
-	headers={['Attribute', 'Description']}
-	rows={[
-		[<b>data-focused</b>, "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`."],
-	]}
+  headers={["Attribute", "Description"]}
+  rows={[
+    [
+      <b>data-focused</b>,
+      "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`.",
+    ],
+  ]}
 />
 
 <Table
-	headers={['Event', 'Description']}
-	rows={[
-		[<b>confirm</b>, "Calls function passed from onConfirm prop in addition to grabbing focus."],
-	]}
+  headers={["Event", "Description"]}
+  rows={[
+    [
+      <b>confirm</b>,
+      "Calls function passed from onConfirm prop in addition to grabbing focus.",
+    ],
+  ]}
 />
