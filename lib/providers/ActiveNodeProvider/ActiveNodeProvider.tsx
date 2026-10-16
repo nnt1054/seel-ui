@@ -1,10 +1,7 @@
-import {
-    useEffect, useState, useRef,
-    useContext, createContext, memo,
-} from 'react';
-import { createStore, useStore } from 'zustand';
+import { createContext, memo, useContext, useEffect, useRef, useState } from "react";
 import type { FC, RefObject } from "react";
-import type { StoreApi } from 'zustand';
+import { createStore, useStore } from "zustand";
+import type { StoreApi } from "zustand";
 
 import type { Node } from "@types";
 
@@ -12,17 +9,17 @@ type NodeRefMap = Map<Node, RefObject<HTMLElement | null>>;
 type ChildrenRef = RefObject<NodeRefMap>;
 
 interface ActiveNodeState {
-    node: Node;
-    parent: ActiveNodeStore | null;
-    childrenRef: ChildrenRef;
-    grabFocus: () => void;
-    setNode: (node: Node) => void;
-    activeNode: Node,
-    setActiveNode: (activeNode: Node) => void;
-    hasFocus: boolean,
-    setHasFocus: (hasFocus: boolean) => void;
-    controlledFocus: boolean | null;
-    setControlledFocus: (controlledFocus: boolean) => void;
+  node: Node;
+  parent: ActiveNodeStore | null;
+  childrenRef: ChildrenRef;
+  grabFocus: () => void;
+  setNode: (node: Node) => void;
+  activeNode: Node;
+  setActiveNode: (activeNode: Node) => void;
+  hasFocus: boolean;
+  setHasFocus: (hasFocus: boolean) => void;
+  controlledFocus: boolean | null;
+  setControlledFocus: (controlledFocus: boolean) => void;
 }
 
 type ActiveNodeStore = StoreApi<ActiveNodeState>;
@@ -49,131 +46,138 @@ interface CreateNodeContainerProps {
 export const ActiveNodeContext = createContext<ActiveNodeStore | null>(null);
 
 const createNodeContainerStore = (props: CreateNodeContainerStoreProps) => {
-    const {
-        node,
-        initial,
-        parent,
-        childrenRef,
-        grabFocus,
-    } = props;
+  const {
+    node,
+    initial,
+    parent,
+    childrenRef,
+    grabFocus,
+  } = props;
 
-    return createStore<ActiveNodeState>()((set) => ({
-        node,
-        parent,
-        childrenRef,
-        grabFocus,
+  return createStore<ActiveNodeState>()((set) => ({
+    node,
+    parent,
+    childrenRef,
+    grabFocus,
 
-        setNode: (node: Node) => set({ node }),
+    setNode: (node: Node) => set({ node }),
 
-        activeNode: initial,
-        setActiveNode: (activeNode: Node) => set({ activeNode }),
+    activeNode: initial,
+    setActiveNode: (activeNode: Node) => set({ activeNode }),
 
-        hasFocus: true,
-        setHasFocus: (hasFocus: boolean) => set({ hasFocus }),
+    hasFocus: true,
+    setHasFocus: (hasFocus: boolean) => set({ hasFocus }),
 
-        controlledFocus: null,
-        setControlledFocus: (controlledFocus: boolean) => set({ controlledFocus }),
-    }))
-}
+    controlledFocus: null,
+    setControlledFocus: (controlledFocus: boolean) => set({ controlledFocus }),
+  }));
+};
 
 const registerNode = (props: RegisterNodeProps): ActiveNodeStore | null => {
-    const { ref, node } = props;
-    const store = useContext(ActiveNodeContext);
-    if (!store) return null;
+  const { ref, node } = props;
+  const store = useContext(ActiveNodeContext);
+  if (!store) return null;
 
-    const childrenRef = useStore(store, state => state.childrenRef);
+  const childrenRef = useStore(store, state => state.childrenRef);
 
-    useEffect(() => {
-        const children = childrenRef?.current;
-        children?.set(node, ref);
-        return () => {
-            children?.delete(node)
-        }
-    })
+  useEffect(() => {
+    const children = childrenRef?.current;
+    children?.set(node, ref);
+    return () => {
+      children?.delete(node);
+    };
+  });
 
-    return store;
-}
+  return store;
+};
 
 const createNodeContainer = (props: CreateNodeContainerProps) => {
-	const {
-        node,
-        initial,
-        parent,
-	} = props;
+  const {
+    node,
+    initial,
+    parent,
+  } = props;
 
-    const childrenRef = useRef(new Map());
+  const childrenRef = useRef(new Map());
 
-    const grabFocus = () => {
-        if (!parent) return;
+  const grabFocus = () => {
+    if (!parent) return;
 
-        const {
-            setActiveNode,
-            grabFocus,
-        } = parent.getState();
+    const {
+      setActiveNode,
+      grabFocus,
+    } = parent.getState();
 
-        setActiveNode(node);
-        grabFocus();
-    }
+    setActiveNode(node);
+    grabFocus();
+  };
 
-    const [store] = useState(() => createNodeContainerStore({
-        node,
-        initial,
-        parent,
-        childrenRef,
-        grabFocus,
-    }));
+  const [store] = useState(() =>
+    createNodeContainerStore({
+      node,
+      initial,
+      parent,
+      childrenRef,
+      grabFocus,
+    })
+  );
 
-    return store;
-}
+  return store;
+};
 
 interface ActiveNodeProps {
-    ref?: RefObject<HTMLElement | null>;
-    node: Node;
-    initial?: Node;
-    hasFocus?: boolean;
+  ref: RefObject<HTMLElement | null>;
+  node: Node;
+}
+
+interface ExtraActiveNodeProps {
+  initial?: Node;
+  hasFocus?: boolean;
 }
 
 export const withActiveNode = <T extends ActiveNodeProps>(
-    WrappedComponent: FC<Omit<T, "initial" | "hasFocus">>,
-    ignoreParent: boolean = false
-): FC<T> => {
-    const Component = memo((props: T) => {
-        const defaultRef = useRef<HTMLElement | null>(null);
-        const {
-            initial = 'default',
-            hasFocus,
-            ...others
-        } = props;
+  WrappedComponent: FC<T>,
+  ignoreParent: boolean = false,
+): FC<T & ExtraActiveNodeProps> => {
+  const Component = memo((props: T & ExtraActiveNodeProps) => {
+    const defaultRef = useRef<HTMLElement | null>(null);
+    const {
+      ref = defaultRef,
+      node,
+      initial = "default",
+      hasFocus,
+      ...others
+    } = props;
 
-        const {
-            ref = defaultRef,
-            node,
-        } = others;
-        others.ref = ref;
+    const componentProps = {
+      ...others,
+      ref,
+      node,
+    };
 
-        const parent = ignoreParent ? null : registerNode({ ref, node });
-        const store = createNodeContainer({ node, initial, parent });
+    const parent = ignoreParent ? null : registerNode({ ref, node });
+    const store = createNodeContainer({ node, initial, parent });
 
-        // keep node synced with updated prop
-        useEffect(() => {
-            const { setNode } = store.getState();
-            setNode(node);
-        }, [node])
+    // keep node synced with updated prop
+    useEffect(() => {
+      const { setNode } = store.getState();
+      setNode(node);
+    }, [node]);
 
-        // for manually controlled hasFocus
-        useEffect(() => {
-            if (typeof hasFocus == 'boolean') {
-                const { setControlledFocus } = store.getState();
-                setControlledFocus(hasFocus);
-            }
-        }, [hasFocus])
+    // for manually controlled hasFocus
+    useEffect(() => {
+      if (typeof hasFocus == "boolean") {
+        const { setControlledFocus } = store.getState();
+        setControlledFocus(hasFocus);
+      }
+    }, [hasFocus]);
 
-        return (
-            <ActiveNodeContext.Provider value={ store }>
-                <WrappedComponent {...others} />
-            </ActiveNodeContext.Provider>
-        );
-    });
+    return (
+      <ActiveNodeContext.Provider value={store}>
+        <WrappedComponent {...componentProps as T & ExtraActiveNodeProps} />
+      </ActiveNodeContext.Provider>
+    );
+  });
 
-    return Component;
-}
+  return Component;
+};

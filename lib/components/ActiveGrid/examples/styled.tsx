@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { ActiveGrid } from '@components/ActiveGrid/ActiveGrid'; 
+import { ActiveGrid } from '@components/ActiveGrid/ActiveGrid';
 
 
 export const StyledActiveGrid = styled(ActiveGrid)`

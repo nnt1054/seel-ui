@@ -29,12 +29,12 @@
 
     "paths": {
       "@hooks/*": ["./lib/hooks/*"],
-      "@components": ["./lib/components"],
+      "@components/*": ["./lib/components/*"],
       "@providers/*": ["./lib/providers/*"],
       "@constants": ["./lib/constants"],
       "@utils": ["./lib/utils"],
       "@types": ["./lib/types"],
-      "@docs": ["./docs"]
+      "@docs/*": ["./docs/*"]
     }
   },
   "include": ["lib"]

@@ -24,9 +24,8 @@ export interface ActiveGridItemProps extends PropsWithChildren {
   onConfirm?: () => void;
 }
 
-// todo: remove optionality on Item
-export interface ActiveGridComponent extends FC<ActiveGridProps> {
-  Item?: FC<ActiveGridItemProps>;
+export interface ActiveGridComponent extends FC<any> {
+  Item: typeof ActiveGridItem;
 }
 
 interface StyledActiveGridProps {
@@ -37,7 +36,8 @@ const StyledActiveGrid = styled.div<StyledActiveGridProps>`
     display: grid;
     grid-template-columns: ${props => `repeat(${props.$columns}, 1fr)`};
 `;
-export const ActiveGrid: ActiveGridComponent = withActiveNode((props: ActiveGridProps) => {
+
+export const ActiveGrid = withActiveNode((props: ActiveGridProps) => {
   const {
     ref,
     node,
@@ -93,9 +93,9 @@ export const ActiveGrid: ActiveGridComponent = withActiveNode((props: ActiveGrid
       {...others}
     />
   );
-});
+}) as ActiveGridComponent;
 
-export const ActiveGridItem: FC<ActiveGridItemProps> = withActiveNode((props: ActiveGridItemProps) => {
+export const ActiveGridItem = withActiveNode((props: ActiveGridItemProps) => {
   const {
     ref,
     node,
