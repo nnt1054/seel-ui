@@ -1,28 +1,30 @@
 import {
-	Meta,
-	Controls,
-	ArgTypes,
-	Source,
-	TableOfContents,
-	Title,
-	Subtitle,
-	Description,
-	Markdown,
-} from '@storybook/addon-docs/blocks';
+  Meta,
+  Controls,
+  ArgTypes,
+  Source,
+  TableOfContents,
+  Title,
+  Subtitle,
+  Description,
+  Markdown,
+} from "@storybook/addon-docs/blocks";
 
-import { Table } from '@docs/blocks/Table';
-import * as useActiveScrollableNodeStories from './useActiveScrollableNode.stories';
+import { Table } from "@docs/blocks/Table";
+import * as useActiveScrollableNodeStories from "./useActiveScrollableNode.stories";
 
-<Meta of={ useActiveScrollableNodeStories } />
+<Meta of={useActiveScrollableNodeStories} />
 
 <Title />
 
-<Subtitle>Hook for scrolling an element in response to directional navigation events.</Subtitle>
-
+<Subtitle>
+  Hook for scrolling an element in response to directional navigation events.
+</Subtitle>
 
 ### Usage Guidelines
-* The `adjacentNodes` object props only supports `left`, `right` `up`, and `down` directional event name keys.
-* The `isActive` prop can be used to toggle this behavior on and off for custom components that may want to respond to the same events differently based on current state.
+
+- The `adjacentNodes` object props only supports `left`, `right` `up`, and `down` directional event name keys.
+- The `isActive` prop can be used to toggle this behavior on and off for custom components that may want to respond to the same events differently based on current state.
 
 ### Examples
 
@@ -57,11 +59,23 @@ const CustomComponent = withActiveNode((props) => {
 <ArgTypes />
 
 <Table
-	headers={['Event', 'Description']}
-	rows={[
-		[<b>left</b>, "Scrolls container horizontally to the left.  If container is already at the mininum horizontal scroll position, moves focus to a `left` adjacent node."],
-		[<b>right</b>, "Scrolls container horizontally to the right.  If container is already at the maximum horizontal scroll position, moves focus to a `right` adjacent node."],
-		[<b>up</b>, "Scrolls container vertically upward.  If container is already at the mininum vertical scroll position, moves focus to an `up` adjacent node."],
-		[<b>down</b>, "Scrolls container vertically downward.  If container is already at the maximum vertical scroll position, moves focus to a `down ` adjacent node."],
-	]}
+  headers={["Event", "Description"]}
+  rows={[
+    [
+      <b>left</b>,
+      "Scrolls container horizontally to the left.  If container is already at the mininum horizontal scroll position, moves focus to a `left` adjacent node.",
+    ],
+    [
+      <b>right</b>,
+      "Scrolls container horizontally to the right.  If container is already at the maximum horizontal scroll position, moves focus to a `right` adjacent node.",
+    ],
+    [
+      <b>up</b>,
+      "Scrolls container vertically upward.  If container is already at the mininum vertical scroll position, moves focus to an `up` adjacent node.",
+    ],
+    [
+      <b>down</b>,
+      "Scrolls container vertically downward.  If container is already at the maximum vertical scroll position, moves focus to a `down ` adjacent node.",
+    ],
+  ]}
 />

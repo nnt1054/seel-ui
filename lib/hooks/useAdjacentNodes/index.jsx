@@ -1,3 +1,0 @@
-export {
-  useAdjacentNodes,
-} from './useAdjacentNodes';

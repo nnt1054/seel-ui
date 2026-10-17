@@ -13,3 +13,6 @@ export interface ActiveNodeProps extends PropsWithChildren {
   ref: RefObject<HTMLElement | null>;
   node: Node;
 }
+
+export type NodeRefMap = Map<Node, RefObject<HTMLElement | null>>;
+export type ChildrenRef = RefObject<NodeRefMap>;

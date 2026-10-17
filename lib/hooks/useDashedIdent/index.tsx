@@ -1,0 +1,1 @@
+export { useDashedIdent } from "./useDashedIdent";
