@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import type { RefObject } from "react";
 
 import { useEventListeners } from "@hooks/useEventListeners";
-import { handleAdjacentNode } from "@utils";
 import type { AdjacentNodes, Node } from "@types";
+import { handleAdjacentNode } from "@utils";
 
 export interface UseActiveGridIndexProps {
   ref: RefObject<HTMLElement | null>;
-  activeIndex: number;
+  activeIndex: Node;
   setActiveIndex: (index: number) => void;
   columns?: number;
   initialIndex?: number;
@@ -20,7 +20,7 @@ export interface UseActiveGridIndexProps {
 export const useActiveGridIndex = (props: UseActiveGridIndexProps) => {
   const {
     ref,
-    activeIndex,
+    activeIndex: _activeIndex,
     setActiveIndex,
     columns: _columns = 1,
     initialIndex = 0,
@@ -29,6 +29,9 @@ export const useActiveGridIndex = (props: UseActiveGridIndexProps) => {
     moveFocus = () => {},
     isActive = true,
   } = props;
+
+  if (typeof _activeIndex !== "number") return;
+  const activeIndex = _activeIndex as number;
 
   const columns = Math.min(_columns, maxIndex);
   const rows = Math.ceil(maxIndex / columns);

@@ -7,7 +7,7 @@ import { handleAdjacentNode } from "@utils";
 
 export interface UseActiveIndexProps {
   ref: RefObject<HTMLElement | null>;
-  activeIndex: number;
+  activeIndex: Node;
   setActiveIndex: (index: number) => void;
   maxIndex?: number;
   initialIndex?: number;
@@ -24,7 +24,7 @@ export interface UseActiveIndexProps {
 export const useActiveIndex = (props: UseActiveIndexProps) => {
   const {
     ref,
-    activeIndex,
+    activeIndex: _activeIndex,
     setActiveIndex,
     maxIndex = 0,
     initialIndex = 0,
@@ -36,6 +36,9 @@ export const useActiveIndex = (props: UseActiveIndexProps) => {
     moveFocus = () => {},
     isActive = true,
   } = props;
+
+  if (typeof _activeIndex !== "number") return;
+  const activeIndex = _activeIndex as number;
 
   const incrementIndex = (adjacentNode?: AdjacentNode) => {
     if (activeIndex >= (maxIndex - 1) && adjacentNode) {

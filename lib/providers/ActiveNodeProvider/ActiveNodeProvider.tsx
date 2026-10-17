@@ -8,10 +8,10 @@ import type { ActiveNodeProps, Node } from "@types";
 type NodeRefMap = Map<Node, RefObject<HTMLElement | null>>;
 type ChildrenRef = RefObject<NodeRefMap>;
 
-interface ActiveNodeState {
+export interface ActiveNodeState {
   node: Node;
   parent: ActiveNodeStore | null;
-  childrenRef: ChildrenRef;
+  childrenRef: ChildrenRef | null;
   grabFocus: () => void;
   setNode: (node: Node) => void;
   activeNode: Node;
