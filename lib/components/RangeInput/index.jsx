@@ -1,3 +1,0 @@
-export {
-  RangeInput,
-} from './RangeInput';

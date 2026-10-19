@@ -1,13 +1,20 @@
-import { useRef } from "react";
+import type { InputHTMLAttributes, KeyboardEvent, RefObject } from "react";
 
 import { KeyCodes } from "@constants";
 import { useActiveNode } from "@hooks/useActiveNode/useActiveNode";
 import { useEventListeners } from "@hooks/useEventListeners/useEventListeners";
 import { withActiveNode } from "@providers/ActiveNodeProvider/ActiveNodeProvider";
+import type { ActiveNodeProps, AdjacentNodes } from "@types";
 
-export const NumberInput = withActiveNode((props) => {
+interface NumberInputProps extends ActiveNodeProps, InputHTMLAttributes<HTMLInputElement> {
+  adjacentNodes?: AdjacentNodes;
+  onCycleL?: () => void;
+  onCycleR?: () => void;
+}
+
+export const NumberInput = withActiveNode((props: NumberInputProps) => {
   const {
-    ref = useRef(),
+    ref,
     node,
     adjacentNodes = {},
     onCycleL = () => {},
@@ -20,15 +27,16 @@ export const NumberInput = withActiveNode((props) => {
   // events while node has focus
   useEventListeners(ref, {
     confirm: () => {
-      ref.current.focus();
+      ref.current?.focus();
     },
     cancel: () => {
-      ref.current.blur();
+      ref.current?.blur();
     },
   });
 
   // events while input has focus
-  const onKeyDown = (event) => {
+  const onKeyDown = (event: KeyboardEvent) => {
+    if (!ref.current) return;
     if (event.keyCode == KeyCodes.ESC) {
       ref.current.blur();
       event.preventDefault();
@@ -50,7 +58,7 @@ export const NumberInput = withActiveNode((props) => {
   return (
     <input
       type="number"
-      ref={ref}
+      ref={ref as RefObject<HTMLInputElement>}
       onKeyDown={onKeyDown}
       data-focused={hasFocus ? "" : null}
       {...others}

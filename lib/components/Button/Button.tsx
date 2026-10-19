@@ -1,4 +1,4 @@
-import type { MouseEvent, RefObject } from "react";
+import type { ButtonHTMLAttributes, MouseEvent, RefObject } from "react";
 
 import { useActiveNode } from "@hooks/useActiveNode/useActiveNode";
 import { useAdjacentNodes } from "@hooks/useAdjacentNodes/useAdjacentNodes";
@@ -6,7 +6,7 @@ import { useEventListeners } from "@hooks/useEventListeners/useEventListeners";
 import { withActiveNode } from "@providers/ActiveNodeProvider/ActiveNodeProvider";
 import type { ActiveNodeProps, AdjacentNodes } from "@types";
 
-interface ButtonProps extends ActiveNodeProps {
+interface ButtonProps extends ActiveNodeProps, ButtonHTMLAttributes<HTMLButtonElement> {
   adjacentNodes?: AdjacentNodes;
   onClick?: () => void;
 }

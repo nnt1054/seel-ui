@@ -1,7 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { TextInput } from '@components/TextInput/TextInput'; 
-
+import { TextInput } from "@components/TextInput/TextInput";
 
 export const StyledTextInput = styled(TextInput)`
 	width: 256px;
@@ -36,6 +35,6 @@ export const StyledTextInput = styled(TextInput)`
 	&[data-focused] {
 		border-color: #FFC067;
 	}
-`
+`;
 
 export default StyledTextInput;

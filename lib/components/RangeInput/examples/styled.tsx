@@ -1,7 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { RangeInput } from '@components/RangeInput/RangeInput'; 
-
+import { RangeInput } from "@components/RangeInput/RangeInput";
 
 export const StyledRangeInput = styled(RangeInput)`
 	width: 256px;
@@ -22,10 +21,10 @@ export const StyledRangeInput = styled(RangeInput)`
 		border-color: #FFC067;
 	}
 
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 	&:before {
         content: "";
         position: absolute;
@@ -44,6 +43,6 @@ export const StyledRangeInput = styled(RangeInput)`
 	&[data-focused]:before {
 		border-color: #FFC067;
     }
-`
+`;
 
 export default StyledRangeInput;

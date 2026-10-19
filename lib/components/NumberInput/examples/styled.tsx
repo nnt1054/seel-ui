@@ -1,7 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { NumberInput } from '@components/NumberInput/NumberInput'; 
-
+import { NumberInput } from "@components/NumberInput/NumberInput";
 
 export const StyledNumberInput = styled(NumberInput)`
 	width: 64px;
@@ -36,6 +35,6 @@ export const StyledNumberInput = styled(NumberInput)`
 	&[data-focused] {
 		border-color: #FFC067;
 	}
-`
+`;
 
 export default StyledNumberInput;
