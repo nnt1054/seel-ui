@@ -1,9 +1,7 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { ActiveContainer } from '@components/ActiveContainer/ActiveContainer';
-import { ActiveScrollableNode } from '@components/ActiveScrollableNode/ActiveScrollableNode';
-import { ActiveList } from '@components/ActiveList/ActiveList';
-
+import { ActiveList } from "@components/ActiveList/ActiveList";
+import { ActiveScrollableNode } from "@components/ActiveScrollableNode/ActiveScrollableNode";
 
 export const StyledActiveScrollableNode = styled(ActiveScrollableNode)`
 	width: 512px;
@@ -49,7 +47,7 @@ export const StyledActiveScrollableNode = styled(ActiveScrollableNode)`
 	&::-webkit-scrollbar-button {
 		display: none;
 	}
-`
+`;
 
 export const StyledActions = styled(ActiveList)`
 	display: flex;
@@ -59,7 +57,7 @@ export const StyledActions = styled(ActiveList)`
 	gap: 8px;
 	align-items: center;
 	justify-content: center;
-`
+`;
 
 export const StyledAction = styled(ActiveList.Item)`
 	width: 128px;
@@ -82,7 +80,7 @@ export const StyledAction = styled(ActiveList.Item)`
 		border-color: #FFC067;
 		transition: background-color 0.1s;
 	}
-`
+`;
 
 export const StyledActionAccept = styled(StyledAction)`
 	background-color: #82DFA1;
@@ -96,16 +94,9 @@ export const StyledActionAccept = styled(StyledAction)`
         background-color: oklch(from #82DFA1 calc(l * 1.1) c h);
     	transition: background-color 0.1s;
 	}
-`
-
-export const StyledActiveContainer = styled(ActiveContainer)`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-`
+`;
 
 export const StyledHeader = styled.h2`
     font-family: sans-serif;
 		margin: 4px;
-`
+`;

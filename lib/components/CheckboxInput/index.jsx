@@ -1,3 +1,0 @@
-export {
-  CheckboxInput,
-} from './CheckboxInput';

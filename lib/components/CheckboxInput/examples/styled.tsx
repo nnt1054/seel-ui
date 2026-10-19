@@ -1,7 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { CheckboxInput } from '@components/CheckboxInput/CheckboxInput'; 
-
+import { CheckboxInput } from "@components/CheckboxInput/CheckboxInput";
 
 export const StyledCheckboxInput = styled(CheckboxInput)`
   	appearance: none;
@@ -47,6 +46,6 @@ export const StyledCheckboxInput = styled(CheckboxInput)`
 	&[data-focused] {
 		border-color: #FFC067;
 	}
-`
+`;
 
 export default StyledCheckboxInput;

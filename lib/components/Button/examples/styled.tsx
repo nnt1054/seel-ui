@@ -1,7 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { Button } from '@components/Button/Button'; 
-
+import { Button } from "@components/Button/Button";
 
 export const StyledButton = styled(Button)`
   display: flex;
@@ -39,6 +38,6 @@ export const StyledButton = styled(Button)`
   &[data-focused] {
     border-color: #FFC067;
   }
-`
+`;
 
 export default StyledButton;

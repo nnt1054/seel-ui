@@ -1,14 +1,20 @@
-import { useRef } from "react";
+import type { ChangeEvent, RefObject } from "react";
 
-import { KeyCodes } from "@constants";
 import { useActiveNode } from "@hooks/useActiveNode/useActiveNode";
 import { useAdjacentNodes } from "@hooks/useAdjacentNodes/useAdjacentNodes";
 import { useEventListeners } from "@hooks/useEventListeners/useEventListeners";
 import { withActiveNode } from "@providers/ActiveNodeProvider/ActiveNodeProvider";
+import type { ActiveNodeProps, AdjacentNodes } from "@types";
 
-export const CheckboxInput = withActiveNode((props) => {
+interface CheckboxInputProps extends ActiveNodeProps {
+  adjacentNodes?: AdjacentNodes;
+  value: boolean;
+  setValue?: (value: boolean) => void;
+}
+
+export const CheckboxInput = withActiveNode((props: CheckboxInputProps) => {
   const {
-    ref = useRef(),
+    ref,
     node,
     adjacentNodes = {},
     value,
@@ -20,8 +26,10 @@ export const CheckboxInput = withActiveNode((props) => {
 
   useEventListeners(ref, {
     confirm: () => {
-      ref.current.checked = !ref.current.checked;
-      ref.current.dispatchEvent(new Event("change"));
+      if (!ref.current) return;
+      const input = ref.current as HTMLInputElement;
+      input.checked = !input.checked;
+      input.dispatchEvent(new Event("change"));
     },
   });
 
@@ -31,7 +39,7 @@ export const CheckboxInput = withActiveNode((props) => {
     moveFocus,
   });
 
-  const onChange = (event) => {
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     const checked = event.target.checked;
     setValue(checked);
   };
@@ -39,10 +47,10 @@ export const CheckboxInput = withActiveNode((props) => {
   return (
     <input
       type="checkbox"
-      ref={ref}
+      ref={ref as RefObject<HTMLInputElement>}
       data-focused={hasFocus ? "" : null}
-      checked={ !!value }
-      onChange={ onChange }
+      checked={!!value}
+      onChange={onChange}
       {...others}
     />
   );
