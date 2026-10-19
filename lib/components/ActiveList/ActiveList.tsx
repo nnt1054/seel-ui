@@ -15,7 +15,7 @@ interface ActiveListProps extends ActiveNodeProps {
   adjacentNodes?: AdjacentNodes;
   maxIndex?: number;
   initialIndex?: number;
-  orientation: Orientation;
+  orientation?: Orientation;
   isReverse?: boolean;
   disableWrap?: boolean;
   disableJump?: boolean;

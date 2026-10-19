@@ -12,6 +12,9 @@ export type AdjacentNodes = {
 export interface ActiveNodeProps extends PropsWithChildren {
   ref: RefObject<HTMLElement | null>;
   node: Node;
+
+  // required for tailwind
+  className?: string | undefined;
 }
 
 export type NodeRefMap = Map<Node, RefObject<HTMLElement | null>>;
