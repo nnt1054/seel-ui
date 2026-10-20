@@ -19,3 +19,5 @@ export interface ActiveNodeProps extends PropsWithChildren {
 
 export type NodeRefMap = Map<Node, RefObject<HTMLElement | null>>;
 export type ChildrenRef = RefObject<NodeRefMap>;
+
+export type Orientation = "vertical" | "horizontal";

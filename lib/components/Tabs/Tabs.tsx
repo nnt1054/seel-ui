@@ -1,35 +1,105 @@
 import {
-  useRef,
   useState,
   useEffect,
   createContext,
   useContext,
-  memo,
   cloneElement,
   Children,
   isValidElement,
 } from "react";
 import styled from "styled-components";
 import { createStore, useStore } from "zustand";
+import type { MouseEvent, PropsWithChildren, ReactElement, RefObject } from "react";
+import type { StoreApi } from "zustand";
 
 import { withActiveNode } from "@providers/ActiveNodeProvider/ActiveNodeProvider";
 import { useActiveNode } from "@hooks/useActiveNode/useActiveNode";
 import { ActiveList } from "@components/ActiveList/ActiveList";
-import { Button } from "@components/Button/Button";
 import { usePropagateEvents } from "@hooks/usePropagateEvents/usePropagateEvents";
 import { useEventListeners } from "@hooks/useEventListeners/useEventListeners";
 import { handleAdjacentNode } from '@utils';
+import type { ActiveNodeProps, AdjacentNodes, Node, Orientation } from "@types";
 
 const defaultEvents = ["up", "down", "left", "right", "confirm"];
 
-export const TabsContext = createContext(null);
+interface TabsProps extends ActiveNodeProps {
+  adjacentNodes: AdjacentNodes;
+  maxIndex?: number,
+  events?: string[],
+}
 
-const createTabsContextStore = ({ maxIndex, adjacentNodes }) => {
-  return createStore()((set) => ({
-    activeIndex: 0,
-    setActiveIndex: (activeIndex) => set((state) => ({ activeIndex })),
+type ListPositions = {
+  [position: string]: Node;
+};
+type AdjacentNodePosition = keyof AdjacentNodes;
+
+export interface TabsState {
+  activeIndex: number;
+  setActiveIndex: (activeIndex: number) => void;
+  maxIndex: number;
+  setMaxIndex: (maxIndex: number) => void;
+  listPositions: ListPositions;
+  setListPosition: (node: Node, position: string) => void;
+  adjacentNodes: AdjacentNodes;
+}
+type TabsStore = StoreApi<TabsState>;
+
+interface CreateTabsContextStoreProps {
+  maxIndex: number;
+  adjacentNodes: AdjacentNodes;
+}
+
+interface TabsListProps extends PropsWithChildren {
+  node?: Node;
+  position?: AdjacentNodePosition;
+  orientation?: Orientation;
+}
+
+interface TabsTabProps extends ActiveNodeProps {}
+
+interface TabsPanelProps extends PropsWithChildren {
+  index: number;
+}
+
+interface TabsCycleButtonProps extends PropsWithChildren {
+  direction?: AdjacentNodePosition;
+}
+
+interface TabsPanelNodeProps {
+  node: Node;
+  adjacentNodes?: AdjacentNodes;
+}
+
+type TabsComponent = typeof TabsRoot & {
+  Panel: typeof TabsPanel;
+  List: typeof TabsList;
+  Tab: typeof TabsTab;
+  CycleButton: typeof TabsCycleButton;
+};
+
+const emptyTabsContext = createStore<TabsState>()(() => ({
+  activeIndex: 0,
+  setActiveIndex: () => {},
+  maxIndex: 0,
+  setMaxIndex: () => {},
+  listPositions: {},
+  setListPosition: () => {},
+  adjacentNodes: {},
+}));
+
+export const TabsContext = createContext<TabsStore>(emptyTabsContext);
+
+const createTabsContextStore = (props: CreateTabsContextStoreProps) => {
+  const {
     maxIndex,
-    setMaxIndex: (maxIndex) => set((state) => ({ maxIndex })),
+    adjacentNodes
+  } = props;
+
+  return createStore<TabsState>()((set) => ({
+    activeIndex: 0,
+    setActiveIndex: (activeIndex) => set({ activeIndex }),
+    maxIndex,
+    setMaxIndex: (maxIndex) => set({ maxIndex }),
     listPositions: {},
     setListPosition: (node, position) =>
       set((state) => {
@@ -45,7 +115,8 @@ const StyledTabs = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-export const Tabs = withActiveNode((props) => {
+
+export const TabsRoot = withActiveNode((props: TabsProps) => {
   const {
     ref,
     node,
@@ -64,10 +135,12 @@ export const Tabs = withActiveNode((props) => {
     setActiveNode,
   } = useActiveNode();
 
-  // todo: convert to utility function
   // allow for child nodes to move focus outside of this tabs node
-  const _adjacentNodes = Object.entries(adjacentNodes).reduce((adjacentNodes, [key, value]) => {
-      adjacentNodes[key] = () => handleAdjacentNode(value, moveFocus);
+
+  // todo: convert to utility function
+  // todo: double check types here
+  const _adjacentNodes = Object.entries(adjacentNodes).reduce((adjacentNodes: AdjacentNodes, [key, value]) => {
+      adjacentNodes[key as AdjacentNodePosition] = () => handleAdjacentNode(value, moveFocus);
       return adjacentNodes;
   }, {})
 
@@ -94,7 +167,7 @@ export const Tabs = withActiveNode((props) => {
 
   // failsafe when moving to non-node tabs panel
   useEffect(() => {
-    const activeRef = childrenRef.current.get(activeNode);
+    const activeRef = childrenRef?.current.get(activeNode);
     if (!activeRef?.current) {
       const { listPositions } = store.getState();
       const listNode = Object.values(listPositions)?.[0] || "list";
@@ -110,7 +183,7 @@ export const Tabs = withActiveNode((props) => {
   return (
     <TabsContext.Provider value={store}>
       <StyledTabs
-        ref={ref}
+        ref={ref as RefObject<HTMLDivElement>}
         onClick={grabFocus}
         data-focused={hasFocus ? "" : null}
         {...others}
@@ -119,7 +192,7 @@ export const Tabs = withActiveNode((props) => {
   );
 });
 
-const TabsList = memo((props) => {
+const TabsList = (props: TabsListProps) => {
   const {
     node = "list",
     position = "up",
@@ -129,8 +202,8 @@ const TabsList = memo((props) => {
   } = props;
 
   const store = useContext(TabsContext);
-  const maxIndex = useStore(store, (state) => state.maxIndex);
-  const adjacentNodes = useStore(store, (state) => state.adjacentNodes);
+  const maxIndex = useStore(store, (state: TabsState) => state.maxIndex);
+  const adjacentNodes = useStore(store, (state: TabsState) => state.adjacentNodes);
   const contentPositions = {
     up: "down",
     down: "up",
@@ -157,14 +230,15 @@ const TabsList = memo((props) => {
       {children}
     </ActiveList>
   );
-});
+};
 
-const TabsTab = withActiveNode((props) => {
+const TabsTab = withActiveNode((props: TabsTabProps) => {
   const { ref, node, ...others } = props;
+  const index = Number.isInteger(node) ? node as number : 0;
 
   const store = useContext(TabsContext);
-  const setActiveIndex = useStore(store, (state) => state.setActiveIndex);
-  const isActive = useStore(store, (state) => state.activeIndex == node);
+  const setActiveIndex = useStore(store, (state: TabsState) => state.setActiveIndex);
+  const isActive = useStore(store, (state: TabsState) => state.activeIndex == node);
   const { hasFocus, grabFocus } = useActiveNode();
 
   // todo: convert to hook OR normalize an onFocus param
@@ -178,21 +252,24 @@ const TabsTab = withActiveNode((props) => {
     }
   }, [hasFocus, isActive]);
 
-  const callbacks = useEventListeners(ref, {
-    confirm: () => {
-      grabFocus();
-      setActiveIndex(node);
-    },
-    mousedown: (event) => {
-      event.preventDefault();
-    },
+  const onConfirm = () => {
+    grabFocus();
+    setActiveIndex(index);
+  }
+
+  const onMouseDown = (event: MouseEvent) => {
+    event.preventDefault();
+  }
+
+  useEventListeners(ref, {
+    confirm: onConfirm,
   });
 
   return (
     <button
-      ref={ref}
-      node={node}
-      onClick={callbacks.confirm}
+      ref={ref as RefObject<HTMLButtonElement>}
+      onClick={onConfirm}
+      onMouseDown={onMouseDown}
       data-active-tab={isActive ? "" : null}
       data-focused={hasFocus ? "" : null}
       {...others}
@@ -200,20 +277,22 @@ const TabsTab = withActiveNode((props) => {
   );
 });
 
-const TabsPanel = (props) => {
+const TabsPanel = (props: TabsPanelProps) => {
   const { index, children } = props;
 
   const store = useContext(TabsContext);
-  const isActive = useStore(store, (state) => state.activeIndex == index);
-  const adjacentNodes = useStore(store, (state) => state.adjacentNodes);
-  const listPositions = useStore(store, (state) => state.listPositions);
+  const isActive = useStore(store, (state: TabsState) => state.activeIndex == index);
+  const adjacentNodes = useStore(store, (state: TabsState) => state.adjacentNodes);
+  const listPositions = useStore(store, (state: TabsState) => state.listPositions);
 
   if (!isActive) return;
   return (
     <>
-      {Children.map(children, (child, index) => {
+      {Children.map(children, (child) => {
         if (!isValidElement(child)) return;
-        return cloneElement(child, {
+
+        // todo: type here should extend generic type T of child
+        return cloneElement(child as ReactElement<any | TabsPanelNodeProps>, {
           node: "content",
           adjacentNodes: { ...adjacentNodes, ...listPositions },
         });
@@ -222,7 +301,7 @@ const TabsPanel = (props) => {
   );
 };
 
-const TabsCycleButton = (props) => {
+const TabsCycleButton = (props: TabsCycleButtonProps) => {
   const { direction = "left", ...others } = props;
 
   const store = useContext(TabsContext);
@@ -246,9 +325,8 @@ const TabsCycleButton = (props) => {
   );
 };
 
+export const Tabs = TabsRoot as TabsComponent;
 Tabs.Panel = TabsPanel;
 Tabs.List = TabsList;
 Tabs.Tab = TabsTab;
 Tabs.CycleButton = TabsCycleButton;
-
-export default Tabs;

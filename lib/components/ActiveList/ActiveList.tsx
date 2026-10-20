@@ -7,9 +7,7 @@ import { useActiveNode } from "@hooks/useActiveNode/useActiveNode";
 import { useEventListeners } from "@hooks/useEventListeners/useEventListeners";
 import { usePropagateEvents } from "@hooks/usePropagateEvents/usePropagateEvents";
 import { withActiveNode } from "@providers/ActiveNodeProvider/ActiveNodeProvider";
-import type { ActiveNodeProps, AdjacentNodes } from "@types";
-
-type Orientation = "vertical" | "horizontal";
+import type { ActiveNodeProps, AdjacentNodes, Orientation } from "@types";
 
 interface ActiveListProps extends ActiveNodeProps {
   adjacentNodes?: AdjacentNodes;
