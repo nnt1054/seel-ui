@@ -1,27 +1,31 @@
 import {
-	Meta,
-	Controls,
-	ArgTypes,
-	Source,
-	TableOfContents,
-	Title,
-	Subtitle,
-	Description,
-	Markdown,
-} from '@storybook/addon-docs/blocks';
+  Meta,
+  Controls,
+  ArgTypes,
+  Source,
+  TableOfContents,
+  Title,
+  Subtitle,
+  Description,
+  Markdown,
+} from "@storybook/addon-docs/blocks";
 
-import { Table } from '@docs/blocks/Table';
-import * as useInputManagerStories from './useInputManager.stories';
+import { Table } from "@docs/blocks/Table";
+import * as useInputManagerStories from "./useInputManager.stories";
 
-<Meta of={ useInputManagerStories } />
+<Meta of={useInputManagerStories} />
 
 <Title />
 
-<Subtitle>Hook for setting up keyboard and gamepad input event listeners and mapping their associated commands.</Subtitle>
+<Subtitle>
+  Hook for setting up keyboard and gamepad input event listeners and mapping
+  their associated commands.
+</Subtitle>
 
 ### Usage Guidelines
-* If creating custom commands for use with the active node navigation system, it's recommended to use the `inputInFocus` or `getNavigationCommands` utility functions.  Example can be find below.
-* It is encouraged to leverage the `useInputManager` in order to extend and create your own InputProvider wrapper component.
+
+- If creating custom commands for use with the active node navigation system, it's recommended to use the `inputInFocus` or `getNavigationCommands` utility functions. Example can be find below.
+- It is encouraged to leverage the `useInputManager` in order to extend and create your own InputProvider wrapper component.
 
 ### Examples
 
@@ -31,31 +35,28 @@ import * as useInputManagerStories from './useInputManager.stories';
 const KeybindsContext = createContext({});
 
 const InputProvider = (props) => {
-    const {
-        inputRef,
-        children,
-    } = props;
+  const { inputRef, children } = props;
 
-    const commands = getNavigationCommands(inputRef);
+  const commands = getNavigationCommands(inputRef);
 
-    const keybinds = {
-      'up': KeyCodes.I,
-      'down': KeyCodes.K,
-      'left': KeyCodes.J,
-      'right': KeyCodes.L,
-    }
+  const keybinds = {
+    up: KeyCodes.I,
+    down: KeyCodes.K,
+    left: KeyCodes.J,
+    right: KeyCodes.L,
+  };
 
-    useInputManager({
-        commands,
-        keybinds,
-    })
+  useInputManager({
+    commands,
+    keybinds,
+  });
 
-    return (
-        <KeybindsContext.Provider value={ keybinds }>
-            { children }
-        </KeybindsContext.Provider>
-    )
-}
+  return (
+    <KeybindsContext.Provider value={keybinds}>
+      {children}
+    </KeybindsContext.Provider>
+  );
+};
 ```
 
 #### Event Dispatcher to Active Node System
@@ -100,27 +101,34 @@ const commands = {
 
 ```jsx
 const commands = {
-	'left': {
-		execute: console.log('left'),
-	},
-	'right': {
-		execute: console.log('right'),
-		ignoreModifiers: true,
-	},
-	'confirm': {
-		execute: () => { console.log('confirm:press') },
-		release: () => { console.log('confirm:release') },
-	},
-}
+  left: {
+    execute: console.log("left"),
+  },
+  right: {
+    execute: console.log("right"),
+    ignoreModifiers: true,
+  },
+  confirm: {
+    execute: () => {
+      console.log("confirm:press");
+    },
+    release: () => {
+      console.log("confirm:release");
+    },
+  },
+};
 ```
 
 <Table
-	headers={['Property', 'Description']}
-	rows={[
-		[<b>execute</b>, "Function to call on pressing a button on key."],
-		[<b>release</b>, "Function to call on releasing a button on key."],
-		[<b>ignoreModifiers</b>, "Boolean property for whether or not command needs to match exact modifiers in key combination in order to execute."],
-	]}
+  headers={["Property", "Description"]}
+  rows={[
+    [<b>execute</b>, "Function to call on pressing a button on key."],
+    [<b>release</b>, "Function to call on releasing a button on key."],
+    [
+      <b>ignoreModifiers</b>,
+      "Boolean property for whether or not command needs to match exact modifiers in key combination in order to execute.",
+    ],
+  ]}
 />
 
 #### keybinds
@@ -141,8 +149,8 @@ export const keybinds = {
 
 #### gamepadMapping
 
-* `analog` values for axis aren't supported at this time, so axis inputs are translated into button inputs as `LS_UP`, `LS_DOWN`, `LS_LEFT`, etc.
-* `DefaultGamepadMapping` is for controlers with `standard` gamepad mapping as determined by the browser;  it should not be necessary to provide a custom value here unless you need to support other controller types.
+- `analog` values for axis aren't supported at this time, so axis inputs are translated into button inputs as `LS_UP`, `LS_DOWN`, `LS_LEFT`, etc.
+- `DefaultGamepadMapping` is for controlers with `standard` gamepad mapping as determined by the browser; it should not be necessary to provide a custom value here unless you need to support other controller types.
 
 ```jsx
 export const gamepadMapping = {
@@ -160,3 +168,4 @@ export const gamepadMapping = {
         RSY: 3,
     },
 }
+```

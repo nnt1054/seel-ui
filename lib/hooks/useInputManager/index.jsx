@@ -1,3 +1,1 @@
-export {
-  useInputManager,
-} from './useInputManager';
+export { useInputManager } from "./useInputManager";
