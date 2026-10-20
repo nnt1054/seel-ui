@@ -1,7 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { Tabs } from '@components/Tabs/Tabs';
-
+import { Tabs } from "@components/Tabs/Tabs";
 
 export const StyledTabs = styled(Tabs)`
 	gap: 8px;
@@ -26,7 +25,7 @@ export const StyledTabs = styled(Tabs)`
 	&[data-focused] {
 		border-color: #FFC067;
 	}
-`
+`;
 
 export const StyledCycleButtons = styled(Tabs.CycleButton)`
 	padding: 8px;
@@ -47,7 +46,7 @@ export const StyledCycleButtons = styled(Tabs.CycleButton)`
     &[data-direction='right'] {
     	border-radius: 4px 12px 4px 4px;
     }
-`
+`;
 
 export const StyledList = styled(Tabs.List)`
 	display: flex;
@@ -55,7 +54,7 @@ export const StyledList = styled(Tabs.List)`
 	justify-content: space-between;
 	align-items: center;
 	gap: 12px;
-`
+`;
 
 export const StyledTab = styled(Tabs.Tab)`
 	display: flex;
@@ -97,4 +96,4 @@ export const StyledTab = styled(Tabs.Tab)`
 	&[data-active-tab] {
 		background-color: #82DFA1;
 	}
-`
+`;

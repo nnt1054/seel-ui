@@ -1,6 +1,6 @@
 import { Children } from "react";
-import styled from "styled-components";
 import type { RefObject } from "react";
+import styled from "styled-components";
 
 import { useActiveGridIndex } from "@hooks/useActiveGridIndex/useActiveGridIndex";
 import { useActiveNode } from "@hooks/useActiveNode/useActiveNode";

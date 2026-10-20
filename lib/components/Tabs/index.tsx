@@ -1,4 +1,1 @@
-export {
-  Tabs,
-  TabsContext,
-} from './Tabs';
+export { Tabs, TabsContext } from "./Tabs";

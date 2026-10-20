@@ -1,48 +1,51 @@
 import {
-	Meta,
-	Controls,
-	ArgTypes,
-	Source,
-	TableOfContents,
-	Title,
-	Subtitle,
-	Description,
-	Markdown,
-} from '@storybook/addon-docs/blocks';
+  Meta,
+  Controls,
+  ArgTypes,
+  Source,
+  TableOfContents,
+  Title,
+  Subtitle,
+  Description,
+  Markdown,
+} from "@storybook/addon-docs/blocks";
 
-import { Table } from '@docs/blocks/Table';
-import * as TabsStories from './Tabs.stories';
-import * as TabsPanelStories from './TabsPanel.stories';
-import * as TabsListStories from './TabsList.stories';
-import * as TabsTabStories from './TabsTab.stories';
-import * as TabsCycleButtonStories from './TabsCycleButton.stories';
+import { Table } from "@docs/blocks/Table";
+import * as TabsStories from "./Tabs.stories";
+import * as TabsPanelStories from "./TabsPanel.stories";
+import * as TabsListStories from "./TabsList.stories";
+import * as TabsTabStories from "./TabsTab.stories";
+import * as TabsCycleButtonStories from "./TabsCycleButton.stories";
 
-<Meta of={ TabsStories } />
+<Meta of={TabsStories} />
 
 <Title />
 
-<Subtitle>A container element for rendering and cycling between multiple panels.</Subtitle>
+<Subtitle>
+  A container element for rendering and cycling between multiple panels.
+</Subtitle>
 
-A container that renders a `div` element and can cycle between rendering one panel from an ordered series of child panel components.  Tabs will also render a list of buttons for swapping between the different panels as well as listens for `cycleL` and `cycleR` to cycle through the available options.
+A container that renders a `div` element and can cycle between rendering one panel from an ordered series of child panel components. Tabs will also render a list of buttons for swapping between the different panels as well as listens for `cycleL` and `cycleR` to cycle through the available options.
 
 ### Usage Guidelines
-* `Tabs.Panel` components are expected to only have one direct child descendent which is an Active Node and accepts a `node` and `adjacentNodes` prop.  Additionally, nodes within a Panel will automaticaly have their `node` prop populated to `content` and their `adjacentNodes` prop derived using the `listPositions` and `adjacnetNodes` property from the `TabsContext`.
-* The `Tabs.List` is a wrapper over the `ActiveList` component.  It will largely have the same API with the exception that its `adjacentNodes` prop will be automaticaly populated based on its relative position to the content.
-* The `Tabs.CycleButton` renders a plain `button` component and is not an actual active node; so it will have a clickable behavior but cannot be navigated to by normal means.
+
+- `Tabs.Panel` components are expected to only have one direct child descendent which is an Active Node and accepts a `node` and `adjacentNodes` prop. Additionally, nodes within a Panel will automaticaly have their `node` prop populated to `content` and their `adjacentNodes` prop derived using the `listPositions` and `adjacnetNodes` property from the `TabsContext`.
+- The `Tabs.List` is a wrapper over the `ActiveList` component. It will largely have the same API with the exception that its `adjacentNodes` prop will be automaticaly populated based on its relative position to the content.
+- The `Tabs.CycleButton` renders a plain `button` component and is not an actual active node; so it will have a clickable behavior but cannot be navigated to by normal means.
 
 ### Anatomy
 
 ```jsx
-import { Tabs } from 'seel-ui';
+import { Tabs } from "seel-ui";
 
 <Tabs>
-	<Tabs.List>
-		<Tabs.CycleButton />
-		<Tabs.Tab />
-	</Tabs.List>
+  <Tabs.List>
+    <Tabs.CycleButton />
+    <Tabs.Tab />
+  </Tabs.List>
 
-	<Tabs.Panel />
-</Tabs>
+  <Tabs.Panel />
+</Tabs>;
 ```
 
 ### Examples
@@ -51,53 +54,47 @@ import { Tabs } from 'seel-ui';
 
 ```jsx
 const App = () => {
-	const ref = useRef();
+  const ref = useRef();
 
-	return (
-		<InputProvider inputRef={ ref }>
-			<Tabs
-				ref={ ref }
-				hasFocus={ true }
-				initial={ 1 }
-				maxIndex={ 3 }
-			>
-				<Tabs.List>
-					<Tabs.CycleButton direction={ 'left' }> L </Tabs.CycleButton>
-					<Tabs.Tab node={ 0 }> Tab w/ Text </Tabs.Tab>
-					<Tabs.Tab node={ 1 }> Tab w/ Buttons  </Tabs.Tab>
-					<Tabs.Tab node={ 2 }> Tab w/ Grid </Tabs.Tab>
-					<Tabs.CycleButton direction={ 'right' }> R </Tabs.CycleButton>
-				</Tabs.List>
+  return (
+    <InputProvider inputRef={ref}>
+      <Tabs ref={ref} hasFocus={true} initial={1} maxIndex={3}>
+        <Tabs.List>
+          <Tabs.CycleButton direction={"left"}> L </Tabs.CycleButton>
+          <Tabs.Tab node={0}> Tab w/ Text </Tabs.Tab>
+          <Tabs.Tab node={1}> Tab w/ Buttons </Tabs.Tab>
+          <Tabs.Tab node={2}> Tab w/ Grid </Tabs.Tab>
+          <Tabs.CycleButton direction={"right"}> R </Tabs.CycleButton>
+        </Tabs.List>
 
-				<Tabs.Panel index={ 0 }>
-					<ActiveScrollableNode>
-						Lorem ipsum dolor sit amet.
-						Ut autem dolores et quasi itaque ut molestiae ipsum.
-						Est quaerat aliquam id sapiente ullam non dolores odio.
-						...
-					</ActiveScrollableNode>
-				</Tabs.Panel>
+        <Tabs.Panel index={0}>
+          <ActiveScrollableNode>
+            Lorem ipsum dolor sit amet. Ut autem dolores et quasi itaque ut
+            molestiae ipsum. Est quaerat aliquam id sapiente ullam non dolores
+            odio. ...
+          </ActiveScrollableNode>
+        </Tabs.Panel>
 
-				<Tabs.Panel index={ 1 }>
-					<ActiveList>
-						<ActiveList.Item node={ 0 }> Item 0 </ActiveList.Item>
-						<ActiveList.Item node={ 1 }> Item 1 </ActiveList.Item>
-						<ActiveList.Item node={ 2 }> Item 2 </ActiveList.Item>
-					</ActiveList>
-				</Tabs.Panel>
+        <Tabs.Panel index={1}>
+          <ActiveList>
+            <ActiveList.Item node={0}> Item 0 </ActiveList.Item>
+            <ActiveList.Item node={1}> Item 1 </ActiveList.Item>
+            <ActiveList.Item node={2}> Item 2 </ActiveList.Item>
+          </ActiveList>
+        </Tabs.Panel>
 
-				<Tabs.Panel index={ 2 }>
-					<ActiveGrid columns={ 2 }>
-						<ActiveList.Item node={ 0 }> Item 0 </ActiveList.Item>
-						<ActiveList.Item node={ 1 }> Item 1 </ActiveList.Item>
-						<ActiveList.Item node={ 2 }> Item 2 </ActiveList.Item>
-						<ActiveList.Item node={ 3 }> Item 3 </ActiveList.Item>
-					</ActiveGrid>
-				</Tabs.Panel>
-			</Tabs>
-		</InputProvider>
-	)
-}
+        <Tabs.Panel index={2}>
+          <ActiveGrid columns={2}>
+            <ActiveList.Item node={0}> Item 0 </ActiveList.Item>
+            <ActiveList.Item node={1}> Item 1 </ActiveList.Item>
+            <ActiveList.Item node={2}> Item 2 </ActiveList.Item>
+            <ActiveList.Item node={3}> Item 3 </ActiveList.Item>
+          </ActiveGrid>
+        </Tabs.Panel>
+      </Tabs>
+    </InputProvider>
+  );
+};
 ```
 
 ### API Reference
@@ -107,57 +104,87 @@ const App = () => {
 <ArgTypes />
 
 <Table
-	headers={['Attribute', 'Description']}
-	rows={[
-		[<b>data-focused</b>, "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`."],
-	]}
+  headers={["Attribute", "Description"]}
+  rows={[
+    [
+      <b>data-focused</b>,
+      "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`.",
+    ],
+  ]}
 />
 
 <Table
-	headers={['Event', 'Description']}
-	rows={[
-		[<b>cycleL</b>, "Changes the active panel to the next panel left of the current active panel."],
-		[<b>cycleR</b>, "Changes the active panel to the next panel right of the current active panel."],
-	]}
+  headers={["Event", "Description"]}
+  rows={[
+    [
+      <b>cycleL</b>,
+      "Changes the active panel to the next panel left of the current active panel.",
+    ],
+    [
+      <b>cycleR</b>,
+      "Changes the active panel to the next panel right of the current active panel.",
+    ],
+  ]}
 />
 
 #### Tabs.Panel
 
-<ArgTypes of={ TabsPanelStories } />
+<ArgTypes of={TabsPanelStories} />
 
 #### Tabs.List
 
-<ArgTypes of={ TabsListStories } />
+<ArgTypes of={TabsListStories} />
 
 #### Tabs.Tab
 
-<ArgTypes of={ TabsTabStories } />
+<ArgTypes of={TabsTabStories} />
 
 <Table
-	headers={['Attribute', 'Description']}
-	rows={[
-		[<b>data-focused</b>, "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`."],
-		[<b>data-active-tab</b>, "Present when node is the active tab within a Tabs component."],
-	]}
+  headers={["Attribute", "Description"]}
+  rows={[
+    [
+      <b>data-focused</b>,
+      "Present when node is the active node within a parent with focus or `hasFocus` prop is set to `true`.",
+    ],
+    [
+      <b>data-active-tab</b>,
+      "Present when node is the active tab within a Tabs component.",
+    ],
+  ]}
 />
 
 #### Tabs.CycleButton
 
-<ArgTypes of={ TabsCycleButtonStories } />
+<ArgTypes of={TabsCycleButtonStories} />
 
 #### TabsContext
 
-Note that the `TabsContext` react context object only stores a zustand store as its value.  The following table describes the properties of the held zustand store and can be accessed using `store.getState()` or hooked into via zustand's `useStore` function.
+Note that the `TabsContext` react context object only stores a zustand store as its value. The following table describes the properties of the held zustand store and can be accessed using `store.getState()` or hooked into via zustand's `useStore` function.
 
 <Table
-	headers={['Property', 'Description']}
-	rows={[
-		[<b>activeIndex</b>, "Index corresponding to the `node` of the current active tab panel of the component."],
-		[<b>setActiveIndex</b>, "Function for setting the `activeIndex`."],
-		[<b>maxIndex</b>, "Max integer value (exclusive) for `activeIndex`.  Also corresponds to the number of tabs in the component."],
-		[<b>setMaxIndex</b>, "Function for setting the maxIndex.  Automatically is called when the `maxIndex` prop in updated."],
-		[<b>listPositions</b>, "Object denoting the relative positions of TabsList components relative to the `content`/panel area of the Tabs component.  Object is used alongside the `adjacentNodes` property to calculate `adjacentNodes` object properties for sub-components."],
-		[<b>setListPositions</b>, "Function for setting the `listPositions`."],
-		[<b>adjacentNodes</b>, "Object denoting what nodes are adjacent to the Tabs component and in what direction.  Object is used alongside the `listPositions` property to calculate `adjacentNodes` object properties for sub-components"],
-	]}
+  headers={["Property", "Description"]}
+  rows={[
+    [
+      <b>activeIndex</b>,
+      "Index corresponding to the `node` of the current active tab panel of the component.",
+    ],
+    [<b>setActiveIndex</b>, "Function for setting the `activeIndex`."],
+    [
+      <b>maxIndex</b>,
+      "Max integer value (exclusive) for `activeIndex`.  Also corresponds to the number of tabs in the component.",
+    ],
+    [
+      <b>setMaxIndex</b>,
+      "Function for setting the maxIndex.  Automatically is called when the `maxIndex` prop in updated.",
+    ],
+    [
+      <b>listPositions</b>,
+      "Object denoting the relative positions of TabsList components relative to the `content`/panel area of the Tabs component.  Object is used alongside the `adjacentNodes` property to calculate `adjacentNodes` object properties for sub-components.",
+    ],
+    [<b>setListPositions</b>, "Function for setting the `listPositions`."],
+    [
+      <b>adjacentNodes</b>,
+      "Object denoting what nodes are adjacent to the Tabs component and in what direction.  Object is used alongside the `listPositions` property to calculate `adjacentNodes` object properties for sub-components",
+    ],
+  ]}
 />

@@ -1,31 +1,23 @@
-import {
-  useState,
-  useEffect,
-  createContext,
-  useContext,
-  cloneElement,
-  Children,
-  isValidElement,
-} from "react";
+import { Children, cloneElement, createContext, isValidElement, useContext, useEffect, useState } from "react";
+import type { MouseEvent, PropsWithChildren, ReactElement, RefObject } from "react";
 import styled from "styled-components";
 import { createStore, useStore } from "zustand";
-import type { MouseEvent, PropsWithChildren, ReactElement, RefObject } from "react";
 import type { StoreApi } from "zustand";
 
-import { withActiveNode } from "@providers/ActiveNodeProvider/ActiveNodeProvider";
-import { useActiveNode } from "@hooks/useActiveNode/useActiveNode";
 import { ActiveList } from "@components/ActiveList/ActiveList";
-import { usePropagateEvents } from "@hooks/usePropagateEvents/usePropagateEvents";
+import { useActiveNode } from "@hooks/useActiveNode/useActiveNode";
 import { useEventListeners } from "@hooks/useEventListeners/useEventListeners";
-import { handleAdjacentNode } from '@utils';
+import { usePropagateEvents } from "@hooks/usePropagateEvents/usePropagateEvents";
+import { withActiveNode } from "@providers/ActiveNodeProvider/ActiveNodeProvider";
 import type { ActiveNodeProps, AdjacentNodes, Node, Orientation } from "@types";
+import { handleAdjacentNode } from "@utils";
 
 const defaultEvents = ["up", "down", "left", "right", "confirm"];
 
 interface TabsProps extends ActiveNodeProps {
   adjacentNodes: AdjacentNodes;
-  maxIndex?: number,
-  events?: string[],
+  maxIndex?: number;
+  events?: string[];
 }
 
 type ListPositions = {
@@ -92,7 +84,7 @@ export const TabsContext = createContext<TabsStore>(emptyTabsContext);
 const createTabsContextStore = (props: CreateTabsContextStoreProps) => {
   const {
     maxIndex,
-    adjacentNodes
+    adjacentNodes,
   } = props;
 
   return createStore<TabsState>()((set) => ({
@@ -140,13 +132,11 @@ export const TabsRoot = withActiveNode((props: TabsProps) => {
   // todo: convert to utility function
   // todo: double check types here
   const _adjacentNodes = Object.entries(adjacentNodes).reduce((adjacentNodes: AdjacentNodes, [key, value]) => {
-      adjacentNodes[key as AdjacentNodePosition] = () => handleAdjacentNode(value, moveFocus);
-      return adjacentNodes;
-  }, {})
+    adjacentNodes[key as AdjacentNodePosition] = () => handleAdjacentNode(value, moveFocus);
+    return adjacentNodes;
+  }, {});
 
-  const [store] = useState(() =>
-    createTabsContextStore({ maxIndex, adjacentNodes: _adjacentNodes }),
-  );
+  const [store] = useState(() => createTabsContextStore({ maxIndex, adjacentNodes: _adjacentNodes }));
   const { activeIndex, setActiveIndex, setMaxIndex } = useStore(store);
 
   usePropagateEvents({
@@ -245,21 +235,21 @@ const TabsTab = withActiveNode((props: TabsTabProps) => {
   useEffect(() => {
     if (hasFocus || isActive) {
       ref.current?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-          inline: 'center',
-      })
+        behavior: "smooth",
+        block: "center",
+        inline: "center",
+      });
     }
   }, [hasFocus, isActive]);
 
   const onConfirm = () => {
     grabFocus();
     setActiveIndex(index);
-  }
+  };
 
   const onMouseDown = (event: MouseEvent) => {
     event.preventDefault();
-  }
+  };
 
   useEventListeners(ref, {
     confirm: onConfirm,
