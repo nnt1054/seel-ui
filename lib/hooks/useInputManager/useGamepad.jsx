@@ -1,8 +1,49 @@
+import { useState } from "react";
+
 import { GamepadListener } from "gamepad.js";
 import { useEffect } from "react";
 
+const usePollGamepad = (props) => {
+  const [buttonStates, setButtonStates] = useState({})
+
+  const update = () => {
+    for (const gamepad of navigator.getGamepads()) {
+      if (!gamepad) continue;
+
+      const updatedButtonState = { ...buttonStates };
+
+      for (const [i, button] of gamepad.buttons.entries()) {
+        const pressed = button.pressed || button.value > 0;
+        const buttonState = buttonStates[i];
+        if (pressed && !buttonState) {
+          console.log(`Pressed: ${i}`);
+        } else if (!pressed && buttonState) {
+          console.log(`Released: ${i}`);
+        }
+        updatedButtonState[i] = pressed;
+      }
+
+      setButtonStates(updatedButtonState);
+
+      return;
+    }
+  }
+
+  useEffect(() => {
+    window.requestAnimationFrame(update);
+    return () => {
+      window.cancelAnimationFrame(update)
+    }
+  })
+}
+
 export const useGamepad = (mapping, callback) => {
   const { buttons, axis } = mapping;
+
+  // todo: need to add defaults for when there's extra axis
+  // todo: triggers will sometimes appear as both buttons and/or
+  //        as axis where -1 is the idle state and +1 is pressed
+  //        which is extra annoying cause like
   const axisButtonMapping = {
     [axis.LSX]: {
       pos: buttons.LS_RIGHT,
