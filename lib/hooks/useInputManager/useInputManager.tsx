@@ -9,13 +9,22 @@ interface GamepadKeybinds {
   [key: string]: number;
 }
 
+interface Command {
+    execute?: () => void;
+    ignoreModifiers?: boolean;
+}
+
+interface Commands {
+  [name: string]: Command;
+}
+
 interface CustomGamepadEvent extends GamepadEvent {
   keyCode: number;
 }
 
 type OnBeforeKeyDown = (
   name: string,
-  commands: any,
+  commands: Commands,
   event: KeyboardEvent,
 ) => void | boolean;
 
