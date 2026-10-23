@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { ActiveList } from "@components/ActiveList/ActiveList";
+import { ActiveList } from "@components/ActiveList";
 
 export const StyledActiveList = styled(ActiveList)`
 	padding: 8px;

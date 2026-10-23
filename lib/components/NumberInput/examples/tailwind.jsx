@@ -1,4 +1,4 @@
-import { NumberInput } from "@components/NumberInput/NumberInput";
+import { NumberInput } from "@components/NumberInput";
 
 export const TailwindNumberInput = (props) => {
   return (

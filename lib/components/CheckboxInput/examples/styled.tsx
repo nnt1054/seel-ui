@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { CheckboxInput } from "@components/CheckboxInput/CheckboxInput";
+import { CheckboxInput } from "@components/CheckboxInput";
 
 export const StyledCheckboxInput = styled(CheckboxInput)`
   	appearance: none;

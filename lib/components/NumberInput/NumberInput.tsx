@@ -1,9 +1,9 @@
 import type { InputHTMLAttributes, KeyboardEvent, RefObject } from "react";
 
 import { KeyCodes } from "@constants";
-import { useActiveNode } from "@hooks/useActiveNode/useActiveNode";
-import { useEventListeners } from "@hooks/useEventListeners/useEventListeners";
-import { withActiveNode } from "@providers/ActiveNodeProvider/ActiveNodeProvider";
+import { useActiveNode } from "@hooks/useActiveNode";
+import { useEventListeners } from "@hooks/useEventListeners";
+import { withActiveNode } from "@providers/ActiveNodeProvider";
 import type { ActiveNodeProps, AdjacentNodes } from "@types";
 
 interface NumberInputProps extends ActiveNodeProps, InputHTMLAttributes<HTMLInputElement> {

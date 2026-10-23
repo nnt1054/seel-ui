@@ -1,8 +1,8 @@
 import type { ChangeEvent, InputHTMLAttributes, RefObject } from "react";
 
-import { useActiveNode } from "@hooks/useActiveNode/useActiveNode";
-import { useEventListeners } from "@hooks/useEventListeners/useEventListeners";
-import { withActiveNode } from "@providers/ActiveNodeProvider/ActiveNodeProvider";
+import { useActiveNode } from "@hooks/useActiveNode";
+import { useEventListeners } from "@hooks/useEventListeners";
+import { withActiveNode } from "@providers/ActiveNodeProvider";
 import type { ActiveNodeProps } from "@types";
 
 interface RangeInputProps extends ActiveNodeProps, InputHTMLAttributes<HTMLInputElement> {

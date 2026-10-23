@@ -1,4 +1,4 @@
-import { TextInput } from "@components/TextInput/TextInput";
+import { TextInput } from "@components/TextInput";
 
 export const TailwindTextInput = (props) => {
   return (

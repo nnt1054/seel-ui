@@ -1,13 +1,9 @@
-import {
-  useEffect, useMemo, useRef,
-  useState,
-} from 'react';
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { InputProvider } from './InputProvider';
-import { DefaultKeybinds } from '../../constants';
 
 
-export default {
+const meta = {
   tags: ['!dev'],
   title: 'Providers/InputProvider',
   component: InputProvider,
@@ -16,7 +12,6 @@ export default {
   },
   argTypes: {
     inputRef: {
-			type: 'RefObject<>',
       description: "The entrypoint or top level active node to dispatch navigation events to.",
 			table: {
 				readonly: true,
@@ -26,6 +21,9 @@ export default {
   parameters: {
     layout: 'centered',
   },
-};
+} satisfies Meta<typeof InputProvider>;
 
-export const Default = {};
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {};

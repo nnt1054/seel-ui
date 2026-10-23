@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-import { ActiveList } from "@components/ActiveList/ActiveList";
-import { ActiveScrollableNode } from "@components/ActiveScrollableNode/ActiveScrollableNode";
+import { ActiveList } from "@components/ActiveList";
+import { ActiveScrollableNode } from "@components/ActiveScrollableNode";
 
 export const StyledActiveScrollableNode = styled(ActiveScrollableNode)`
 	width: 512px;

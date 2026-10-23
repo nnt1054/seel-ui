@@ -7,18 +7,18 @@ import type {
   GamepadMapping, Keybinds, KeybindCombination,
 } from "@types"
 
-type OnBeforeKeyDown = (
+export type OnBeforeKeyDown = (
   name: string,
   commands: Commands,
   event: KeyboardEvent,
 ) => void | boolean;
 
 interface UseInputManagerProps {
-  commands: Commands;
-  keybinds: Keybinds;
-  gamepadKeybinds: GamepadKeybinds;
-  gamepadMapping: GamepadMapping;
-  onBeforeKeyDown: OnBeforeKeyDown;
+  commands?: Commands;
+  keybinds?: Keybinds;
+  gamepadKeybinds?: GamepadKeybinds;
+  gamepadMapping?: GamepadMapping;
+  onBeforeKeyDown?: OnBeforeKeyDown;
 }
 
 export const useInputManager = (props: UseInputManagerProps) => {

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { TextInput } from "@components/TextInput/TextInput";
+import { TextInput } from "@components/TextInput";
 
 export const StyledTextInput = styled(TextInput)`
 	width: 256px;

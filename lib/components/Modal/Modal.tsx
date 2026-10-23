@@ -3,10 +3,10 @@ import type { DialogHTMLAttributes, RefObject } from "react";
 import { createStore } from "zustand";
 import type { StoreApi } from "zustand";
 
-import { useActiveNode } from "@hooks/useActiveNode/useActiveNode";
-import { useEventListeners } from "@hooks/useEventListeners/useEventListeners";
-import { usePropagateEvents } from "@hooks/usePropagateEvents/usePropagateEvents";
-import { withActiveNode } from "@providers/ActiveNodeProvider/ActiveNodeProvider";
+import { useActiveNode } from "@hooks/useActiveNode";
+import { useEventListeners } from "@hooks/useEventListeners";
+import { usePropagateEvents } from "@hooks/usePropagateEvents";
+import { withActiveNode } from "@providers/ActiveNodeProvider";
 import type { ActiveNodeProps } from "@types";
 
 const defaultEvents = [

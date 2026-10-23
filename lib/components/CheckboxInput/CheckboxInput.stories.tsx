@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { CheckboxInput } from "@components/CheckboxInput/CheckboxInput";
+import { CheckboxInput } from "@components/CheckboxInput";
 import { includeInputProvider, includeTailwind } from "@docs/decorators";
 import { StyledCheckboxInput } from "./examples/styled";
 import { TailwindCheckboxInput } from "./examples/tailwind";

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { NumberInput } from "@components/NumberInput/NumberInput";
+import { NumberInput } from "@components/NumberInput";
 
 export const StyledNumberInput = styled(NumberInput)`
 	width: 64px;

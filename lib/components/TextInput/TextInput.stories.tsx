@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { TextInput } from "@components/TextInput/TextInput";
+import { TextInput } from "@components/TextInput";
 import { includeInputProvider, includeTailwind } from "@docs/decorators";
 import { StyledTextInput } from "./examples/styled";
 import { TailwindTextInput } from "./examples/tailwind";

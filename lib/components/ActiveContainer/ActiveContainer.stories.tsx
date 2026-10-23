@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { fn } from "storybook/test";
 import styled from "styled-components";
 
-import { ActiveContainer } from "@components/ActiveContainer/ActiveContainer";
+import { ActiveContainer } from "@components/ActiveContainer";
 import { Button } from "@components/Button/Button";
 import { includeInputProvider } from "@docs/decorators";
 

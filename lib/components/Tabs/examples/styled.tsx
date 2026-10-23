@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { Tabs } from "@components/Tabs/Tabs";
+import { Tabs } from "@components/Tabs";
 
 export const StyledTabs = styled(Tabs)`
 	gap: 8px;

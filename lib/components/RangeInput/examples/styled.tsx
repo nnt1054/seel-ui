@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { RangeInput } from "@components/RangeInput/RangeInput";
+import { RangeInput } from "@components/RangeInput";
 
 export const StyledRangeInput = styled(RangeInput)`
 	width: 256px;

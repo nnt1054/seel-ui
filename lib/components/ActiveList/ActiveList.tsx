@@ -2,11 +2,11 @@ import { Children, useEffect } from "react";
 import type { RefObject } from "react";
 import styled from "styled-components";
 
-import { useActiveIndex } from "@hooks/useActiveIndex/useActiveIndex";
-import { useActiveNode } from "@hooks/useActiveNode/useActiveNode";
-import { useEventListeners } from "@hooks/useEventListeners/useEventListeners";
-import { usePropagateEvents } from "@hooks/usePropagateEvents/usePropagateEvents";
-import { withActiveNode } from "@providers/ActiveNodeProvider/ActiveNodeProvider";
+import { useActiveIndex } from "@hooks/useActiveIndex";
+import { useActiveNode } from "@hooks/useActiveNode";
+import { useEventListeners } from "@hooks/useEventListeners";
+import { usePropagateEvents } from "@hooks/usePropagateEvents";
+import { withActiveNode } from "@providers/ActiveNodeProvider";
 import type { ActiveNodeProps, AdjacentNodes, Orientation } from "@types";
 
 interface ActiveListProps extends ActiveNodeProps {

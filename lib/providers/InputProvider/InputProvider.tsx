@@ -1,11 +1,12 @@
 import { createContext } from 'react';
+import type { PropsWithChildren, RefObject } from "react";
 
 import { useInputManager } from '@hooks/useInputManager/useInputManager';
 import { KeyCodes } from '@constants';
 import { getNavigationCommands } from '@utils';
+import type { Keybinds } from "@types"
 
-
-export const KeybindsContext = createContext({});
+export const KeybindsContext = createContext<Keybinds>({});
 
 // todo: change to wasd or something before shipping
 const keybinds = {
@@ -23,7 +24,11 @@ const keybinds = {
   'cycleL': [KeyCodes.SHIFT, KeyCodes.TAB],
 }
 
-export const InputProvider = (props) => {
+interface InputProviderProps extends PropsWithChildren {
+    inputRef: RefObject<HTMLElement | null>;
+}
+
+export const InputProvider = (props: InputProviderProps) => {
     const {
         inputRef,
         children,

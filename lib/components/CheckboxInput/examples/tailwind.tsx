@@ -1,6 +1,6 @@
 import type { ComponentProps } from "react";
 
-import { CheckboxInput } from "@components/CheckboxInput/CheckboxInput";
+import { CheckboxInput } from "@components/CheckboxInput";
 
 type CheckboxInputProps = ComponentProps<typeof CheckboxInput>;
 

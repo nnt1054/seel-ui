@@ -1,6 +1,6 @@
 import type { ComponentProps } from "react";
 
-import { Button } from "@components/Button/Button";
+import { Button } from "@components/Button";
 
 type ButtonProps = ComponentProps<typeof Button>;
 

@@ -4,11 +4,11 @@ import styled from "styled-components";
 import { createStore, useStore } from "zustand";
 import type { StoreApi } from "zustand";
 
-import { ActiveList } from "@components/ActiveList/ActiveList";
-import { useActiveNode } from "@hooks/useActiveNode/useActiveNode";
-import { useEventListeners } from "@hooks/useEventListeners/useEventListeners";
-import { usePropagateEvents } from "@hooks/usePropagateEvents/usePropagateEvents";
-import { withActiveNode } from "@providers/ActiveNodeProvider/ActiveNodeProvider";
+import { ActiveList } from "@components/ActiveList";
+import { useActiveNode } from "@hooks/useActiveNode";
+import { useEventListeners } from "@hooks/useEventListeners";
+import { usePropagateEvents } from "@hooks/usePropagateEvents";
+import { withActiveNode } from "@providers/ActiveNodeProvider";
 import type { ActiveNodeProps, AdjacentNodes, Node, Orientation } from "@types";
 import { handleAdjacentNode } from "@utils";
 

@@ -1,4 +1,4 @@
-import { RangeInput } from "@components/RangeInput/RangeInput";
+import { RangeInput } from "@components/RangeInput";
 
 export const TailwindRangeInput = (props) => {
   return (

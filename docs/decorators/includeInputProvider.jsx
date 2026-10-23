@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 
-import { InputProvider } from '@providers/InputProvider/InputProvider';
-import { ActiveContainer } from '@components/ActiveContainer/ActiveContainer';
+import { InputProvider } from '@providers/InputProvider';
+import { ActiveContainer } from '@components/ActiveContainer';
 
 
 export const includeInputProvider = (Story, context) => {

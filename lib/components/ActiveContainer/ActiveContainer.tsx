@@ -1,7 +1,7 @@
 import type { RefObject } from "react";
 
-import { useActiveNode } from "@hooks/useActiveNode/useActiveNode";
-import { usePropagateEvents } from "@hooks/usePropagateEvents/usePropagateEvents";
+import { useActiveNode } from "@hooks/useActiveNode";
+import { usePropagateEvents } from "@hooks/usePropagateEvents";
 import { withActiveNode } from "@providers/ActiveNodeProvider";
 import type { ActiveNodeProps } from "@types";
 

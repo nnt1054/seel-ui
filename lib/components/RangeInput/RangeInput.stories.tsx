@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { RangeInput } from "@components/RangeInput/RangeInput";
+import { RangeInput } from "@components/RangeInput";
 import { includeInputProvider, includeTailwind } from "@docs/decorators";
 import { StyledRangeInput } from "./examples/styled";
 import { TailwindRangeInput } from "./examples/tailwind";

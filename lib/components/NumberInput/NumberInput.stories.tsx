@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { fn } from "storybook/test";
 
-import { NumberInput } from "@components/NumberInput/NumberInput";
+import { NumberInput } from "@components/NumberInput";
 import { includeInputProvider, includeTailwind } from "@docs/decorators";
 import { StyledNumberInput } from "./examples/styled";
 import { TailwindNumberInput } from "./examples/tailwind";

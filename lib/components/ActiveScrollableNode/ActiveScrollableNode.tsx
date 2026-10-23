@@ -1,8 +1,8 @@
 import type { RefObject } from "react";
 
-import { useActiveNode } from "@hooks/useActiveNode/useActiveNode";
-import { useActiveScrollableNode } from "@hooks/useActiveScrollableNode/useActiveScrollableNode";
-import { withActiveNode } from "@providers/ActiveNodeProvider/ActiveNodeProvider";
+import { useActiveNode } from "@hooks/useActiveNode";
+import { useActiveScrollableNode } from "@hooks/useActiveScrollableNode";
+import { withActiveNode } from "@providers/ActiveNodeProvider";
 import type { ActiveNodeProps, AdjacentNodes } from "@types";
 
 interface ActiveScrollableNodeProps extends ActiveNodeProps {

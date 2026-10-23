@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { ActiveGrid } from "@components/ActiveGrid/ActiveGrid";
+import { ActiveGrid } from "@components/ActiveGrid";
 import { StyledActiveGrid, StyledActiveGridItem } from "@components/ActiveGrid/examples/styled";
-import { ActiveList } from "@components/ActiveList/ActiveList";
+import { ActiveList } from "@components/ActiveList";
 import { StyledActiveList, StyledActiveListItem } from "@components/ActiveList/examples/styled";
-import { ActiveScrollableNode } from "@components/ActiveScrollableNode/ActiveScrollableNode";
+import { ActiveScrollableNode } from "@components/ActiveScrollableNode";
 import { StyledActiveScrollableNode } from "@components/ActiveScrollableNode/examples/styled";
 import { includeInputProvider } from "@docs/decorators";
 import { StyledCycleButtons, StyledList, StyledTab, StyledTabs } from "./examples/styled";
