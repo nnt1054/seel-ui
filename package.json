@@ -21,7 +21,7 @@
     "lint": "eslint .",
     "storybook": "storybook dev -p 6006 --no-open",
     "build-storybook": "storybook build",
-    "tsc": "tsc -b ./tsconfig.app.json --noEmit"
+    "tsc": "tsc -b ./tsconfig.json --noEmit"
   },
   "dependencies": {
     "@storybook/addon-docs": "^10.5.2",

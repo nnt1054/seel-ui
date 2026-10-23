@@ -10,7 +10,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
     dts({
-      tsconfigPath: './tsconfig.app.json',
+      tsconfigPath: './tsconfig.build.json',
       bundleTypes: true,
     }),
   ],

@@ -38,5 +38,4 @@
     }
   },
   "include": ["lib"],
-  "exclude": ["**/*.stories.*", "**/*.story.*", "**/examples/**"]
 }
