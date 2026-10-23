@@ -1,4 +1,1 @@
-export {
-  InputProvider,
-  KeybindsContext,
-} from './InputProvider';
+export { InputProvider, KeybindsContext } from "./InputProvider";

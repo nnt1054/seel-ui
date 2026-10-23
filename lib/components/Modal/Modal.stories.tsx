@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useRef, useState } from "react";
 
+import { StyledActiveList } from "@components/ActiveList/examples/styled";
+import { Button } from "@components/Button";
+import { StyledTextInput } from "@components/TextInput/examples/styled";
 import { useEventListeners } from "@hooks/useEventListeners";
 import { InputProvider } from "@providers/InputProvider";
-import { StyledActiveList } from "@components/ActiveList/examples/styled";
-import { StyledTextInput } from "@components/TextInput/examples/styled";
 import { StyledModal, StyledModalListItem } from "./examples/styled";
-import { Button } from "@components/Button";
 import { Modal } from "./Modal";
 
 const meta = {

@@ -1,11 +1,15 @@
 import { DefaultGamepadKeybinds, DefaultKeybinds, StandardGamepadMapping } from "@constants";
+import type {
+  Commands,
+  GamepadButtonEvent,
+  GamepadKeybinds,
+  GamepadMapping,
+  KeybindCombination,
+  Keybinds,
+} from "@types";
 import { compareArrays, getKeyCombination } from "@utils";
 import { useGamepad } from "./useGamepad";
 import { useKeyPress } from "./useKeyPress";
-import type {
-  Commands, GamepadButtonEvent, GamepadKeybinds,
-  GamepadMapping, Keybinds, KeybindCombination,
-} from "@types"
 
 export type OnBeforeKeyDown = (
   name: string,

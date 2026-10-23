@@ -40,7 +40,10 @@ interface CreateNodeContainerProps {
   parent: ActiveNodeStore | null;
 }
 
-export type ActiveNodeComponentProps<T> = Omit<T, keyof ActiveNodeProps> & Partial<ActiveNodeProps> & ExtraActiveNodeProps;
+export type ActiveNodeComponentProps<T> =
+  & Omit<T, keyof ActiveNodeProps>
+  & Partial<ActiveNodeProps>
+  & ExtraActiveNodeProps;
 
 export const ActiveNodeContext = createContext<ActiveNodeStore | null>(null);
 

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import type { GamepadButtonEvent, GamepadMapping } from "@types"
+import type { GamepadButtonEvent, GamepadMapping } from "@types";
 
 const DEADZONE = 0.3;
 

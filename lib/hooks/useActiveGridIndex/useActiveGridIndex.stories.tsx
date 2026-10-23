@@ -1,9 +1,9 @@
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useRef, useState } from "react";
 import styled from "styled-components";
-import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { useActiveGridIndex } from "./useActiveGridIndex";
 import type { AdjacentNodes, Node } from "@types";
+import { useActiveGridIndex } from "./useActiveGridIndex";
 
 interface DemoProps {
   columns?: number;

@@ -1,11 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { InputProvider } from './InputProvider';
-
+import { InputProvider } from "./InputProvider";
 
 const meta = {
-  tags: ['!dev'],
-  title: 'Providers/InputProvider',
+  tags: ["!dev"],
+  title: "Providers/InputProvider",
   component: InputProvider,
   args: {
     inputRef: undefined,
@@ -13,13 +12,13 @@ const meta = {
   argTypes: {
     inputRef: {
       description: "The entrypoint or top level active node to dispatch navigation events to.",
-			table: {
-				readonly: true,
-			},
-		},
+      table: {
+        readonly: true,
+      },
+    },
   },
   parameters: {
-    layout: 'centered',
+    layout: "centered",
   },
 } satisfies Meta<typeof InputProvider>;
 

@@ -1,14 +1,11 @@
-import { useEffect, useRef, useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { useEffect, useRef, useState } from "react";
 import type { RefObject } from "react";
 
 import { DefaultKeybinds } from "@constants";
+import type { Commands, GamepadKeybinds, GamepadMapping, Keybinds } from "@types";
 import { useInputManager } from "./useInputManager";
 import type { OnBeforeKeyDown } from "./useInputManager";
-import type {
-  Commands, GamepadKeybinds,
-  GamepadMapping, Keybinds,
-} from "@types"
 
 interface DemoProps {
   commands?: Commands;
@@ -134,7 +131,7 @@ const meta = {
   },
   parameters: {
     layout: "centered",
-  }
+  },
 } satisfies Meta<typeof useInputManager>;
 
 export default meta;
