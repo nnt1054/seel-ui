@@ -118,6 +118,18 @@ export const getNavigationCommands = (ref) => {
         'leftBumper': {
             execute: handleEvent('cycleL')
         },
+        'leftStickUp': {
+            execute: handleEvent('up')
+        },
+        'leftStickDown': {
+            execute: handleEvent('down')
+        },
+        'leftStickLeft': {
+            execute: handleEvent('left')
+        },
+        'leftStickRight': {
+            execute: handleEvent('right')
+        },
     }
 
     return commands;

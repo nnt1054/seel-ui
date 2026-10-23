@@ -1,13 +1,12 @@
-import { useMemo } from "react";
-
-import { DefaultGamepadMapping, DefaultKeybinds } from "@constants";
+import {
+  DefaultGamepadKeybinds,
+  DefaultKeybinds,
+  StandardGamepadMapping,
+} from "@constants";
 import { compareArrays, getKeyCombination } from "@utils";
 import { useGamepad } from "./useGamepad";
 import { useKeyPress } from "./useKeyPress";
 
-interface GamepadKeybinds {
-  [key: string]: number;
-}
 
 interface Command {
     execute?: () => void;
@@ -18,8 +17,11 @@ interface Commands {
   [name: string]: Command;
 }
 
-interface CustomGamepadEvent extends GamepadEvent {
-  keyCode: number;
+interface CustomGamepadEvent {
+  type?: string;
+  keyCode?: number;
+  gamepadCode?: number;
+  value?: number;
 }
 
 type OnBeforeKeyDown = (
@@ -31,6 +33,7 @@ type OnBeforeKeyDown = (
 interface UseInputManagerProps {
   commands: any;
   keybinds: any;
+  gamepadKeybinds: any;
   gamepadMapping: any;
   onBeforeKeyDown: OnBeforeKeyDown;
 }
@@ -39,7 +42,8 @@ export const useInputManager = (props: UseInputManagerProps) => {
   const {
     commands = {},
     keybinds = DefaultKeybinds,
-    gamepadMapping = DefaultGamepadMapping,
+    gamepadKeybinds = DefaultGamepadKeybinds,
+    gamepadMapping = StandardGamepadMapping,
     onBeforeKeyDown = () => {},
   } = props;
 
@@ -84,33 +88,9 @@ export const useInputManager = (props: UseInputManagerProps) => {
     }
   };
 
-  const { buttons } = gamepadMapping;
-  const gamepadKeybinds = useMemo(() => {
-    return {
-      "gamepadA": buttons.A,
-      "gamepadB": buttons.B,
-      "gamepadX": buttons.X,
-      "gamepadY": buttons.Y,
-      "leftBumper": buttons.LB,
-      "rightBumper": buttons.RB,
-      "leftTrigger": buttons.LT,
-      "rightTrigger": buttons.RT,
-      "select": buttons.SELECT,
-      "start": buttons.START,
-      "dpadUp": buttons.UP,
-      "dpadDown": buttons.DOWN,
-      "dpadLeft": buttons.LEFT,
-      "dpadRight": buttons.RIGHT,
-      "up": buttons.LS_UP,
-      "down": buttons.LS_DOWN,
-      "left": buttons.LS_LEFT,
-      "right": buttons.LS_RIGHT,
-    } as GamepadKeybinds;
-  }, [buttons]);
-
   const getGamepadKeybind = (event: CustomGamepadEvent) => {
     return Object.keys(gamepadKeybinds).find(
-      command => gamepadKeybinds[command] === event.keyCode,
+      command => gamepadKeybinds[command] === event.gamepadCode,
     );
   };
 
@@ -124,6 +104,7 @@ export const useInputManager = (props: UseInputManagerProps) => {
 
   useGamepad(gamepadMapping, (event: CustomGamepadEvent) => {
     const name = getGamepadKeybind(event);
+    console.log(name);
     if (!name) return;
 
     const command = commands[name];

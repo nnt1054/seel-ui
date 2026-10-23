@@ -21,3 +21,10 @@ export type NodeRefMap = Map<Node, RefObject<HTMLElement | null>>;
 export type ChildrenRef = RefObject<NodeRefMap>;
 
 export type Orientation = "vertical" | "horizontal";
+
+export interface ExtraActiveNodeProps {
+  initial?: Node;
+  hasFocus?: boolean;
+}
+
+export type IComponentProps<T> = Omit<T, keyof ActiveNodeProps> & Partial<ActiveNodeProps> & ExtraActiveNodeProps;

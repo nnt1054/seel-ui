@@ -3,7 +3,7 @@ import type { FC, RefObject } from "react";
 import { createStore, useStore } from "zustand";
 import type { StoreApi } from "zustand";
 
-import type { ActiveNodeProps, ChildrenRef, Node } from "@types";
+import type { ActiveNodeProps, ChildrenRef, ExtraActiveNodeProps, IComponentProps, Node } from "@types";
 
 export interface ActiveNodeState {
   node: Node;
@@ -19,7 +19,7 @@ export interface ActiveNodeState {
   setControlledFocus: (controlledFocus: boolean) => void;
 }
 
-type ActiveNodeStore = StoreApi<ActiveNodeState>;
+export type ActiveNodeStore = StoreApi<ActiveNodeState>;
 
 interface CreateNodeContainerStoreProps {
   node: Node;
@@ -39,13 +39,6 @@ interface CreateNodeContainerProps {
   initial: Node;
   parent: ActiveNodeStore | null;
 }
-
-interface ExtraActiveNodeProps {
-  initial?: Node;
-  hasFocus?: boolean;
-}
-
-type ComponentProps<T> = Omit<T, keyof ActiveNodeProps> & Partial<ActiveNodeProps> & ExtraActiveNodeProps;
 
 export const ActiveNodeContext = createContext<ActiveNodeStore | null>(null);
 
@@ -132,8 +125,8 @@ const createNodeContainer = (props: CreateNodeContainerProps) => {
 export const withActiveNode = <T extends ActiveNodeProps>(
   WrappedComponent: FC<T>,
   ignoreParent: boolean = false,
-): FC<ComponentProps<T>> => {
-  const Component = memo((props: ComponentProps<T>) => {
+): FC<IComponentProps<T>> => {
+  const Component = memo((props: IComponentProps<T>) => {
     const defaultRef = useRef<HTMLElement | null>(null);
     const {
       ref = defaultRef,

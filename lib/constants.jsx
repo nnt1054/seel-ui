@@ -99,7 +99,6 @@ export const KeyCodes = {
     BRACKET_LEFT_FIREFOX: 175
 };
 
-// todo: these will be configurable
 export const GamepadCodes = {
     A: 0,
     B: 1,
@@ -118,8 +117,6 @@ export const GamepadCodes = {
     LEFT: 14,
     RIGHT: 15,
     HOME: 16,
-
-    // the rest of these are like pseudo buttons
     LS_UP: 100,
     LS_DOWN: 101,
     LS_LEFT: 102,
@@ -128,24 +125,6 @@ export const GamepadCodes = {
     RS_DOWN: 105,
     RS_LEFT: 106,
     RS_RIGHT: 107,
-
-    // 8bitdo micro buttons lol
-    // A: 0,
-    // B: 1,
-    // X: 3,
-    // Y: 4,
-    // LB: 6,
-    // RB: 7,
-    // LT: 8,
-    // RT: 9,
-    // SELECT: 10,
-    // START: 11,
-    // LS: -1,
-    // RS: -1,
-    // UP: -1,
-    // DOWN: -1,
-    // LEFT: -1,
-    // RIGHT: -1,
 }
 
 export const GamepadAxis = {
@@ -155,26 +134,32 @@ export const GamepadAxis = {
     RSY: 3,
 }
 
-// todo: rename these to default
-export const GamepadKeybinds = {
-    'up': GamepadCodes.LS_UP,
-    'down': GamepadCodes.LS_DOWN,
-    'left': GamepadCodes.LS_LEFT,
-    'right': GamepadCodes.LS_RIGHT,
-    'leftTrigger': GamepadCodes.LT,
-    'rightTrigger': GamepadCodes.RT,
-    'leftBumper': GamepadCodes.LB,
-    'rightBumper': GamepadCodes.RB,
-    'start': GamepadCodes.START,
-    'select': GamepadCodes.SELECT,
-    'dpadUp': GamepadCodes.UP,
-    'dpadDown': GamepadCodes.DOWN,
-    'dpadLeft': GamepadCodes.LEFT,
-    'dpadRight': GamepadCodes.RIGHT,
+export const DefaultGamepadKeybinds = {
     'gamepadA': GamepadCodes.A,
     'gamepadB': GamepadCodes.B,
     'gamepadX': GamepadCodes.X,
     'gamepadY': GamepadCodes.Y,
+    'leftBumper': GamepadCodes.LB,
+    'rightBumper': GamepadCodes.RB,
+    'leftTrigger': GamepadCodes.LT,
+    'rightTrigger': GamepadCodes.RT,
+    'select': GamepadCodes.SELECT,
+    'start': GamepadCodes.START,
+    'leftStickButton': GamepadCodes.LS,
+    'rightStickButton': GamepadCodes.RS,
+    'dpadUp': GamepadCodes.UP,
+    'dpadDown': GamepadCodes.DOWN,
+    'dpadLeft': GamepadCodes.LEFT,
+    'dpadRight': GamepadCodes.RIGHT,
+    'home': GamepadCodes.HOME,
+    'leftStickUp': GamepadCodes.LS_UP,
+    'leftStickDown': GamepadCodes.LS_DOWN,
+    'leftStickLeft': GamepadCodes.LS_LEFT,
+    'leftStickRight': GamepadCodes.LS_RIGHT,
+    'rightStickUp': GamepadCodes.RS_UP,
+    'rightStickDown': GamepadCodes.RS_DOWN,
+    'rightStickLeft': GamepadCodes.RS_LEFT,
+    'rightStickRight': GamepadCodes.RS_RIGHT,
 }
 
 export const DefaultKeybinds = {
@@ -202,6 +187,63 @@ export const DefaultKeybinds = {
     'cycleL': [KeyCodes.SHIFT, KeyCodes.TAB],
 }
 
+// export const GamepadCodes = {
+//     A: 0,
+//     B: 1,
+//     X: 2,
+//     Y: 3,
+//     LB: 4,
+//     RB: 5,
+//     LT: 6,
+//     RT: 7,
+//     SELECT: 8,
+//     START: 9,
+//     LS: 10,
+//     RS: 11,
+//     UP: 12,
+//     DOWN: 13,
+//     LEFT: 14,
+//     RIGHT: 15,
+//     HOME: 16,
+//     LS_UP: 100,
+//     LS_DOWN: 101,
+//     LS_LEFT: 102,
+//     LS_RIGHT: 103,
+//     RS_UP: 104,
+//     RS_DOWN: 105,
+//     RS_LEFT: 106,
+//     RS_RIGHT: 107,
+// }
+
+export const StandardGamepadMapping = {
+    buttons: {
+        0: GamepadCodes.A,
+        1: GamepadCodes.B,
+        2: GamepadCodes.X,
+        3: GamepadCodes.Y,
+        4: GamepadCodes.LB,
+        5: GamepadCodes.RB,
+        6: GamepadCodes.LT,
+        7: GamepadCodes.RT,
+        8: GamepadCodes.SELECT,
+        9: GamepadCodes.START,
+        10: GamepadCodes.LS,
+        11: GamepadCodes.RS,
+        12: GamepadCodes.UP,
+        13: GamepadCodes.DOWN,
+        14: GamepadCodes.LEFT,
+        15: GamepadCodes.RIGHT,
+        16: GamepadCodes.HOME,
+    },
+    axes: {
+        0: [GamepadCodes.LS_LEFT, GamepadCodes.LS_RIGHT],
+        1: [GamepadCodes.LS_UP, GamepadCodes.LS_DOWN],
+        2: [GamepadCodes.RS_LEFT, GamepadCodes.RS_RIGHT],
+        3: [GamepadCodes.RS_UP, GamepadCodes.RS_DOWN],
+    }
+}
+
+// todo: deprecate the following
 export const DefaultGamepadMapping = {
     buttons: {
         A: 0,
