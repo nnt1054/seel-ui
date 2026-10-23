@@ -1,8 +1,8 @@
 import { useContext, useEffect } from "react";
 import { createStore, useStore } from "zustand";
 
-import { ActiveNodeContext } from "@providers/ActiveNodeProvider/ActiveNodeProvider";
-import type { ActiveNodeState } from "@providers/ActiveNodeProvider/ActiveNodeProvider";
+import { ActiveNodeContext } from "@providers/ActiveNodeProvider";
+import type { ActiveNodeState } from "@providers/ActiveNodeProvider";
 
 const emptyStore = createStore<ActiveNodeState>()(() => ({
   node: null,

@@ -3,7 +3,7 @@ import type { FC, RefObject } from "react";
 import { createStore, useStore } from "zustand";
 import type { StoreApi } from "zustand";
 
-import type { ActiveNodeProps, ChildrenRef, ExtraActiveNodeProps, IComponentProps, Node } from "@types";
+import type { ActiveNodeProps, ChildrenRef, ExtraActiveNodeProps, Node } from "@types";
 
 export interface ActiveNodeState {
   node: Node;
@@ -39,6 +39,8 @@ interface CreateNodeContainerProps {
   initial: Node;
   parent: ActiveNodeStore | null;
 }
+
+export type ActiveNodeComponentProps<T> = Omit<T, keyof ActiveNodeProps> & Partial<ActiveNodeProps> & ExtraActiveNodeProps;
 
 export const ActiveNodeContext = createContext<ActiveNodeStore | null>(null);
 
@@ -125,8 +127,8 @@ const createNodeContainer = (props: CreateNodeContainerProps) => {
 export const withActiveNode = <T extends ActiveNodeProps>(
   WrappedComponent: FC<T>,
   ignoreParent: boolean = false,
-): FC<IComponentProps<T>> => {
-  const Component = memo((props: IComponentProps<T>) => {
+): FC<ActiveNodeComponentProps<T>> => {
+  const Component = memo((props: ActiveNodeComponentProps<T>) => {
     const defaultRef = useRef<HTMLElement | null>(null);
     const {
       ref = defaultRef,

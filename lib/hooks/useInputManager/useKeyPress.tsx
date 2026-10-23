@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-export type Callback = (event: KeyboardEvent) => void;
+export type KeyboardCallback = (event: KeyboardEvent) => void;
 type KeyPressedMap = {
   [keyCode: string | number]: boolean;
 };
 
-export const useKeyPress = (callback: Callback) => {
-  const [keyPressed, setKeyPressed] = useState<KeyPressedMap>({});
-
+export const useKeyPress = (callback: KeyboardCallback) => {
   useEffect(() => {
+    const keyPressed: KeyPressedMap = {};
+
     const downHandler = (event: KeyboardEvent) => {
       if (document.activeElement?.tagName == "INPUT") return;
       if (document.getSelection()?.type == "Range") return;
@@ -17,14 +17,14 @@ export const useKeyPress = (callback: Callback) => {
       }
 
       if (!keyPressed[event.keyCode]) {
-        setKeyPressed(state => ({ ...state, [event.keyCode]: true }));
+        keyPressed[event.keyCode] = true;
         event.preventDefault();
         callback && callback(event);
       }
     };
 
     const upHandler = (event: KeyboardEvent) => {
-      setKeyPressed(state => ({ ...state, [event.keyCode]: false }));
+      keyPressed[event.keyCode] = false;
       event.preventDefault();
       callback && callback(event);
     };
@@ -36,7 +36,5 @@ export const useKeyPress = (callback: Callback) => {
       window.removeEventListener("keydown", downHandler);
       window.removeEventListener("keyup", upHandler);
     };
-  });
-
-  return keyPressed;
+  }, []);
 };

@@ -2,11 +2,11 @@ import { Children } from "react";
 import type { RefObject } from "react";
 import styled from "styled-components";
 
-import { useActiveGridIndex } from "@hooks/useActiveGridIndex/useActiveGridIndex";
-import { useActiveNode } from "@hooks/useActiveNode/useActiveNode";
-import { useEventListeners } from "@hooks/useEventListeners/useEventListeners";
-import { usePropagateEvents } from "@hooks/usePropagateEvents/usePropagateEvents";
-import { withActiveNode } from "@providers/ActiveNodeProvider/ActiveNodeProvider";
+import { useActiveGridIndex } from "@hooks/useActiveGridIndex";
+import { useActiveNode } from "@hooks/useActiveNode";
+import { useEventListeners } from "@hooks/useEventListeners";
+import { usePropagateEvents } from "@hooks/usePropagateEvents";
+import { withActiveNode } from "@providers/ActiveNodeProvider";
 import type { ActiveNodeProps, AdjacentNodes } from "@types";
 
 interface ActiveGridProps extends ActiveNodeProps {

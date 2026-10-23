@@ -1,28 +1,11 @@
-import {
-  DefaultGamepadKeybinds,
-  DefaultKeybinds,
-  StandardGamepadMapping,
-} from "@constants";
+import { DefaultGamepadKeybinds, DefaultKeybinds, StandardGamepadMapping } from "@constants";
 import { compareArrays, getKeyCombination } from "@utils";
 import { useGamepad } from "./useGamepad";
 import { useKeyPress } from "./useKeyPress";
-
-
-interface Command {
-    execute?: () => void;
-    ignoreModifiers?: boolean;
-}
-
-interface Commands {
-  [name: string]: Command;
-}
-
-interface CustomGamepadEvent {
-  type?: string;
-  keyCode?: number;
-  gamepadCode?: number;
-  value?: number;
-}
+import type {
+  Commands, GamepadButtonEvent, GamepadKeybinds,
+  GamepadMapping, Keybinds, KeybindCombination,
+} from "@types"
 
 type OnBeforeKeyDown = (
   name: string,
@@ -31,18 +14,18 @@ type OnBeforeKeyDown = (
 ) => void | boolean;
 
 interface UseInputManagerProps {
-  commands: any;
-  keybinds: any;
-  gamepadKeybinds: any;
-  gamepadMapping: any;
+  commands: Commands;
+  keybinds: Keybinds;
+  gamepadKeybinds: GamepadKeybinds;
+  gamepadMapping: GamepadMapping;
   onBeforeKeyDown: OnBeforeKeyDown;
 }
 
 export const useInputManager = (props: UseInputManagerProps) => {
   const {
     commands = {},
-    keybinds = DefaultKeybinds,
-    gamepadKeybinds = DefaultGamepadKeybinds,
+    keybinds = DefaultKeybinds as Keybinds,
+    gamepadKeybinds = DefaultGamepadKeybinds as GamepadKeybinds,
     gamepadMapping = StandardGamepadMapping,
     onBeforeKeyDown = () => {},
   } = props;
@@ -53,7 +36,7 @@ export const useInputManager = (props: UseInputManagerProps) => {
       const keybind = keybinds[name];
       if (!command || !keybind) return;
 
-      const keybindCombination = Number.isInteger(keybind) ? [keybind] : keybind;
+      const keybindCombination = Number.isInteger(keybind) ? [keybind] : keybind as KeybindCombination;
 
       if (exactMatch) {
         if (command.ignoreModifiers) {
@@ -88,7 +71,7 @@ export const useInputManager = (props: UseInputManagerProps) => {
     }
   };
 
-  const getGamepadKeybind = (event: CustomGamepadEvent) => {
+  const getGamepadKeybind = (event: GamepadButtonEvent) => {
     return Object.keys(gamepadKeybinds).find(
       command => gamepadKeybinds[command] === event.gamepadCode,
     );
@@ -102,9 +85,8 @@ export const useInputManager = (props: UseInputManagerProps) => {
     }
   });
 
-  useGamepad(gamepadMapping, (event: CustomGamepadEvent) => {
+  useGamepad((event: GamepadButtonEvent) => {
     const name = getGamepadKeybind(event);
-    console.log(name);
     if (!name) return;
 
     const command = commands[name];
@@ -115,7 +97,7 @@ export const useInputManager = (props: UseInputManagerProps) => {
     } else if (event.type == "buttonup") {
       command.release?.();
     }
-  });
+  }, gamepadMapping);
 };
 
 export default useInputManager;

@@ -30,8 +30,8 @@ export const useActiveGridIndex = (props: UseActiveGridIndexProps) => {
     isActive = true,
   } = props;
 
-  const activeIndex = _activeIndex as number;
-
+  const isNumber = typeof _activeIndex === "number";
+  const activeIndex = isNumber ? _activeIndex as number : 0;
   const columns = Math.min(_columns, maxIndex);
   const rows = Math.ceil(maxIndex / columns);
   const gridSize = rows * columns;
@@ -100,7 +100,7 @@ export const useActiveGridIndex = (props: UseActiveGridIndexProps) => {
     down: down,
     left: left,
     right: right,
-  }, isActive && Number.isInteger(_activeIndex));
+  }, isActive && isNumber);
 };
 
 export default useActiveGridIndex;

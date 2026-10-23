@@ -37,7 +37,8 @@ export const useActiveIndex = (props: UseActiveIndexProps) => {
     isActive = true,
   } = props;
 
-  const activeIndex = _activeIndex as number;
+  const isNumber = typeof _activeIndex === "number";
+  const activeIndex = isNumber ? _activeIndex as number : 0;
 
   const incrementIndex = (adjacentNode?: AdjacentNode) => {
     if (activeIndex >= (maxIndex - 1) && adjacentNode) {
@@ -144,7 +145,7 @@ export const useActiveIndex = (props: UseActiveIndexProps) => {
     down: down,
     left: left,
     right: right,
-  }, isActive && Number.isInteger(_activeIndex));
+  }, isActive && isNumber);
 };
 
 export default useActiveIndex;
