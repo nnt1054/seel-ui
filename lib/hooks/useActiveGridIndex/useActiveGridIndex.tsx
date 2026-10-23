@@ -30,7 +30,6 @@ export const useActiveGridIndex = (props: UseActiveGridIndexProps) => {
     isActive = true,
   } = props;
 
-  if (typeof _activeIndex !== "number") return;
   const activeIndex = _activeIndex as number;
 
   const columns = Math.min(_columns, maxIndex);
@@ -91,16 +90,17 @@ export const useActiveGridIndex = (props: UseActiveGridIndexProps) => {
   }, [initialIndex]);
 
   useEffect(() => {
+    if (!Number.isInteger(activeIndex)) return;
     if (maxIndex < 1) return;
     setActiveIndex(Math.min(activeIndex, maxIndex - 1));
-  }, [maxIndex]);
+  }, [activeIndex, maxIndex]);
 
   useEventListeners(ref, {
     up: up,
     down: down,
     left: left,
     right: right,
-  }, isActive);
+  }, isActive && Number.isInteger(_activeIndex));
 };
 
 export default useActiveGridIndex;

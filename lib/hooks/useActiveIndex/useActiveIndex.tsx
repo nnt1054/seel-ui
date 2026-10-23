@@ -37,7 +37,6 @@ export const useActiveIndex = (props: UseActiveIndexProps) => {
     isActive = true,
   } = props;
 
-  if (typeof _activeIndex !== "number") return;
   const activeIndex = _activeIndex as number;
 
   const incrementIndex = (adjacentNode?: AdjacentNode) => {
@@ -131,20 +130,21 @@ export const useActiveIndex = (props: UseActiveIndexProps) => {
   };
 
   useEffect(() => {
-    if (maxIndex < 1) return;
-    setActiveIndex(Math.min(activeIndex, maxIndex - 1));
-  }, [maxIndex]);
-
-  useEffect(() => {
     setActiveIndex(initialIndex);
   }, [initialIndex]);
+
+  useEffect(() => {
+    if (!Number.isInteger(activeIndex)) return;
+    if (maxIndex < 1) return;
+    setActiveIndex(Math.min(activeIndex, maxIndex - 1));
+  }, [activeIndex, maxIndex]);
 
   useEventListeners(ref, {
     up: up,
     down: down,
     left: left,
     right: right,
-  }, isActive);
+  }, isActive && Number.isInteger(_activeIndex));
 };
 
 export default useActiveIndex;
