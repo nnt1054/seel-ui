@@ -1,8 +1,11 @@
 {
   "name": "seel-ui",
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "Seel UI Unstyled React Component Library/System for building navigable user interfaces responsive to keyboard and gamepad directional input",
+  "author": "Neil Toledo",
   "type": "module",
   "license": "MIT",
+  "homepage": "https://github.com/nnt1054/seel-ui",
   "files": [
     "dist"
   ],
@@ -21,7 +24,7 @@
     "lint": "eslint .",
     "storybook": "storybook dev -p 6006 --no-open",
     "build-storybook": "storybook build",
-    "tsc": "tsc -b ./tsconfig.json --noEmit"
+    "tsc": "tsc -b ./tsconfig.dev.json --noEmit"
   },
   "dependencies": {
     "@storybook/addon-docs": "^10.5.2",

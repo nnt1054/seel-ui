@@ -1,5 +1,9 @@
 {
   "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "sourceMap": false,
+    "allowJs": false
+  },
   "include": ["lib"],
   "exclude": ["**/*.stories.*", "**/*.story.*", "**/examples/**"]
 }
