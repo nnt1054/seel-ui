@@ -9,14 +9,14 @@ import { usePropagateEvents } from "@hooks/usePropagateEvents";
 import { withActiveNode } from "@providers/ActiveNodeProvider";
 import type { ActiveNodeProps, AdjacentNodes } from "@types";
 
-interface ActiveGridProps extends ActiveNodeProps {
+export interface ActiveGridProps extends ActiveNodeProps {
   adjacentNodes?: AdjacentNodes;
   columns?: number;
   initialIndex?: number;
   maxIndex?: number;
 }
 
-interface ActiveGridItemProps extends ActiveNodeProps {
+export interface ActiveGridItemProps extends ActiveNodeProps {
   onConfirm?: () => void;
 }
 

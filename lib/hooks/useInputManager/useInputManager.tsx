@@ -17,7 +17,7 @@ export type OnBeforeKeyDown = (
   event: KeyboardEvent,
 ) => void | boolean;
 
-interface UseInputManagerProps {
+export interface UseInputManagerProps {
   commands?: Commands;
   keybinds?: Keybinds;
   gamepadKeybinds?: GamepadKeybinds;

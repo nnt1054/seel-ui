@@ -69,3 +69,7 @@ export interface GamepadMapping {
   buttons: ButtonMapping;
   axes: AxesMapping;
 }
+
+export interface Callbacks {
+  [key: string]: () => void;
+}

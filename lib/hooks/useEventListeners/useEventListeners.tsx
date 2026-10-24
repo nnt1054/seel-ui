@@ -1,9 +1,7 @@
 import type { RefObject } from "react";
 import { useEffect } from "react";
 
-interface Callbacks {
-  [key: string]: () => void;
-}
+import type { Callbacks } from "@types";
 
 export const useEventListeners = (
   ref: RefObject<HTMLElement | null>,

@@ -6,7 +6,7 @@ import { useEventListeners } from "@hooks/useEventListeners";
 import { withActiveNode } from "@providers/ActiveNodeProvider";
 import type { ActiveNodeProps } from "@types";
 
-interface TextInputProps extends ActiveNodeProps, InputHTMLAttributes<HTMLInputElement> {
+export interface TextInputProps extends ActiveNodeProps, InputHTMLAttributes<HTMLInputElement> {
   onCancel?: () => void;
   onConfirm?: () => void;
   onCycleR?: () => void;

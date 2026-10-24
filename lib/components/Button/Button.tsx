@@ -6,7 +6,7 @@ import { useEventListeners } from "@hooks/useEventListeners";
 import { withActiveNode } from "@providers/ActiveNodeProvider";
 import type { ActiveNodeProps, AdjacentNodes } from "@types";
 
-interface ButtonProps extends ActiveNodeProps, ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends ActiveNodeProps, ButtonHTMLAttributes<HTMLButtonElement> {
   adjacentNodes?: AdjacentNodes;
   onClick?: () => void;
 }

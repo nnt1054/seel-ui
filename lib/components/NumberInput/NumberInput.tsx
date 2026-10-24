@@ -6,7 +6,7 @@ import { useEventListeners } from "@hooks/useEventListeners";
 import { withActiveNode } from "@providers/ActiveNodeProvider";
 import type { ActiveNodeProps, AdjacentNodes } from "@types";
 
-interface NumberInputProps extends ActiveNodeProps, InputHTMLAttributes<HTMLInputElement> {
+export interface NumberInputProps extends ActiveNodeProps, InputHTMLAttributes<HTMLInputElement> {
   adjacentNodes?: AdjacentNodes;
   onCycleL?: () => void;
   onCycleR?: () => void;

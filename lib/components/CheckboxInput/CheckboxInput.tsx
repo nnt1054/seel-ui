@@ -6,7 +6,7 @@ import { useEventListeners } from "@hooks/useEventListeners";
 import { withActiveNode } from "@providers/ActiveNodeProvider";
 import type { ActiveNodeProps, AdjacentNodes } from "@types";
 
-interface CheckboxInputProps extends ActiveNodeProps {
+export interface CheckboxInputProps extends ActiveNodeProps {
   adjacentNodes?: AdjacentNodes;
   value: boolean;
   setValue?: (value: boolean) => void;

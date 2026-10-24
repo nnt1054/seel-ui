@@ -22,11 +22,11 @@ const defaultEvents = [
 export interface ModalState {
   closeModal: () => void;
 }
-type ModalStore = StoreApi<ModalState>;
+export type ModalStore = StoreApi<ModalState>;
 
 export const ModalContext = createContext<ModalStore | null>(null);
 
-interface ModalProps extends ActiveNodeProps, DialogHTMLAttributes<HTMLDialogElement> {
+export interface ModalProps extends ActiveNodeProps, DialogHTMLAttributes<HTMLDialogElement> {
   events: string[];
   anchorName?: string;
   isOpen: boolean;

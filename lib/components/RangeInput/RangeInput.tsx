@@ -5,7 +5,7 @@ import { useEventListeners } from "@hooks/useEventListeners";
 import { withActiveNode } from "@providers/ActiveNodeProvider";
 import type { ActiveNodeProps } from "@types";
 
-interface RangeInputProps extends ActiveNodeProps, InputHTMLAttributes<HTMLInputElement> {
+export interface RangeInputProps extends ActiveNodeProps, InputHTMLAttributes<HTMLInputElement> {
   value: number;
   setValue?: (value: number) => void;
   step?: number;

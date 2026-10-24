@@ -5,7 +5,7 @@ import { useActiveScrollableNode } from "@hooks/useActiveScrollableNode";
 import { withActiveNode } from "@providers/ActiveNodeProvider";
 import type { ActiveNodeProps, AdjacentNodes } from "@types";
 
-interface ActiveScrollableNodeProps extends ActiveNodeProps {
+export interface ActiveScrollableNodeProps extends ActiveNodeProps {
   adjacentNodes?: AdjacentNodes;
 }
 

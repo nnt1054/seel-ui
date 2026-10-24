@@ -9,7 +9,7 @@ import { usePropagateEvents } from "@hooks/usePropagateEvents";
 import { withActiveNode } from "@providers/ActiveNodeProvider";
 import type { ActiveNodeProps, AdjacentNodes, Orientation } from "@types";
 
-interface ActiveListProps extends ActiveNodeProps {
+export interface ActiveListProps extends ActiveNodeProps {
   adjacentNodes?: AdjacentNodes;
   maxIndex?: number;
   initialIndex?: number;
@@ -19,7 +19,7 @@ interface ActiveListProps extends ActiveNodeProps {
   disableJump?: boolean;
 }
 
-interface ActiveListItemProps extends ActiveNodeProps {
+export interface ActiveListItemProps extends ActiveNodeProps {
   onConfirm?: () => void;
   onFocus?: () => void;
 }

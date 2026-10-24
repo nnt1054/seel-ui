@@ -24,7 +24,7 @@ const keybinds = {
   "cycleL": [KeyCodes.SHIFT, KeyCodes.TAB],
 };
 
-interface InputProviderProps extends PropsWithChildren {
+export interface InputProviderProps extends PropsWithChildren {
   inputRef: RefObject<HTMLElement | null>;
 }
 

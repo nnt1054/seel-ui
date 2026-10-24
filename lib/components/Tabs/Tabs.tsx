@@ -1,8 +1,7 @@
-import { Children, cloneElement, createContext, isValidElement, useContext, useEffect, useState } from "react";
+import { Children, cloneElement, isValidElement, useContext, useEffect, useState } from "react";
 import type { MouseEvent, PropsWithChildren, ReactElement, RefObject } from "react";
 import styled from "styled-components";
-import { createStore, useStore } from "zustand";
-import type { StoreApi } from "zustand";
+import { useStore } from "zustand";
 
 import { ActiveList } from "@components/ActiveList";
 import { useActiveNode } from "@hooks/useActiveNode";
@@ -11,53 +10,36 @@ import { usePropagateEvents } from "@hooks/usePropagateEvents";
 import { withActiveNode } from "@providers/ActiveNodeProvider";
 import type { ActiveNodeProps, AdjacentNodes, Node, Orientation } from "@types";
 import { handleAdjacentNode } from "@utils";
+import { createTabsContextStore, TabsContext } from "./TabsContext";
+import type { TabsState } from "./TabsContext";
 
 const defaultEvents = ["up", "down", "left", "right", "confirm"];
 
-interface TabsProps extends ActiveNodeProps {
+type AdjacentNodePosition = keyof AdjacentNodes;
+
+export interface TabsProps extends ActiveNodeProps {
   adjacentNodes: AdjacentNodes;
   maxIndex?: number;
   events?: string[];
 }
 
-type ListPositions = {
-  [position: string]: Node;
-};
-type AdjacentNodePosition = keyof AdjacentNodes;
-
-export interface TabsState {
-  activeIndex: number;
-  setActiveIndex: (activeIndex: number) => void;
-  maxIndex: number;
-  setMaxIndex: (maxIndex: number) => void;
-  listPositions: ListPositions;
-  setListPosition: (node: Node, position: string) => void;
-  adjacentNodes: AdjacentNodes;
-}
-type TabsStore = StoreApi<TabsState>;
-
-interface CreateTabsContextStoreProps {
-  maxIndex: number;
-  adjacentNodes: AdjacentNodes;
-}
-
-interface TabsListProps extends PropsWithChildren {
+export interface TabsListProps extends PropsWithChildren {
   node?: Node;
   position?: AdjacentNodePosition;
   orientation?: Orientation;
 }
 
-interface TabsTabProps extends ActiveNodeProps {}
+export interface TabsTabProps extends ActiveNodeProps {}
 
-interface TabsPanelProps extends PropsWithChildren {
+export interface TabsPanelProps extends PropsWithChildren {
   index: number;
 }
 
-interface TabsCycleButtonProps extends PropsWithChildren {
+export interface TabsCycleButtonProps extends PropsWithChildren {
   direction?: AdjacentNodePosition;
 }
 
-interface TabsPanelNodeProps {
+export interface TabsPanelNodeProps {
   node: Node;
   adjacentNodes?: AdjacentNodes;
 }
@@ -67,38 +49,6 @@ type TabsComponent = typeof TabsRoot & {
   List: typeof TabsList;
   Tab: typeof TabsTab;
   CycleButton: typeof TabsCycleButton;
-};
-
-const emptyTabsContext = createStore<TabsState>()(() => ({
-  activeIndex: 0,
-  setActiveIndex: () => {},
-  maxIndex: 0,
-  setMaxIndex: () => {},
-  listPositions: {},
-  setListPosition: () => {},
-  adjacentNodes: {},
-}));
-
-export const TabsContext = createContext<TabsStore>(emptyTabsContext);
-
-const createTabsContextStore = (props: CreateTabsContextStoreProps) => {
-  const {
-    maxIndex,
-    adjacentNodes,
-  } = props;
-
-  return createStore<TabsState>()((set) => ({
-    activeIndex: 0,
-    setActiveIndex: (activeIndex) => set({ activeIndex }),
-    maxIndex,
-    setMaxIndex: (maxIndex) => set({ maxIndex }),
-    listPositions: {},
-    setListPosition: (node, position) =>
-      set((state) => {
-        return { listPositions: { ...state.listPositions, [position]: node } };
-      }),
-    adjacentNodes,
-  }));
 };
 
 // todo: add toggle onFocus flag prop

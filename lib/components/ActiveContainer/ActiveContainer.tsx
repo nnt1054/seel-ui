@@ -5,7 +5,7 @@ import { usePropagateEvents } from "@hooks/usePropagateEvents";
 import { withActiveNode } from "@providers/ActiveNodeProvider";
 import type { ActiveNodeProps } from "@types";
 
-interface ActiveContainerProps extends ActiveNodeProps {
+export interface ActiveContainerProps extends ActiveNodeProps {
   events?: string[];
 }
 

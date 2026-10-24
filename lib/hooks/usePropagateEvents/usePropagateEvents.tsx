@@ -1,9 +1,9 @@
 import type { RefObject } from "react";
 
 import { useEventListeners } from "@hooks/useEventListeners/useEventListeners";
-import type { ChildrenRef, Node } from "@types";
+import type { Callbacks, ChildrenRef, Node } from "@types";
 
-interface usePropagateEventsProps {
+export interface UsePropagateEventsProps {
   ref: RefObject<HTMLElement | null>;
   childrenRef: ChildrenRef | null;
   activeNode: Node;
@@ -11,11 +11,7 @@ interface usePropagateEventsProps {
   isActive?: boolean;
 }
 
-interface Callbacks {
-  [key: string]: () => void;
-}
-
-export const usePropagateEvents = (props: usePropagateEventsProps) => {
+export const usePropagateEvents = (props: UsePropagateEventsProps) => {
   const {
     ref,
     childrenRef,

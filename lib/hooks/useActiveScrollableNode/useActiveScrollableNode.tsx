@@ -4,14 +4,14 @@ import { useEventListeners } from "@hooks/useEventListeners";
 import type { AdjacentNodes, Node } from "@types";
 import { handleAdjacentNode } from "@utils";
 
-export interface UseActiveIndexProps {
+export interface UseActiveScrollableNodeProps {
   ref: RefObject<HTMLElement | null>;
   adjacentNodes?: AdjacentNodes;
   moveFocus?: (activeNode: Node) => void;
   isActive?: boolean;
 }
 
-export const useActiveScrollableNode = (props: UseActiveIndexProps) => {
+export const useActiveScrollableNode = (props: UseActiveScrollableNodeProps) => {
   const {
     ref,
     adjacentNodes = {},
