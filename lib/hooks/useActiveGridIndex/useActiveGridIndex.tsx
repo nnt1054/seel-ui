@@ -1,0 +1,106 @@
+import { useEffect } from "react";
+import type { RefObject } from "react";
+
+import { useEventListeners } from "@hooks/useEventListeners";
+import type { AdjacentNodes, Node } from "@types";
+import { handleAdjacentNode } from "@utils";
+
+export interface UseActiveGridIndexProps {
+  ref: RefObject<HTMLElement | null>;
+  activeIndex: Node;
+  setActiveIndex: (index: number) => void;
+  columns?: number;
+  initialIndex?: number;
+  maxIndex?: number;
+  adjacentNodes?: AdjacentNodes;
+  moveFocus?: (activeNode: Node) => void;
+  isActive?: boolean;
+}
+
+export const useActiveGridIndex = (props: UseActiveGridIndexProps) => {
+  const {
+    ref,
+    activeIndex: _activeIndex,
+    setActiveIndex,
+    columns: _columns = 1,
+    initialIndex = 0,
+    maxIndex = 1,
+    adjacentNodes = {},
+    moveFocus = () => {},
+    isActive = true,
+  } = props;
+
+  const isNumber = typeof _activeIndex === "number";
+  const activeIndex = isNumber ? _activeIndex as number : 0;
+  const columns = Math.min(_columns, maxIndex);
+  const rows = Math.ceil(maxIndex / columns);
+  const gridSize = rows * columns;
+
+  // todo: "0" should be a valid adjacentNode
+  const up = () => {
+    if (activeIndex < columns && adjacentNodes.up) {
+      handleAdjacentNode(adjacentNodes.up, moveFocus);
+    } else {
+      let newIndex = activeIndex - columns;
+      if (newIndex < 0) {
+        newIndex += gridSize - 1 + columns;
+        if (newIndex >= maxIndex) newIndex -= columns;
+        if (newIndex < 0) newIndex += columns;
+        setActiveIndex(newIndex);
+      } else {
+        setActiveIndex(newIndex);
+      }
+    }
+  };
+
+  const down = () => {
+    if (activeIndex >= (maxIndex - columns) && adjacentNodes.down) {
+      handleAdjacentNode(adjacentNodes.down, moveFocus);
+    } else {
+      const newIndex = activeIndex + columns;
+      if (newIndex >= maxIndex) {
+        setActiveIndex((newIndex + 1) % columns);
+      } else {
+        setActiveIndex(newIndex);
+      }
+    }
+  };
+
+  const left = () => {
+    if ((activeIndex % columns) == 0 && adjacentNodes.left) {
+      handleAdjacentNode(adjacentNodes.left, moveFocus);
+    } else {
+      const newIndex = (activeIndex - 1 + maxIndex) % maxIndex;
+      setActiveIndex(newIndex);
+    }
+  };
+
+  const right = () => {
+    if ((activeIndex % columns) == (columns - 1) && adjacentNodes.right) {
+      handleAdjacentNode(adjacentNodes.right, moveFocus);
+    } else {
+      const newIndex = (activeIndex + 1) % maxIndex;
+      setActiveIndex(newIndex);
+    }
+  };
+
+  useEffect(() => {
+    if (!Number.isInteger(initialIndex)) return;
+    setActiveIndex(initialIndex);
+  }, [initialIndex]);
+
+  useEffect(() => {
+    if (!Number.isInteger(activeIndex)) return;
+    if (maxIndex < 1) return;
+    setActiveIndex(Math.min(activeIndex, maxIndex - 1));
+  }, [activeIndex, maxIndex]);
+
+  useEventListeners(ref, {
+    up: up,
+    down: down,
+    left: left,
+    right: right,
+  }, isActive && isNumber);
+};
+
+export default useActiveGridIndex;

@@ -1,3 +1,0 @@
-export {
-  useInputManager,
-} from './useInputManager';

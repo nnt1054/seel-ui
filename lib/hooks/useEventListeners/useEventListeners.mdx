@@ -1,27 +1,30 @@
 import {
-	Meta,
-	Controls,
-	ArgTypes,
-	Source,
-	TableOfContents,
-	Title,
-	Subtitle,
-	Description,
-	Markdown,
-} from '@storybook/addon-docs/blocks';
+  Meta,
+  Controls,
+  ArgTypes,
+  Source,
+  TableOfContents,
+  Title,
+  Subtitle,
+  Description,
+  Markdown,
+} from "@storybook/addon-docs/blocks";
 
-import { Table } from '@docs/blocks/Table';
-import * as useEventListenersStories from './useEventListeners.stories';
+import { Table } from "@docs/blocks/Table";
+import * as useEventListenersStories from "./useEventListeners.stories";
 
-<Meta of={ useEventListenersStories } />
+<Meta of={useEventListenersStories} />
 
 <Title />
 
-<Subtitle>Hook for setting up multiple event listeners and their callbacks.</Subtitle>
+<Subtitle>
+  Hook for setting up multiple event listeners and their callbacks.
+</Subtitle>
 
 ### Usage Guidelines
-* `useEventListeners` can also be used to setup event listeners for regular events such as "click", "change", "mousedown", etc.
-* Listeners can be toggled on and off using the `isActive` argument.
+
+- `useEventListeners` can also be used to setup event listeners for regular events such as "click", "change", "mousedown", etc.
+- Listeners can be toggled on and off using the `isActive` argument.
 
 ### Examples
 
@@ -29,25 +32,33 @@ import * as useEventListenersStories from './useEventListeners.stories';
 
 ```jsx
 const CustomComponent = withActiveNode((props) => {
-	const {
-		ref,
-	} = props;
+  const { ref } = props;
 
-	const [isActive, setIsActive] = useState(true);
+  const [isActive, setIsActive] = useState(true);
 
- 	const { grabFocus } = useActiveNode();
+  const { grabFocus } = useActiveNode();
 
-	const callbacks = useEventListeners(ref, {
-		confirm: () => { grabFocus() },
-		toggle: () => { setIsActive(!isActive) },
-		foo: () => { console.log('foo') },
-		bar: () => { console.log('bar') },
-	}, isActive);
+  const callbacks = useEventListeners(
+    ref,
+    {
+      confirm: () => {
+        grabFocus();
+      },
+      toggle: () => {
+        setIsActive(!isActive);
+      },
+      foo: () => {
+        console.log("foo");
+      },
+      bar: () => {
+        console.log("bar");
+      },
+    },
+    isActive,
+  );
 
-	return (
-		<div onClick={ callbacks.confirm } />
-	)
-})
+  return <div onClick={callbacks.confirm} />;
+});
 ```
 
 ### API Reference

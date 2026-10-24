@@ -1,3 +1,0 @@
-export {
-  useActiveScrollableNode,
-} from './useActiveScrollableNode';

@@ -1,26 +1,29 @@
 import {
-	Meta,
-	Controls,
-	ArgTypes,
-	Source,
-	TableOfContents,
-	Title,
-	Subtitle,
-	Description,
-	Markdown,
-} from '@storybook/addon-docs/blocks';
+  Meta,
+  Controls,
+  ArgTypes,
+  Source,
+  TableOfContents,
+  Title,
+  Subtitle,
+  Description,
+  Markdown,
+} from "@storybook/addon-docs/blocks";
 
-import { Table } from '@docs/blocks/Table';
-import * as useDashedIdentStories from './useDashedIdent.stories';
+import { Table } from "@docs/blocks/Table";
+import * as useDashedIdentStories from "./useDashedIdent.stories";
 
-<Meta of={ useDashedIdentStories } />
+<Meta of={useDashedIdentStories} />
 
 <Title />
 
-<Subtitle>Hook for creating dashed identifiers to use as anchor names.</Subtitle>
+<Subtitle>
+  Hook for creating dashed identifiers to use as anchor names.
+</Subtitle>
 
 ### Usage Guidelines
-* Primarily used to generate anchorNames for use with popover CSS stylings.
+
+- Primarily used to generate anchorNames for use with popover CSS stylings.
 
 ### Examples
 
@@ -28,32 +31,31 @@ import * as useDashedIdentStories from './useDashedIdent.stories';
 
 ```jsx
 const App = () => {
-	const ref = useRef();
+  const ref = useRef();
 
-	const anchorName = useDashedIdent();
+  const anchorName = useDashedIdent();
 
-	const [isOpen, setIsOpen] = useState(false);
-	const toggle = () => setIsOpen(!isOpen);
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
 
-	return (
-		<InputProvider inputRef={ ref }>
-			<Button
-				ref={ ref }
-				onClick={ toggle }
-				style={{ anchorName, }}
-			> toggle </Button>
+  return (
+    <InputProvider inputRef={ref}>
+      <Button ref={ref} onClick={toggle} style={{ anchorName }}>
+        {" "}
+        toggle{" "}
+      </Button>
 
-			<Modal
-				node={ 'modal' }
-				hasFocus={ isOpen }
-				initial={ 'list' }
-				anchorName={ anchorName }
-				isOpen={ isOpen }
-				setIsOpen={ setIsOpen }
-			/>
-		</InputProvider>
-	)
-}
+      <Modal
+        node={"modal"}
+        hasFocus={isOpen}
+        initial={"list"}
+        anchorName={anchorName}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      />
+    </InputProvider>
+  );
+};
 ```
 
 ### API Reference

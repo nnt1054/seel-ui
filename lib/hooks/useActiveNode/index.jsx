@@ -1,3 +1,0 @@
-export {
-  useActiveNode,
-} from './useActiveNode';

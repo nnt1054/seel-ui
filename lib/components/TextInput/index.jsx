@@ -1,3 +1,0 @@
-export {
-  TextInput,
-} from './TextInput';
