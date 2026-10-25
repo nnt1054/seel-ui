@@ -25,13 +25,18 @@ export interface UseInputManagerProps {
   onBeforeKeyDown?: OnBeforeKeyDown;
 }
 
+const defaultOnBeforeKeyDown: OnBeforeKeyDown = (name, commands, event) => {
+  const command = commands[name];
+  if (command) event.preventDefault();
+}
+
 export const useInputManager = (props: UseInputManagerProps) => {
   const {
     commands = {},
     keybinds = DefaultKeybinds as Keybinds,
     gamepadKeybinds = DefaultGamepadKeybinds as GamepadKeybinds,
     gamepadMapping = StandardGamepadMapping,
-    onBeforeKeyDown = () => {},
+    onBeforeKeyDown = defaultOnBeforeKeyDown,
   } = props;
 
   const getKeybinds = (event: KeyboardEvent, exactMatch = false) => {
