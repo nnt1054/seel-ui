@@ -85,5 +85,5 @@ export const useGamepad = (callback: GamepadButtonCallback, mapping: GamepadMapp
     return () => {
       window.cancelAnimationFrame(frame);
     };
-  }, []);
+  });
 };

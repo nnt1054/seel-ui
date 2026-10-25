@@ -36,5 +36,5 @@ export const useKeyPress = (callback: KeyboardCallback) => {
       window.removeEventListener("keydown", downHandler);
       window.removeEventListener("keyup", upHandler);
     };
-  }, []);
+  });
 };
