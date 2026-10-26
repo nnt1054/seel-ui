@@ -1,2 +1,4 @@
-export { Modal, ModalContext } from "./Modal";
-export type { ModalProps, ModalState, ModalStore } from "./Modal";
+export { Modal } from "./Modal";
+export type { ModalProps } from "./Modal";
+export { ModalContext } from "./ModalContext";
+export type { ModalState, ModalStore } from "./ModalContext";

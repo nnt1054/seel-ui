@@ -3,7 +3,7 @@ import type { RefObject } from "react";
 
 import { useEventListeners } from "@hooks/useEventListeners";
 import type { AdjacentNodes, Node } from "@types";
-import { handleAdjacentNode } from "@utils";
+import { handleAdjacentNode, isValidAdjacentNode } from "@utils";
 
 export interface UseActiveGridIndexProps {
   ref: RefObject<HTMLElement | null>;
@@ -36,9 +36,8 @@ export const useActiveGridIndex = (props: UseActiveGridIndexProps) => {
   const rows = Math.ceil(maxIndex / columns);
   const gridSize = rows * columns;
 
-  // todo: "0" should be a valid adjacentNode
   const up = () => {
-    if (activeIndex < columns && adjacentNodes.up) {
+    if (activeIndex < columns && isValidAdjacentNode(adjacentNodes.up)) {
       handleAdjacentNode(adjacentNodes.up, moveFocus);
     } else {
       let newIndex = activeIndex - columns;
@@ -54,7 +53,7 @@ export const useActiveGridIndex = (props: UseActiveGridIndexProps) => {
   };
 
   const down = () => {
-    if (activeIndex >= (maxIndex - columns) && adjacentNodes.down) {
+    if (activeIndex >= (maxIndex - columns) && isValidAdjacentNode(adjacentNodes.down)) {
       handleAdjacentNode(adjacentNodes.down, moveFocus);
     } else {
       const newIndex = activeIndex + columns;
@@ -67,7 +66,7 @@ export const useActiveGridIndex = (props: UseActiveGridIndexProps) => {
   };
 
   const left = () => {
-    if ((activeIndex % columns) == 0 && adjacentNodes.left) {
+    if ((activeIndex % columns) == 0 && isValidAdjacentNode(adjacentNodes.left)) {
       handleAdjacentNode(adjacentNodes.left, moveFocus);
     } else {
       const newIndex = (activeIndex - 1 + maxIndex) % maxIndex;
@@ -76,7 +75,7 @@ export const useActiveGridIndex = (props: UseActiveGridIndexProps) => {
   };
 
   const right = () => {
-    if ((activeIndex % columns) == (columns - 1) && adjacentNodes.right) {
+    if ((activeIndex % columns) == (columns - 1) && isValidAdjacentNode(adjacentNodes.right)) {
       handleAdjacentNode(adjacentNodes.right, moveFocus);
     } else {
       const newIndex = (activeIndex + 1) % maxIndex;

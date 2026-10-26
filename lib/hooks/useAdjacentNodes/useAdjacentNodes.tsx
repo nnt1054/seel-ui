@@ -2,7 +2,7 @@ import type { RefObject } from "react";
 
 import { useEventListeners } from "@hooks/useEventListeners";
 import type { AdjacentNodes, Node } from "@types";
-import { handleAdjacentNode } from "@utils";
+import { handleAdjacentNode, isValidAdjacentNode } from "@utils";
 
 export interface UseAdjacentNodesProps {
   ref: RefObject<HTMLElement | null>;
@@ -20,25 +20,25 @@ export const useAdjacentNodes = (props: UseAdjacentNodesProps) => {
   } = props;
 
   const up = () => {
-    if (adjacentNodes.up) {
+    if (isValidAdjacentNode(adjacentNodes.up)) {
       handleAdjacentNode(adjacentNodes.up, moveFocus);
     }
   };
 
   const down = () => {
-    if (adjacentNodes.down) {
+    if (isValidAdjacentNode(adjacentNodes.down)) {
       handleAdjacentNode(adjacentNodes.down, moveFocus);
     }
   };
 
   const left = () => {
-    if (adjacentNodes.left) {
+    if (isValidAdjacentNode(adjacentNodes.left)) {
       handleAdjacentNode(adjacentNodes.left, moveFocus);
     }
   };
 
   const right = () => {
-    if (adjacentNodes.right) {
+    if (isValidAdjacentNode(adjacentNodes.right)) {
       handleAdjacentNode(adjacentNodes.right, moveFocus);
     }
   };

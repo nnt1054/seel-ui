@@ -156,26 +156,12 @@ export const DefaultGamepadKeybinds = {
 };
 
 export const DefaultKeybinds = {
-  // 'confirm': KeyCodes.ENTER,
-  // 'cancel': KeyCodes.ESC,
-  // 'up': KeyCodes.UP,
-  // 'down': KeyCodes.DOWN,
-  // 'left': KeyCodes.LEFT,
-  // 'right': KeyCodes.RIGHT,
-  // 'cycleR': KeyCodes.TAB,
-  // 'cycleL': [KeyCodes.SHIFT, KeyCodes.TAB],
-
-  // todo: change this to normal default before shipping
   "confirm": KeyCodes.ENTER,
   "cancel": KeyCodes.ESC,
-  "up": KeyCodes.I,
-  "down": KeyCodes.K,
-  "left": KeyCodes.J,
-  "right": KeyCodes.L,
-  "navUp": KeyCodes.UP,
-  "navDown": KeyCodes.DOWN,
-  "navLeft": KeyCodes.LEFT,
-  "navRight": KeyCodes.RIGHT,
+  "up": KeyCodes.UP,
+  "down": KeyCodes.DOWN,
+  "left": KeyCodes.LEFT,
+  "right": KeyCodes.RIGHT,
   "cycleR": KeyCodes.TAB,
   "cycleL": [KeyCodes.SHIFT, KeyCodes.TAB],
 };
@@ -207,3 +193,13 @@ export const StandardGamepadMapping = {
     3: [GamepadCodes.RS_UP, GamepadCodes.RS_DOWN],
   },
 };
+
+export const DefaultEvents = [
+  "up",
+  "down",
+  "left",
+  "right",
+  "cycleR",
+  "cycleL",
+  "confirm",
+];

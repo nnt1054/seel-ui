@@ -1,11 +1,13 @@
 import type { ChangeEvent, InputHTMLAttributes, RefObject } from "react";
 
 import { useActiveNode } from "@hooks/useActiveNode";
+import { useAdjacentNodes } from "@hooks/useAdjacentNodes";
 import { useEventListeners } from "@hooks/useEventListeners";
 import { withActiveNode } from "@providers/ActiveNodeProvider";
-import type { ActiveNodeProps } from "@types";
+import type { ActiveNodeProps, AdjacentNodes } from "@types";
 
 export interface RangeInputProps extends ActiveNodeProps, InputHTMLAttributes<HTMLInputElement> {
+  adjacentNodes?: AdjacentNodes;
   value: number;
   setValue?: (value: number) => void;
   step?: number;
@@ -15,13 +17,14 @@ export const RangeInput = withActiveNode((props: RangeInputProps) => {
   const {
     ref,
     node,
+    adjacentNodes = {},
     value,
     setValue = () => {},
     step = 1,
     ...others
   } = props;
 
-  const { hasFocus } = useActiveNode();
+  const { hasFocus, moveFocus } = useActiveNode();
 
   useEventListeners(ref, {
     left: () => {
@@ -36,6 +39,12 @@ export const RangeInput = withActiveNode((props: RangeInputProps) => {
       input.valueAsNumber += step;
       input.dispatchEvent(new Event("change"));
     },
+  });
+
+  useAdjacentNodes({
+    ref,
+    adjacentNodes,
+    moveFocus,
   });
 
   const onChange = (event: ChangeEvent) => {

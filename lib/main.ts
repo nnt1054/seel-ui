@@ -23,6 +23,5 @@ export * from "./hooks/usePropagateEvents";
 export * from "./providers/ActiveNodeProvider";
 export * from "./providers/InputProvider";
 
-// todo: create /constants and /utils directories
 export * from "./constants";
 export * from "./utils";

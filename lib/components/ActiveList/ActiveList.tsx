@@ -1,4 +1,4 @@
-import { Children, useEffect } from "react";
+import { Children } from "react";
 import type { RefObject } from "react";
 import styled from "styled-components";
 
@@ -21,7 +21,6 @@ export interface ActiveListProps extends ActiveNodeProps {
 
 export interface ActiveListItemProps extends ActiveNodeProps {
   onConfirm?: () => void;
-  onFocus?: () => void;
 }
 
 type ActiveListComponent = typeof ActiveListRoot & {
@@ -119,7 +118,6 @@ const ActiveListRoot = withActiveNode((props: ActiveListProps) => {
       data-focused={hasFocus ? "" : null}
       data-orientation={isColumn ? "vertical" : "horizontal"}
       data-reversed={isReverse ? "" : null}
-      data-active-index={activeIndex}
       {...others}
     />
   );
@@ -130,7 +128,6 @@ export const ActiveListItem = withActiveNode((props: ActiveListItemProps) => {
     ref,
     node,
     onConfirm = () => {},
-    onFocus = () => {},
     ...others
   } = props;
 
@@ -146,10 +143,6 @@ export const ActiveListItem = withActiveNode((props: ActiveListItemProps) => {
     grabFocus();
     onConfirm();
   };
-
-  useEffect(() => {
-    if (hasFocus) onFocus();
-  }, [hasFocus]);
 
   return (
     <div

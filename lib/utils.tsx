@@ -1,7 +1,7 @@
 import type { RefObject } from "react";
 
 import { KeyCodes } from "@constants";
-import type { AdjacentNode, Node } from "@types";
+import type { AdjacentNode, AdjacentNodePosition, AdjacentNodes, Node } from "@types";
 
 export const compareArrays = (a: any[], b: any[]): boolean => {
   return a.toString() === b.toString();
@@ -91,11 +91,9 @@ export const getNavigationCommands = (ref: RefObject<HTMLElement | null>) => {
       execute: handleEvent("cycleL"),
     },
     "start": {
-      // todo: ponder on the implications of this
       execute: handleEvent("confirm"),
     },
     "select": {
-      // todo: ponder on the implications of this
       execute: handleEvent("cancel"),
     },
     "gamepadA": {
@@ -140,7 +138,7 @@ export const getNavigationCommands = (ref: RefObject<HTMLElement | null>) => {
 };
 
 export const handleAdjacentNode = (
-  adjacentNode: AdjacentNode,
+  adjacentNode: AdjacentNode | undefined,
   callback: (activeNode: Node) => void,
 ) => {
   if (typeof adjacentNode == "function") {
@@ -148,4 +146,24 @@ export const handleAdjacentNode = (
   } else if (typeof adjacentNode == "string") {
     callback(adjacentNode);
   }
+};
+
+export const isValidAdjacentNode = (adjacentNode?: AdjacentNode): boolean => {
+  if (!!adjacentNode) return true;
+  if (Number.isInteger(adjacentNode)) return true;
+  return false;
+};
+
+// returns a copy of AdjacentNodes with each adjacentNodes converted
+// into a callback function instead of adjacentNode strings.
+// used to pass adjacentNodes onto child nodes so that they may move focus
+// between their parent's parents.
+export const resolveAdjacentNodes = (
+  adjacentNodes: AdjacentNodes,
+  moveFocus: (activeNode: Node) => void,
+): AdjacentNodes => {
+  return Object.entries(adjacentNodes).reduce((adjacentNodes: AdjacentNodes, [key, value]) => {
+    adjacentNodes[key as AdjacentNodePosition] = () => handleAdjacentNode(value, moveFocus);
+    return adjacentNodes;
+  }, {});
 };

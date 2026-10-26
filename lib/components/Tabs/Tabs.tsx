@@ -8,14 +8,12 @@ import { useActiveNode } from "@hooks/useActiveNode";
 import { useEventListeners } from "@hooks/useEventListeners";
 import { usePropagateEvents } from "@hooks/usePropagateEvents";
 import { withActiveNode } from "@providers/ActiveNodeProvider";
-import type { ActiveNodeProps, AdjacentNodes, Node, Orientation } from "@types";
-import { handleAdjacentNode } from "@utils";
+import { resolveAdjacentNodes } from "@utils";
 import { createTabsContextStore, TabsContext } from "./TabsContext";
+import type { ActiveNodeProps, AdjacentNodes, AdjacentNodePosition, Node, Orientation } from "@types";
 import type { TabsState } from "./TabsContext";
 
-const defaultEvents = ["up", "down", "left", "right", "confirm"];
-
-type AdjacentNodePosition = keyof AdjacentNodes;
+const DefaultTabEvents = ["up", "down", "left", "right", "confirm"];
 
 export interface TabsProps extends ActiveNodeProps {
   adjacentNodes: AdjacentNodes;
@@ -51,7 +49,6 @@ type TabsComponent = typeof TabsRoot & {
   CycleButton: typeof TabsCycleButton;
 };
 
-// todo: add toggle onFocus flag prop
 const StyledTabs = styled.div`
   display: flex;
   flex-direction: column;
@@ -62,9 +59,9 @@ export const TabsRoot = withActiveNode((props: TabsProps) => {
   const {
     ref,
     node,
-    adjacentNodes = {},
+    adjacentNodes: _adjacentNodes = {},
     maxIndex = 1,
-    events = defaultEvents,
+    events = DefaultTabEvents,
     ...others
   } = props;
 
@@ -77,16 +74,8 @@ export const TabsRoot = withActiveNode((props: TabsProps) => {
     setActiveNode,
   } = useActiveNode();
 
-  // allow for child nodes to move focus outside of this tabs node
-
-  // todo: convert to utility function
-  // todo: double check types here
-  const _adjacentNodes = Object.entries(adjacentNodes).reduce((adjacentNodes: AdjacentNodes, [key, value]) => {
-    adjacentNodes[key as AdjacentNodePosition] = () => handleAdjacentNode(value, moveFocus);
-    return adjacentNodes;
-  }, {});
-
-  const [store] = useState(() => createTabsContextStore({ maxIndex, adjacentNodes: _adjacentNodes }));
+  const adjacentNodes = resolveAdjacentNodes(_adjacentNodes, moveFocus);
+  const [store] = useState(() => createTabsContextStore({ maxIndex, adjacentNodes }));
   const { activeIndex, setActiveIndex, setMaxIndex } = useStore(store);
 
   usePropagateEvents({
@@ -181,7 +170,6 @@ const TabsTab = withActiveNode((props: TabsTabProps) => {
   const isActive = useStore(store, (state: TabsState) => state.activeIndex == node);
   const { hasFocus, grabFocus } = useActiveNode();
 
-  // todo: convert to hook OR normalize an onFocus param
   useEffect(() => {
     if (hasFocus || isActive) {
       ref.current?.scrollIntoView({
@@ -230,8 +218,6 @@ const TabsPanel = (props: TabsPanelProps) => {
     <>
       {Children.map(children, (child) => {
         if (!isValidElement(child)) return;
-
-        // todo: type here should extend generic type T of child
         return cloneElement(child as ReactElement<any | TabsPanelNodeProps>, {
           node: "content",
           adjacentNodes: { ...adjacentNodes, ...listPositions },

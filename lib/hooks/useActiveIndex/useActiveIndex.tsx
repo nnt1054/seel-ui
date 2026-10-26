@@ -3,7 +3,7 @@ import type { RefObject } from "react";
 
 import { useEventListeners } from "@hooks/useEventListeners";
 import type { AdjacentNode, AdjacentNodes, Node } from "@types";
-import { handleAdjacentNode } from "@utils";
+import { handleAdjacentNode, isValidAdjacentNode } from "@utils";
 
 export interface UseActiveIndexProps {
   ref: RefObject<HTMLElement | null>;
@@ -70,7 +70,7 @@ export const useActiveIndex = (props: UseActiveIndexProps) => {
         decrementIndex(adjacentNodes.up);
       }
     } else {
-      if (adjacentNodes.up) {
+      if (isValidAdjacentNode(adjacentNodes.up)) {
         handleAdjacentNode(adjacentNodes.up, moveFocus);
       } else if (!disableJump) {
         const jumpIndex = isReverse ? maxIndex - 1 : 0;
@@ -87,7 +87,7 @@ export const useActiveIndex = (props: UseActiveIndexProps) => {
         incrementIndex(adjacentNodes.down);
       }
     } else {
-      if (adjacentNodes.down) {
+      if (isValidAdjacentNode(adjacentNodes.down)) {
         handleAdjacentNode(adjacentNodes.down, moveFocus);
       } else if (!disableJump) {
         const jumpIndex = isReverse ? 0 : maxIndex - 1;
@@ -98,7 +98,7 @@ export const useActiveIndex = (props: UseActiveIndexProps) => {
 
   const left = () => {
     if (isColumn) {
-      if (adjacentNodes.left) {
+      if (isValidAdjacentNode(adjacentNodes.left)) {
         handleAdjacentNode(adjacentNodes.left, moveFocus);
       } else if (!disableJump) {
         const jumpIndex = isReverse ? maxIndex - 1 : 0;
@@ -115,7 +115,7 @@ export const useActiveIndex = (props: UseActiveIndexProps) => {
 
   const right = () => {
     if (isColumn) {
-      if (adjacentNodes.right) {
+      if (isValidAdjacentNode(adjacentNodes.right)) {
         handleAdjacentNode(adjacentNodes.right, moveFocus);
       } else if (!disableJump) {
         const jumpIndex = isReverse ? 0 : maxIndex - 1;

@@ -2,11 +2,13 @@ import type { InputHTMLAttributes, KeyboardEvent, RefObject } from "react";
 
 import { KeyCodes } from "@constants";
 import { useActiveNode } from "@hooks/useActiveNode";
+import { useAdjacentNodes } from "@hooks/useAdjacentNodes";
 import { useEventListeners } from "@hooks/useEventListeners";
 import { withActiveNode } from "@providers/ActiveNodeProvider";
-import type { ActiveNodeProps } from "@types";
+import type { ActiveNodeProps, AdjacentNodes } from "@types";
 
 export interface TextInputProps extends ActiveNodeProps, InputHTMLAttributes<HTMLInputElement> {
+  adjacentNodes?: AdjacentNodes;
   onCancel?: () => void;
   onConfirm?: () => void;
   onCycleR?: () => void;
@@ -17,6 +19,7 @@ export const TextInput = withActiveNode((props: TextInputProps) => {
   const {
     ref,
     node,
+    adjacentNodes = {},
     onCancel = () => {},
     onConfirm = () => {},
     onCycleR = () => {},
@@ -24,7 +27,7 @@ export const TextInput = withActiveNode((props: TextInputProps) => {
     ...others
   } = props;
 
-  const { hasFocus } = useActiveNode();
+  const { hasFocus, moveFocus } = useActiveNode();
 
   // events while node has focus
   useEventListeners(ref, {
@@ -50,6 +53,12 @@ export const TextInput = withActiveNode((props: TextInputProps) => {
     cycleL: () => {
       onCycleL();
     },
+  });
+
+  useAdjacentNodes({
+    ref,
+    adjacentNodes,
+    moveFocus,
   });
 
   // events while input has focus

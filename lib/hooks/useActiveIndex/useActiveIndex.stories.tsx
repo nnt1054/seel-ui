@@ -65,8 +65,6 @@ const StyledListItem = styled.span<{ $isActive: boolean }>`
   background: ${props => props.$isActive ? "red" : "none"};
 `;
 
-// todo: create story with multiple active nodes
-// todo: swap out styles with actual components
 const meta = {
   title: "Hooks/useActiveIndex",
   component: Demo,

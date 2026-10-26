@@ -46,6 +46,7 @@ const ActiveGridRoot = withActiveNode((props: ActiveGridProps) => {
     : Children.count(children);
 
   const {
+    hasFocus,
     moveFocus,
     grabFocus,
     childrenRef,
@@ -80,6 +81,7 @@ const ActiveGridRoot = withActiveNode((props: ActiveGridProps) => {
       ref={ref as RefObject<HTMLDivElement>}
       onClick={onClick}
       $columns={columns}
+      data-focused={hasFocus ? "" : null}
       data-orientation={"grid"}
       children={children}
       {...others}

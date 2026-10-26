@@ -15,11 +15,22 @@ const meta = {
     min: 0,
     max: 100,
     step: 1,
+    adjacentNodes: {},
     ref: undefined,
     node: "checkbox",
     hasFocus: true,
   },
   argTypes: {
+    adjacentNodes: {
+      description:
+        "Object denoting what nodes within the same parent, if any, are adjacent to the current node and in what direction.  See `useAdjacentNodes` hook for more information.",
+      table: {
+        defaultValue: {
+          summary: `{}`,
+        },
+        readonly: true,
+      },
+    },
     ref: {
       table: {
         category: "Node Props",

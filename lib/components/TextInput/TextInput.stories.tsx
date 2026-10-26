@@ -10,17 +10,48 @@ const meta = {
   component: TextInput,
   decorators: [includeInputProvider],
   args: {
-    hasFocus: false,
-    node: "button",
     placeholder: "placeholder",
+    adjacentNodes: {},
+    ref: undefined,
+    node: "checkbox",
+    hasFocus: true,
   },
   argTypes: {
-    hasFocus: {
-      control: "boolean",
+    adjacentNodes: {
+      description:
+        "Object denoting what nodes within the same parent, if any, are adjacent to the current node and in what direction.  See `useAdjacentNodes` hook for more information.",
+      table: {
+        defaultValue: {
+          summary: `{}`,
+        },
+        readonly: true,
+      },
+    },
+    ref: {
+      table: {
+        category: "Node Props",
+        readonly: true,
+      },
     },
     node: {
+      type: {
+        name: "string",
+        required: true,
+      },
       table: {
-        disable: true,
+        category: "Node Props",
+        readonly: true,
+      },
+    },
+    hasFocus: {
+      type: "boolean",
+      description:
+        "Controlled override for the node's `hasFocus` value.  Primarily used for setting focus value for the top level node.",
+      table: {
+        category: "Node Props",
+        defaultValue: {
+          summary: "null",
+        },
       },
     },
   },

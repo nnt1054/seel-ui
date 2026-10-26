@@ -1,30 +1,13 @@
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import type { DialogHTMLAttributes, RefObject } from "react";
-import { createStore } from "zustand";
-import type { StoreApi } from "zustand";
 
+import { DefaultEvents } from "@constants";
 import { useActiveNode } from "@hooks/useActiveNode";
 import { useEventListeners } from "@hooks/useEventListeners";
 import { usePropagateEvents } from "@hooks/usePropagateEvents";
 import { withActiveNode } from "@providers/ActiveNodeProvider";
 import type { ActiveNodeProps } from "@types";
-
-const defaultEvents = [
-  "up",
-  "down",
-  "left",
-  "right",
-  "cycleR",
-  "cycleL",
-  "confirm",
-];
-
-export interface ModalState {
-  closeModal: () => void;
-}
-export type ModalStore = StoreApi<ModalState>;
-
-export const ModalContext = createContext<ModalStore | null>(null);
+import { createModalContextStore, ModalContext } from "./ModalContext";
 
 export interface ModalProps extends ActiveNodeProps, DialogHTMLAttributes<HTMLDialogElement> {
   events: string[];
@@ -33,21 +16,11 @@ export interface ModalProps extends ActiveNodeProps, DialogHTMLAttributes<HTMLDi
   setIsOpen: (isOpen: boolean) => void;
 }
 
-const createModalContextStore = (props: ModalState) => {
-  const {
-    closeModal,
-  } = props;
-
-  return createStore<ModalState>()(() => ({
-    closeModal,
-  }));
-};
-
 export const Modal = withActiveNode((props: ModalProps) => {
   const {
     ref,
     node,
-    events = defaultEvents,
+    events = DefaultEvents,
     anchorName,
     isOpen = false,
     setIsOpen = () => {},
