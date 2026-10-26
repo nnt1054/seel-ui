@@ -3,7 +3,7 @@ import type { ComponentProps } from "react";
 import styled from "styled-components";
 
 import { StyledActiveListItem } from "@components/ActiveList/examples/styled";
-import { Modal, ModalContext } from "@components/Modal/Modal";
+import { Modal, ModalContext } from "@components/Modal";
 
 export const StyledModal = styled(Modal)`
 	position-area: bottom;

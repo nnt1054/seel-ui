@@ -35,10 +35,12 @@ const meta = {
     node: {
       type: {
         name: "string",
-        required: true,
       },
       table: {
         category: "Node Props",
+        defaultValue: {
+          summary: "list",
+        },
         readonly: true,
       },
     },

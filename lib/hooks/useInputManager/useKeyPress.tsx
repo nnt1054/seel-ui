@@ -18,14 +18,12 @@ export const useKeyPress = (callback: KeyboardCallback) => {
 
       if (!keyPressed[event.keyCode]) {
         keyPressed[event.keyCode] = true;
-        event.preventDefault();
         callback && callback(event);
       }
     };
 
     const upHandler = (event: KeyboardEvent) => {
       keyPressed[event.keyCode] = false;
-      event.preventDefault();
       callback && callback(event);
     };
 

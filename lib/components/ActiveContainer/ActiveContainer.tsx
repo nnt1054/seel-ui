@@ -1,5 +1,6 @@
 import type { RefObject } from "react";
 
+import { DefaultEvents } from "@constants";
 import { useActiveNode } from "@hooks/useActiveNode";
 import { usePropagateEvents } from "@hooks/usePropagateEvents";
 import { withActiveNode } from "@providers/ActiveNodeProvider";
@@ -9,22 +10,11 @@ export interface ActiveContainerProps extends ActiveNodeProps {
   events?: string[];
 }
 
-// todo: move default events
-const defaultEvents = [
-  "up",
-  "down",
-  "left",
-  "right",
-  "cycleR",
-  "cycleL",
-  "confirm",
-];
-
 export const ActiveContainer = withActiveNode((props: ActiveContainerProps) => {
   const {
     ref,
     node,
-    events = defaultEvents,
+    events = DefaultEvents,
     ...others
   } = props;
 

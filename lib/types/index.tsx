@@ -8,6 +8,7 @@ export type AdjacentNodes = {
   left?: AdjacentNode;
   right?: AdjacentNode;
 };
+export type AdjacentNodePosition = keyof AdjacentNodes;
 
 export interface ActiveNodeProps extends PropsWithChildren {
   ref: RefObject<HTMLElement | null>;
