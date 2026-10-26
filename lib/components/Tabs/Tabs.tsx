@@ -8,9 +8,9 @@ import { useActiveNode } from "@hooks/useActiveNode";
 import { useEventListeners } from "@hooks/useEventListeners";
 import { usePropagateEvents } from "@hooks/usePropagateEvents";
 import { withActiveNode } from "@providers/ActiveNodeProvider";
+import type { ActiveNodeProps, AdjacentNodePosition, AdjacentNodes, Node, Orientation } from "@types";
 import { resolveAdjacentNodes } from "@utils";
 import { createTabsContextStore, TabsContext } from "./TabsContext";
-import type { ActiveNodeProps, AdjacentNodes, AdjacentNodePosition, Node, Orientation } from "@types";
 import type { TabsState } from "./TabsContext";
 
 const DefaultTabEvents = ["up", "down", "left", "right", "confirm"];
