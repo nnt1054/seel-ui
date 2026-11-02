@@ -1,10 +1,11 @@
 import { createContext } from "react";
 import type { PropsWithChildren, RefObject } from "react";
 
-import { DefaultKeybinds } from "@constants";
+import { DefaultEvents, DefaultKeybinds } from "@constants";
 import { useInputManager } from "@hooks/useInputManager/useInputManager";
 import type { Keybinds } from "@types";
 import { getNavigationCommands } from "@utils";
+import { DefaultEventsContext } from "./DefaultEventsContext";
 
 export const KeybindsContext = createContext<Keybinds>({});
 
@@ -27,9 +28,11 @@ export const InputProvider = (props: InputProviderProps) => {
   });
 
   return (
-    <KeybindsContext.Provider value={keybinds}>
-      {children}
-    </KeybindsContext.Provider>
+    <DefaultEventsContext.Provider value={{ events: DefaultEvents }}>
+      <KeybindsContext.Provider value={keybinds}>
+        {children}
+      </KeybindsContext.Provider>
+    </DefaultEventsContext.Provider>
   );
 };
 

@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import type { DialogHTMLAttributes, RefObject } from "react";
 
-import { DefaultEvents } from "@constants";
 import { useActiveNode } from "@hooks/useActiveNode";
 import { useEventListeners } from "@hooks/useEventListeners";
 import { usePropagateEvents } from "@hooks/usePropagateEvents";
 import { withActiveNode } from "@providers/ActiveNodeProvider";
-import type { ActiveNodeProps } from "@types";
+import { DefaultEventsContext } from "@providers/InputProvider";
 import { createModalContextStore, ModalContext } from "./ModalContext";
+import type { ActiveNodeProps } from "@types";
 
 export interface ModalProps extends ActiveNodeProps, DialogHTMLAttributes<HTMLDialogElement> {
   events: string[];
@@ -17,10 +17,12 @@ export interface ModalProps extends ActiveNodeProps, DialogHTMLAttributes<HTMLDi
 }
 
 export const Modal = withActiveNode((props: ModalProps) => {
+  const { events: defaultEvents } = useContext(DefaultEventsContext);
+
   const {
     ref,
     node,
-    events = DefaultEvents,
+    events = defaultEvents,
     anchorName,
     isOpen = false,
     setIsOpen = () => {},

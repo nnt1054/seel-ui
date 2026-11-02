@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 import type { GamepadButtonEvent, GamepadMapping } from "@types";
 
-const DEADZONE = 0.3;
+const DEADZONE = 0.5;
 
 export type GamepadButtonCallback = (event: GamepadButtonEvent) => void;
 type ButtonPressedMap = {

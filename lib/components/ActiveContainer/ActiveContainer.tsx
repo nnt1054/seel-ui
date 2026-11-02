@@ -1,9 +1,10 @@
+import { useContext } from "react";
 import type { RefObject } from "react";
 
-import { DefaultEvents } from "@constants";
 import { useActiveNode } from "@hooks/useActiveNode";
 import { usePropagateEvents } from "@hooks/usePropagateEvents";
 import { withActiveNode } from "@providers/ActiveNodeProvider";
+import { DefaultEventsContext } from "@providers/InputProvider";
 import type { ActiveNodeProps } from "@types";
 
 export interface ActiveContainerProps extends ActiveNodeProps {
@@ -11,10 +12,12 @@ export interface ActiveContainerProps extends ActiveNodeProps {
 }
 
 export const ActiveContainer = withActiveNode((props: ActiveContainerProps) => {
+  const { events: defaultEvents } = useContext(DefaultEventsContext);
+
   const {
     ref,
     node,
-    events = DefaultEvents,
+    events = defaultEvents,
     ...others
   } = props;
 
