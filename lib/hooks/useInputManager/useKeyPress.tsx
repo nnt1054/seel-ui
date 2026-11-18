@@ -11,7 +11,6 @@ export const useKeyPress = (callback: KeyboardCallback) => {
 
     const downHandler = (event: KeyboardEvent) => {
       if (document.activeElement?.tagName == "INPUT") return;
-      if (document.getSelection()?.type == "Range") return;
       if (document.activeElement instanceof HTMLElement) {
         if (document.activeElement?.isContentEditable) return;
       }
